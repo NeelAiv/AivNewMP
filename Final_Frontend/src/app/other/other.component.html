@@ -1,0 +1,89 @@
+<div class="mt-50 md-50">
+    <div class="container">
+        <div class="aiv_smn_title_typ2">
+            <div class="aiv_smn_title_inner">
+                <div class="store_heading">
+                    <h1>Other components</h1>
+                </div>
+                <p>Try our recently added Other components for your dashboard from our marketlplace.</p>
+            </div>
+            <button class="aiv_emore_lnk btn btn-aiv btn explore" [routerLink]="['/component/','Reports']">Explore More</button>
+        </div>
+
+        <div class="mt-50 mb-50">
+            <div class="owl-carousel owl-theme">
+                <!-- *ngFor="let obj of objectList" -->
+                <ng-container *ngFor="let obj of (widgetList$ | async)">
+                    <div class="item">
+                        <div class="row">
+                            <div class="col">
+                                <div class="item">
+                                    <div class="aiv_widgetsdock_item">
+                                        <div class="aiv_widgetitem_title_catg">
+                                            {{obj.type}}
+                                        </div>
+                                        <div class="aiv_widget_image">
+                                            <div class="aiv_widget_amntdiv">
+                                                <span
+                                                    class="badge aiv_badge_price aiv_badge_free">{{ obj.purchase_option }}</span>
+                                            </div>
+                                            <!-- <img src="{{n.image}}" alt="aiv-widget-image"> -->
+                                            <img src="{{obj.image !== '' ? baseUrl+'/uploads/images'+'/'+obj.image : baseUrl+'/'+'images/dflwidg.png' }}"
+                                                alt="aiv-widget-image">
+                                        </div>
+                                        <div class="aiv_widgetsdock_item_desc">
+                                            <p class="wid_nm">{{obj.title}}</p>
+                                            <div class="widg_rating_div">
+                                                <div class="widg_rating_div_rstars">
+                                                    <i class="fa fa-star"
+                                                        ng-class=" x <= obj.rate ? 'fill ':'unfill'"></i>
+                                                    <!-- <i class="fa fill fa-star"></i>
+                                    <i class="fa fill fa-star"></i>
+                                    <i class="fa fill fa-star"></i>
+                                    <i class="fa unfill fa-star"></i>
+                                    <i class="fa unfill fa-star"></i> -->
+                                                </div>
+                                                <div class="widg_ratg_cnts">
+                                                    {{obj.rate}}/5
+                                                </div>
+                                            </div>
+                                            <div class="aiv_wid_item_dtl_list">
+                                                <ul class="list-unstyled awid_dlist">
+                                                    <li>
+                                                        <i class="fa fa-database"></i> {{obj.size}}kb
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-download"></i> {{obj.downloaded}}
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-refresh"></i> {{ obj.refresh }}
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-comment-o"></i> {{ obj.no_of_comments }}
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="aiv_wid_item_sml_desc">
+                                                <p>{{obj.description}}</p>
+                                            </div>
+                                            <div class="aiv_widgetsdock_btn_div">
+                                                <a class="btn btn-default aivlnk_prv"
+                                                    [routerLink]="['/preview/',obj.id]"><i
+                                                        class="fa fa-eye"></i>Preview</a>
+                                                <a class="btn btn-default aivlnk_down"
+                                                    (click)="downloadWidget(obj)" download><i
+                                                        class="fa fa-download"></i>Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+</div>

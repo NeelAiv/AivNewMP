@@ -1,0 +1,60 @@
+<!-- Product (Tab with Slider) -->
+<section class="section-padding-b">
+    <div class="container">
+        <h2 class="page-title">All Widgets</h2>
+    </div>
+    <div class="container">
+        <ul class="product-filter nav" role="tablist">
+            <ng-container *ngFor="let subCategory of widgetCategory.subCategories | keyvalue;let index= index;">
+            <li class="nav-item" *ngIf="(widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
+            selectedCategory : subCategory.value.name).length > 0" >
+                <a class="nav-link" [ngClass]="{'active': index == 0}" href="#all-widget-tab{{index}}" role="tab" data-toggle="tab">{{subCategory.value.name}}</a>
+            </li>
+
+
+        </ng-container>
+        </ul>
+        <div class="tab-content">
+            <!-- Tab1 --->
+            <ng-container *ngFor="let subCategory of widgetCategory.subCategories | keyvalue;let scindex= index;">
+            <div id="all-widget-tab{{scindex}}" role="tabpanel"  class="tab-pane fade in" [ngClass]="{'active show': scindex == 0}" *ngIf="(widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
+            selectedCategory : subCategory.value.name).length > 0"  >
+                <div id="new-product" class="product-item-4 owl-carousel owl-theme nf-carousel-theme1 all-widgets">
+                    <!-- item.1 -->
+                    <div class="product-item"  *ngFor="let obj of (widgetList$ | async | matchesCategorySubCategoryForWidgetGallery : selectedCategory : subCategory.value.name  | orderBy : 'title' : sortType) let wdindex= index;" >
+                        <div class="product-item-inner">
+                            <div class="product-img-wrap">
+                                <img src="{{obj.image !== '' ? baseUrl+'/uploads/images/'+ obj.image.split(',')[0] : obj.sub_category !== '' ? baseUrl+'/uploads/images/'+obj.sub_category+'.png' : '/uploads/images/'+obj.category+'.png' }}" alt="">
+                            </div>
+                            <div class="product-button">
+                                <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.size}}kb" tooltip="{{obj.size}}kb" [options]="tooltipOptions"><i
+                                        class="fa fa-database"></i></a>
+                                <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.downloaded}}" tooltip="{{obj.downloaded}}" [options]="tooltipOptions"><i
+                                        class="fa fa-download"></i></a>
+                                <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.refresh}}" tooltip="{{obj.refresh}}" [options]="tooltipOptions"><i
+                                        class="fa fa-refresh"></i></a>
+                                <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.no_of_comments}}"  tooltip="{{obj.no_of_comments}}" [options]="tooltipOptions"><i
+                                        class="fa fa-comment"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-detail">
+                            <a class="tag" href="javascript:;">{{obj.type}}</a>
+                            <p class="product-title"><a href="javascript:;"><strong>{{obj.title}}</strong></a></p>
+                            <div class="product-rating">
+                                <app-star-rating [disable]="true" [selected]="obj.rate"> </app-star-rating>
+                                <a href="javascript:;" class="product-rating-count"><span class="count">3</span> Reviews</a>
+                            </div>
+                            <p class="product-description">
+                                {{obj.details}}
+                            </p>
+                            <a  class="btn btn-sm btn-orange"  [routerLink]="['/preview/',obj.id]">Preview</a>
+                            <a  class="btn btn-sm btn-green ml-1" (click)="openDownloadModal(obj)">Download</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div></ng-container>
+        </div>
+    </div>
+</section>
+<!-- End Product (Tab with Slider) -->

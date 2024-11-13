@@ -1,0 +1,65 @@
+<!-- Revolution Slider -->
+<section id="intro" class="intro">
+    <div id="rev_slider_1078_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-source="gallery"
+        style="background-color: transparent; padding: 0px;">
+        <!-- START REVOLUTION SLIDER 5.3.0.2 fullwidth mode -->
+        <div id="rev_slider_1078_1" class="rev_slider fullwidthabanner" style="display: none;" data-version="5.3.0.2">
+            <ul>
+                <ng-container *ngFor="let sliderCategory of sliderCategories;let index= index;">
+                    <li data-index="rs-{{index}}" data-transition="random" data-slotamount="{{sliderCategories.length}}"
+                        data-masterspeed="500" data-thumb="" data-saveperformance="off" data-title="01">
+                        <!-- Main Image Layer 0-->
+                        <img src="../../assets/img/slide-img/{{sliderCategory.subCategory == '' ? sliderCategory.category : sliderCategory.subCategory | lowercase }}.PNG"
+                            alt="h" title="home-1-slide-1" width="1000" height="659" data-bgposition="right"
+                            data-bgfit="60% 100%" data-bgrepeat="no-repeat" data-bgparallax="6" class="rev-slidebg"
+                            data-no-retina />
+
+
+                        <!--Layer 1-->
+                        <h3 class="tp-caption NotGeneric-Title tp-resizeme text-center"
+                            style="letter-spacing: 0px; line-height: 60px;" data-x="40" data-y="center" data-hoffset=""
+                            data-voffset="-100" data-transform_idle="o:1;" data-width="['auto','auto','auto','auto']"
+                            data-height="['auto','auto','auto','auto']"
+                            data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
+                            data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;" data-start="500"
+                            data-speed="500" data-endspeed="500" data-splitin="none" data-splitout="none"
+                            data-responsive_offset="on">{{ sliderCategory.subCategory == '' ? sliderCategory.category :
+                            sliderCategory.subCategory }}
+
+                        </h3>
+
+
+                        <!--Layer 2-->
+                        <h4 class="tp-caption NotGeneric-Title tp-resizeme h3 normal text-center"
+                            style="letter-spacing: 0px;" data-x="40" data-y="center" data-hoffset="" data-voffset="0"
+                            data-transform_idle="o:1;" data-width="['auto','auto','auto','auto']"
+                            data-height="['auto','auto','auto','auto']"
+                            data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
+                            data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;" data-start="800"
+                            data-speed="500" data-endspeed="500" data-splitin="none" data-splitout="none"
+                            data-responsive_offset="on">Try our {{ sliderCategory.subCategory == '' ?
+                            sliderCategory.category : sliderCategory.subCategory }}
+                            <!-- components for your dashboard from our
+                            marketlplace. -->
+                            </h4>
+
+                        <!--Layer 3-->
+                        <a class="tp-caption NotGeneric-Title tp-resizeme btn btn-md btn-color" data-x="40"
+                            data-y="center" data-hoffset="" data-voffset="75" data-transform_idle="o:1;"
+                            data-width="['auto','auto','auto','auto']" data-height="['auto','auto','auto','auto']"
+                            data-transform_in="y:50px;opacity:0;s:700;e:Power3.easeOut;"
+                            data-transform_out="s:500;e:Power3.easeInOut;s:500;e:Power3.easeInOut;" data-start="1100"
+                            data-speed="500" data-endspeed="500" data-splitin="none" data-splitout="none"
+                            data-responsive_offset="on"
+                            [routerLink]="['/component/',sliderCategory.category,sliderCategory.subCategory]">See More
+                        </a>
+
+
+                    </li>
+                </ng-container>
+
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- End Revolution Slider -->

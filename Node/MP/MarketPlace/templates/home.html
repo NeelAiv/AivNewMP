@@ -1,0 +1,295 @@
+<script type="text/javascript" src="./js/main.js"></script>
+<section class="slider_wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="slider_title">
+          <div class="store_heading">
+            <h1>AIVHUB Market Place</h1>
+          </div>
+          <p>Upload your own widgets on the store</p>
+        </div>
+
+        <div class="mainslider_box">
+
+          <div id="mainslider_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <img ng-src="{{widgets[0].image !== '' ? baseUrl+'/'+widgets[0].image : 'images/dflwidg.png' }}" onerror="this.onerror=null; this.src='images/dflwidg.png'" class="d-block w-100 img-thumbnail mslide_img" alt="Slider1">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="carousel_desc">
+                      <div class="carousel_desc_inner">
+                        <div class="store_heading">
+                          <h2>{{widgets[0].title}}</h2>
+                        </div>
+                        <ul ng-if="widgets[0].details != '' && widgets[0].details != null && widgets[0].details != undefined" class="list-unstyled carousel_desc_list">
+                          <li ng-repeat="n in widgets[0].details.split('\n')">{{n}}</li>
+                          <!-- <li>Pellentesque vel dolor euismod, finibus ante id, rhoncus velit.</li>
+                          <li>Donec eget ornare nibh. Etiam laoreet enim id volutpat gravida uspendisse potenti nteger
+                            malesuada tristique faucibus ed in libero eget neque aliquam gravida a sit amet dolor.
+                          </li>
+                          <li>Duis vestibulum erat euismod magna volutpat, nec dictum nunc eleifend.</li>
+                          <li>In placerat tortor sed lectus facilisis, a condimentum magna pretium.</li> -->
+                        </ul>
+                        <ul class="list-unstyled slider_oper_lnks">
+                          <a class="btn btn-default aivlnk_prv" href="#!widget_details/{{widgets[0].id}}"><i
+                              class="fa fa-eye"></i>Preview</a>
+                          <a class="btn btn-default aivlnk_down" href="{{baseUrl}}/{{widgets[0].file_path }}" download><i
+                              class="fa fa-download"></i>Download</a>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <img ng-src="{{widgets[1].image !== '' ? baseUrl+'/'+widgets[1].image : 'images/dflwidg.png' }}" onerror="this.onerror=null; this.src='images/dflwidg.png'" class="d-block w-100 img-thumbnail mslide_img" alt="Slider2">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="carousel_desc">
+                      <div class="carousel_desc_inner">
+                        <div class="store_heading">
+                          <h2>{{widgets[1].title}}</h2>
+                        </div>
+                        <ul ng-if="widgets[1].details != '' && widgets[1].details != null && widgets[1].details != undefined" class="list-unstyled carousel_desc_list">
+                          <li ng-repeat="n in widgets[1].details.split('\n')">{{n}}</li>
+                          <!-- <li>Pellentesque vel dolor euismod, finibus ante id, rhoncus velit.</li>
+                          <li>Donec eget ornare nibh. Etiam laoreet enim id volutpat gravida uspendisse potenti nteger
+                            malesuada tristique faucibus ed in libero eget neque aliquam gravida a sit amet dolor.
+                          </li>
+                          <li>Duis vestibulum erat euismod magna volutpat, nec dictum nunc eleifend.</li>
+                          <li>In placerat tortor sed lectus facilisis, a condimentum magna pretium.</li> -->
+                        </ul>
+                        <ul class="list-unstyled slider_oper_lnks">
+                          <a class="btn btn-default aivlnk_prv" href="#!widget_details/{{widgets[1].id}}"><i
+                              class="fa fa-eye"></i>Preview</a>
+                          <a class="btn btn-default aivlnk_down" href="{{baseUrl}}/{{widgets[1].file_path }}" download><i
+                              class="fa fa-download"></i>Download</a>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <img ng-src="{{widgets[2].image !== '' ? baseUrl+'/'+widgets[2].image : 'images/dflwidg.png' }}" onerror="this.onerror=null; this.src='images/dflwidg.png'" class="d-block w-100 img-thumbnail mslide_img" alt="Slider3">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="carousel_desc">
+                      <div class="carousel_desc_inner">
+                        <div class="store_heading">
+                          <h2>{{widgets[2].title}}</h2>
+                        </div>
+                        <ul ng-if="widgets[2].details != '' && widgets[2].details != null && widgets[2].details != undefined" class="list-unstyled carousel_desc_list">
+                          <li ng-repeat="n in widgets[2].details.split('\n')">{{n}}</li>
+                        </ul>
+                        <ul class="list-unstyled slider_oper_lnks">
+                          <a class="btn btn-default aivlnk_prv" href="#!widget_details/{{widgets[2].id}}"><i
+                              class="fa fa-eye"></i>Preview</a>
+                          <a class="btn btn-default aivlnk_down" href="{{baseUrl}}/{{widgets[2].file_path }}" download><i
+                              class="fa fa-download"></i>Download</a>
+                        </ul>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+
+            <ol class="carousel-indicators">
+              <li data-target="#mainslider_carousel" data-slide-to="0" class="active"></li>
+              <li data-target="#mainslider_carousel" data-slide-to="1"></li>
+              <li data-target="#mainslider_carousel" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel_pagination_div">
+              <a class="carousel-control-prev mainslider_nav_btns" href="#mainslider_carousel" role="button"
+                data-slide="prev">
+                <i class="fa fa-chevron-left"></i>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next mainslider_nav_btns" href="#mainslider_carousel" role="button"
+                data-slide="next">
+                <i class="fa fa-chevron-right"></i>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="newly_added_wrap">
+  <div class="container">
+    <div class="aiv_smn_title_typ1">
+      <div class="aiv_smn_title_inner">
+        <div class="store_heading">
+          <h2>Newly Added Widgets</h2>
+        </div>
+        <p>Try our recently added widgets for your dashboard from our marketplace.</p>
+      </div>
+      <a class="aiv_emore_lnk" href="javascript:void(0);">Explore More</a>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+          <data-owl-carousel class="owl-carousel owl-theme" data-options="options">
+            <div owl-carousel-item="" ng-repeat="n in widgets | orderBy : 'created_date'" class="item">
+              <div class="aiv_widgetsdock_item">
+                <div class="aiv_widgetitem_title_catg">
+                  {{n.type == 'customVisualization' ? 'Custom Visualization' : n.type | uppercase }}
+                </div>
+                <div class="aiv_widget_image">
+                  <div class="aiv_widget_amntdiv">
+                    <span class="badge aiv_badge_price aiv_badge_free">{{n.purchase_option}}</span>
+                  </div>
+                  <!-- <img src="{{n.image}}" alt="aiv-widget-image"> -->
+                  <img ng-src="{{n.image !== '' ? baseUrl+'/'+n.image : 'images/dflwidg.png' }}" onerror="this.onerror=null; this.src='images/dflwidg.png'" alt="aiv-widget-image">
+                </div>
+                <div class="aiv_widgetsdock_item_desc">
+                  <p class="wid_nm">{{n.title}}</p>
+                  <div class="widg_rating_div">
+                    <div class="widg_rating_div_rstars">
+                      <i ng-repeat="x in [1,2,3,4,5]" class="fa fa-star" ng-class=" x <= n.rate ? 'fill ':'unfill'"></i>
+                      <!-- <i class="fa fill fa-star"></i>
+                      <i class="fa fill fa-star"></i>
+                      <i class="fa fill fa-star"></i>
+                      <i class="fa unfill fa-star"></i>
+                      <i class="fa unfill fa-star"></i> -->
+                    </div>
+                    <div class="widg_ratg_cnts">
+                      {{n.rate}}/5
+                    </div>
+                  </div>
+                  <div class="aiv_wid_item_dtl_list">
+                    <ul class="list-unstyled awid_dlist">
+                      <li>
+                        <i class="fa fa-database"></i> {{n.size | Filesize}}
+                      </li>
+                      <li>
+                        <i class="fa fa-download"></i> {{n.downloaded}}
+                      </li>
+                      <li>
+                        <i class="fa fa-refresh"></i> {{n.refresh}}
+                      </li>
+                      <li>
+                        <i class="fa fa-comment-o"></i> {{n.no_of_comments}}
+                      </li>
+    
+                    </ul>
+                  </div>
+                  <div class="aiv_wid_item_sml_desc">
+                    <p>{{n.description}}</p>
+                  </div>
+                  <div class="aiv_widgetsdock_btn_div">
+                    <a class="btn btn-default aivlnk_prv" href="#!widget_details/{{n.id}}"><i
+                        class="fa fa-eye"></i>Preview</a>
+                    <a class="btn btn-default aivlnk_down" href="{{baseUrl}}/{{n.file_path }}" download><i
+                        class="fa fa-download"></i>Download</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </data-owl-carousel>
+      </div>
+    </div>
+
+  </div>
+
+  
+</section>
+
+<section class="mostly_downloaded_wrap">
+  <div class="container">
+    <div class="aiv_smn_title_typ2">
+      <div class="aiv_smn_title_inner">
+        <div class="store_heading">
+          <h2>Mostly Downloaded Widgets</h2>
+        </div>
+        <p>Explore the mostly downloaded widgets for your dashboard</p>
+      </div>
+      <a class="aiv_emore_lnk" href="javascript:void(0);">Explore More</a>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <data-owl-carousel class="owl-carousel owl-theme" data-options="options">
+          <div owl-carousel-item="" ng-repeat="n in widgets | orderBy: '-downloaded'" class="item">
+            <div class="aiv_widgetsdock_item">
+              <div class="aiv_widgetitem_title_catg">
+                {{n.type == 'customVisualization' ? 'Custom Visualization' : n.type | uppercase }}
+              </div>
+              <div class="aiv_widget_image">
+                <div class="aiv_widget_amntdiv">
+                  <span class="badge aiv_badge_price aiv_badge_free">{{n.purchase_option}}</span>
+                </div>
+                <img ng-src="{{n.image !== '' ? baseUrl+'/'+n.image : 'images/dflwidg.png' }}" onerror="this.onerror=null; this.src='images/dflwidg.png'" alt="aiv-widget-image">
+              </div>
+              <div class="aiv_widgetsdock_item_desc">
+                <p class="wid_nm">{{n.title}}</p>
+                <div class="widg_rating_div">
+                  <div class="widg_rating_div_rstars">
+                    <i ng-repeat="x in [1,2,3,4,5]" class="fa fa-star" ng-class=" x <= n.rate ? 'fill ':'unfill'"></i>
+                    <!-- <i class="fa fill fa-star"></i>
+                    <i class="fa fill fa-star"></i>
+                    <i class="fa fill fa-star"></i>
+                    <i class="fa unfill fa-star"></i>
+                    <i class="fa unfill fa-star"></i> -->
+                  </div>
+                  <div class="widg_ratg_cnts">
+                    {{n.rate}}/5
+                  </div>
+                </div>
+                <div class="aiv_wid_item_dtl_list">
+                  <ul class="list-unstyled awid_dlist">
+                    <li>
+                      <i class="fa fa-database"></i> {{n.size | Filesize}}
+                    </li>
+                    <li>
+                      <i class="fa fa-download"></i> {{n.downloaded}}
+                    </li>
+                    <li>
+                      <i class="fa fa-refresh"></i> {{n.refresh}}
+                    </li>
+                    <li>
+                      <i class="fa fa-comment-o"></i> {{n.no_of_comments}}
+                    </li>
+  
+                  </ul>
+                </div>
+                <div class="aiv_wid_item_sml_desc">
+                  <p>{{n.description}}</p>
+                </div>
+                <div class="aiv_widgetsdock_btn_div">
+                  <a class="btn btn-default aivlnk_prv" href="#!widget_details/{{n.id}}"><i
+                      class="fa fa-eye"></i>Preview</a>
+                  <a class="btn btn-default aivlnk_down" href="{{baseUrl}}/{{n.file_path }}" download><i
+                      class="fa fa-download"></i>Download</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </data-owl-carousel>
+      </div>
+    </div>
+  </div>
+</section>

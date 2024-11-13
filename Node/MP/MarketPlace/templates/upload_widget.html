@@ -1,0 +1,183 @@
+<section class="aivpg_uploadwidget_wrap">
+    <div class="aiv_pagetitle_boxwrap">
+        <div class="container">
+            <div class="store_heading">
+                <h2>Upload Widgets</h2>
+                <p>Pellentesque vel dolor euismod finibus ante id rhoncus velit.</p>
+            </div>
+        </div>
+    </div>
+    <div class="aivpg_upload_wrapbox">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-xl-3">
+                    <div class="aiv_upload_leftdiv">
+                        <div class="aiv_widgetsdock_item">
+                            <div class="aiv_widgetitem_title_catg">
+                                {{ coverpageLable }}
+                            </div>
+                            <div class="aiv_widget_image">
+                                <div class="aiv_widget_amntdiv">
+                                    <span ng-if="upload.purchase_option.toLowerCase() == 'paid'" class="badge aiv_badge_price aiv_badge_paid">Paid</span>
+                                    <span ng-if="upload.purchase_option.toLowerCase() == 'free'" class="badge aiv_badge_price aiv_badge_free">Free</span>
+                                </div>
+                                <img id="customImg" ng-src="{{upload.image !== '' ? baseUrl+'/'+upload.image : 'images/dflwidg.png' }}"
+                                onerror="this.onerror=null; this.src='images/dflwidg.png'" alt="aiv-widget-image">
+                            </div>
+                            <div class="aiv_widgetsdock_item_desc mainaivfrmgrp_wrap upload_ldiv">
+                                <div id="1" class="custom-file custm_fupload">
+                                    <input accept="image/*" type="file" class="custom-file-input" id="customFile" required>
+                                    <label class="custom-file-label" for="customFile"><span class="cst_fnm_lbl">Upload Cover image</span></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-9">
+                    <div class="aiv_upload_rightdiv">
+                        <div class="mainaivfrmgrp_wrap aiv_uploadpg_grmdiv">
+                            <div class="aiv_phead">Widget Detail</div>
+                            <form ng-submit="onsubmit()">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label>Upload Widget</label>
+                                            <div id="2" ng-class="{ 'has-error': form.widgetfile.$dirty && form.widgetfile.$error.required }" class="custom-file custm_fupload">
+                                                <input type="file" id="widgetfile" name="widgetfile" accept=".widget" class="custom-file-input"
+                                                    id="widget_source_id" ng-required="!widgetId">
+                                                <label class="custom-file-label" for="widget_source_id"><span
+                                                        class="cst_fnm_lbl">Upload Json</span></label>
+                                                <span ng-show="form.widgetfile.$dirty && form.widgetfile.$error.required" class="help-block">Widget File is required</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="form-group" ng-class="{ 'has-error': form.widgetTitle.$dirty && form.widgetTitle.$error.required }">
+                                            <label>Widget Title</label>
+                                            <input ng-model="upload.title" id="widgetTitle" value="upload.title" type="text" class="form-control tbox" required>
+                                            <span ng-show="form.widgetTitle.$dirty && form.widgetTitle.$error.required" class="help-block">Widget Title is required</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <div class="form-group" ng-class="{ 'has-error': form.sellerName.$dirty && form.sellerName.$error.required }">
+                                            <label>Widget Seller Name</label>
+                                            <input ng-model="upload.seller_name" id="sellerName" name="sellerName" value="upload.seller_name" type="text" class="form-control tbox" required>
+                                            <span ng-show="form.sellerName.$dirty && form.sellerName.$error.required" class="help-block">Seller Name is required</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <div class="form-group" ng-class="{ 'has-error': form.widgetType.$dirty && form.widgetType.$error.required }">
+                                            <label>Select Widget Type</label>
+                                            <select id="widgetType" name="widgetType"
+                                                ng-options="item for item in ['table', 'chart', 'map', 'kpi', 'customVisualization']"
+                                                ng-model="upload.type" class="custom-select sbox">
+                                                <!-- <option value="">Types</option>
+                                                        <option value="table">Table</option>
+                                                        <option value="chart">Chart</option>
+                                                        <option value="map">Map</option>
+                                                        <option value="customVisualization">Custom Visualization</option>
+                                                        <option value="kpi">KPI</option>                                   -->
+                                            </select>
+                                            <span ng-show="form.widgetType.$dirty && form.widgetType.$error.required" class="help-block">Widget Type is required</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="form-group" ng-class="{ 'has-error': form.widgetDetails.$dirty && form.widgetDetails.$error.required }">
+                                            <label>Widget Description</label>
+                                            <textarea id="widgetDetails" name="widgetDetails" ng-model="upload.details" class="form-control tarea"
+                                                rows="3" required></textarea>
+                                            <span ng-show="form.widgetDetails.$dirty && form.widgetDetails.$error.required" class="help-block">Widget Details is required</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="form-group" ng-class="{ 'has-error': form.widgetFeatures.$dirty && form.widgetFeatures.$error.required }">
+                                            <label>Widget Features</label>
+                                            <textarea id="widgetFeatures" name="widgetFeatures" ng-model="upload.features" class="form-control tarea"
+                                                rows="3"></textarea>
+                                            <span ng-show="form.widgetFeatures.$dirty && form.widgetFeatures.$error.required" class="help-block">Widget Features is required</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label>Widget Pricing</label>
+                                            <div class="cust_radbox">
+                                                <div class="custom-control custom-radio cradbtn custom-control-inline">
+                                                    <input type="radio" ng-model="upload.purchase_option" value="free"
+                                                        id="customRadioInline1" name="customRadioInline1"
+                                                        class="custom-control-input" checked>
+                                                    <label class="custom-control-label" for="customRadioInline1">Free
+                                                        Widget</label>
+                                                </div>
+                                                <div class="custom-control custom-radio cradbtn custom-control-inline">
+                                                    <input type="radio" ng-model="upload.purchase_option" value="paid"
+                                                        id="customRadioInline2" name="customRadioInline1"
+                                                        class="custom-control-input">
+                                                    <label class="custom-control-label" for="customRadioInline2">Paid
+                                                        Widget</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="upload.purchase_option == 'paid'" class="col-lg-6 col-xl-6">
+                                        <div class="form-group" ng-class="{ 'has-error': form.widgetPrice.$dirty && form.widgetPrice.$error.required }">
+                                            <label>Widget Price</label>
+                                            <input type="text" id="widgetPrice" name="widgetPrice" ng-model="upload.price" class="form-control tbox">
+                                            <span ng-show="form.widgetPrice.$dirty && form.widgetPrice.$error.required" class="help-block">Widget Price is required</span>
+                                        </div>
+                                    </div>                                       
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label>Youtube Embed Url</label>
+
+                                            <div class="input-group aiv_mip_grp">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fa fa-youtube-play"></i></span>
+                                                </div>
+                                                <input type="text" ng-model="upload.video_url" class="form-control tbox"
+                                                    placeholder="https://www.youtube.com/embed/hhi_jaLn_LI">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label>Upload Screenshot Images</label>
+                                            <div id="3" class="custom-file custm_fupload">
+                                                <input accept="image/*" ng-model-instant multiple type="file" class="custom-file-input"
+                                                    id="aivupscreenimgfile">
+                                                <label class="custom-file-label" for="aivupscreenimgfile"><span
+                                                        class="cst_fnm_lbl">Upload Screenshots</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="uploadFile.widgetImages.length > 0" class="col-xs-12">
+                                        <div class="upld_imglistdiv">
+                                            <ul class="list-unstyled uploadimg_list">
+                                                <li ng-repeat=" x in widgetImages">
+                                                    <div class="upld_listitm_div">
+                                                        <a href="javascript:void(0);" class="aiv_imgup_delete"><i
+                                                                class="fa fa-times"></i></a>                                                                
+                                                        <img ng-src="{{x}}" class="img-thumbnail" alt="aiv-widget-image">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12">
+                                        <div class="upload_frm_btndiv">
+                                            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="frmaiv_cmnbtn btn btn-primary">Submit</button>
+                                            <button type="button" ng-click="cancel()"
+                                                class="frmaiv_cmn_cancelbtn btn btn-primary">Cancel</button>
+                                            <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

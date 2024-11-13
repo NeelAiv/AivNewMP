@@ -1,0 +1,26 @@
+
+<a  href="javascript:;" type="button" id="btnClose" (click)="closeModal()" aria-label="Close" class="btn-modal-close">
+    
+</a>
+<section class="section-padding dark-bg container-fluid bg-image text-center overlay-black40" >
+    <div class="container newsletter section-padding-b mt-5">
+        <h2 class="page-title">Subscribe To Newsletter</h2>
+        <form #subscribe="ngForm" (ngSubmit)="subscribeForDownload()" novalidate>
+            <div class="form-input">
+                <input  #emailid="ngModel" name="emailid" class="input-md form-full-width" required email [(ngModel)]="requestObj.email" placeholder="Enter Email Address..." title="Enter Email Address..." type="text">
+            </div>
+            <div *ngIf="!emailid?.valid && (emailid?.dirty || emailid?.touched)" >
+                   
+                <div *ngIf="emailid.errors.required" style="color: crimson">
+                    Email is required
+                </div>
+                <div *ngIf="emailid.errors.email" style="color: crimson;">
+                    Email is invalid
+                </div>
+            </div>
+            
+            <button class="btn btn-lg btn-color mt-3" [disabled]="!subscribe.valid" type="submit">Subscribe</button>
+        </form>
+        <p class="italic">We promise we will not spam you.</p>
+    </div>
+</section>

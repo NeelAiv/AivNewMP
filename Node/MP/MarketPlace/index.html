@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" ng-app="MarketPlace">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Active Intelligence - Widget Store</title>
+
+
+  <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+  <link href="css/owl.carousel.css" rel="stylesheet" type="text/css">
+  <link href="css/owl.theme.default.css" rel="stylesheet" type="text/css">
+  <link href="css/jquery.fancybox.min.css" rel="stylesheet" media="screen">
+  <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="css/responsive.css" rel="stylesheet" type="text/css">  
+
+</head>
+
+
+<body ng-controller="mainController">
+  <!-- start aiv alert -->
+  <aiv-alerts></aiv-alerts>
+  <!-- end aiv alert -->
+  <!-- Header code starts here  -->
+  <aiv-header></aiv-header>
+  <!-- Header code ends here  -->
+  <ng-view class="aiv_page_view_wrap"></ng-view>
+  
+
+  <!-- Footer code starts here  -->
+  <aiv-footer></aiv-footer>
+  <!-- Footer code starts here  -->
+  <script type="text/javascript" src="./node_modules/angular/angular.js"></script>
+  <!-- edit -->
+  <!-- CONTROLLERS -->
+  <script type="text/javascript" src="./js/app.js"></script>
+  <script type="text/javascript" src="./js/Controllers/CategoryController.js"></script>
+  <script type="text/javascript" src="./js/Controllers/WidgetController.js"></script>  
+  <script type="text/javascript" src="./js/Controllers/LoginController.js"></script>  
+  <script type="text/javascript" src="./js/Controllers/RegisterController.js"></script>
+  <script type="text/javascript" src="./js/Controllers/WidgetDetailsController.js"></script>
+  <script type="text/javascript" src="./js/Controllers/HeaderController.js"></script>
+  <script type="text/javascript" src="./js/Controllers/UploadWidgetController.js"></script>
+  <!--  -->
+  <script type="text/javascript" src="./js/angular-route.min.js"></script>
+  <script type="text/javascript" src="./js/angular-cookie.min.js"></script>
+  <script type="text/javascript" src="./js/app.config.js"></script>
+  <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="./js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="./js/owl.carousel.min.js"></script>
+  <script type="text/javascript" src="js/jquery.fancybox.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <!-- <script type="text/javascript" src="./node_modules/ngx-image-cropper/esm2015/ngx-image-cropper.js"></script> -->
+  <!-- SERVICES -->
+  <script type="text/javascript" src="./js/Services/AuthenticationService.js"></script>
+  <script type="text/javascript" src="./js/Services/FlashService.js"></script>
+  <!-- <script type="text/javascript" src="./js/Services/LocalStorageService.js"></script> -->
+  <script type="text/javascript" src="./js/Services/UserService.js"></script>
+  <script type="text/javascript" src="./js/Services/WidgetService.js"></script>
+</body>
+
+</html>

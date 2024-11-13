@@ -1,0 +1,210 @@
+
+
+  <!-- Header code starts here  -->
+  <header ng-controller="HeaderController">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-lg-4 col-xl-4">
+            <div class="logo_wrap">
+              <div class="logo">
+                <a href="#!home"><img src="images/logo.png" alt="Logo"></a>
+              </div>
+  
+              <div class="resp_div d-sm-block d-md-none d-lg-none d-xl-none">
+                <button class="navbar-toggler menuresp_btn" type="button" data-toggle="collapse"
+                  ng-click="openmodel()" aria-controls="navbarsExample04" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <i class="fa fa-bars"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-8 col-lg-8 col-xl-8">
+            <nav class="navbar navbar-expand-md menubar">
+              <div class="collapse navbar-collapse" id="respheader_menu">
+                <ul class="navbar-nav ml-auto menulinks">
+  
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#!home">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#!about">About</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#!widgets" id="dropdownWidget" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">Widgets</a>
+                    <div class="dropdown-menu dpmenu" aria-labelledby="dropdown04">
+                      <a class="dropdown-item" href="#!widgets/tables">Table</a>
+                      <a class="dropdown-item" href="#!widgets/charts">Charts</a>
+                      <a class="dropdown-item" href="#!widgets/maps">Maps</a>
+                      <a class="dropdown-item" href="#!widgets/kpis">KPI</a>
+                      <a class="dropdown-item" href="#!widgets/customVisualization">Custom Visulization</a>
+                    </div>
+                  </li>
+                  <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#!category" id="dropdownCat" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">Categories</a>
+                    <div class="dropdown-menu dpmenu" aria-labelledby="dropdown04">
+                      <a class="dropdown-item" href="#!category/widgets">Widgets</a>
+                      <a class="dropdown-item" href="#!category/reports">Reports</a>
+                      <a class="dropdown-item" href="#!category/datasources">Datasources</a>
+                      <a class="dropdown-item" href="#!category/externalSecurity">External Security</a>
+                    </div>
+                  </li> -->
+                </ul>
+                <ul class="navbar-nav loginoper_lnks">
+                  <li class="nav-item" hidden>
+                    <a class="nav-link headcart_lnk" href="#!cart">Cart <i class="fa fa-shopping-cart"></i><span class="badge badge-light">0</span></a>
+                  </li>
+                  <li class="nav-item" ng-hide="isLogin">
+                    <a class="nav-link headsgn_lnk" href="javascript:void(0);" data-toggle="modal"
+                      data-target="#aivsigin_modal" data-backdrop="static" data-keyboard="false">Sign In</a>
+                  </li>
+                  <li class="nav-item dropdown" ng-show="isLogin">
+                    <a class="nav-link dropdown-toggle headlgn_lnk" href="javascript:void(0);" id="dropdown04"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user.first_name}}</a>
+                    <div class="dropdown-menu dpmenu" aria-labelledby="dropdown04">
+                      <a class="dropdown-item" href="#!/myprofile">My Profile</a>
+                      <a class="dropdown-item" ng-if="user.role == 'ADMIN'" href="#!/upload">Upload Widget</a>
+                      <a class="dropdown-item" ng-click="logout();">Logout</a>
+                    </div>
+                  </li>
+  
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+  
+  
+      <!-- Signin / Signup Modal code starts here  -->
+      <div class="modal fade aivsgn_modal" id="aivsigin_modal" tabindex="-1" role="dialog"
+        aria-labelledby="aivsigin_modalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+  
+            <div class="modal-body">
+              <button type="button" id="btnClose" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+              <div class="row">
+                <div class="col-lg-6 sign_padding_right">
+                  <div class="aivsign_img">
+                    <img src="images/signimg.jpg" alt="">
+                  </div>
+                </div>
+                <div class="col-lg-6 sign_padding_left">
+                  <div class="aivsign_div">
+  
+                    <ul class="nav nav-fill mb-3 sgnlist" id="signInTabs" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link" ng-click="selectTab(1)" ng-class="{active:isActive(1)}" href="javascript:void(0);" role="tab">Sign In</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" ng-click="selectTab(2)" ng-class="{active:isActive(2)}" href="javascript:void(0);" role="tab">Sign Up</a>
+                      </li>
+                    </ul>
+  
+                    <div class="tab-content">
+                      <div ng-show="isActive(1)" class="tab-pane" ng-class="{active:isActive(1), show:isActive(1)}"  role="tabpanel">
+                        <div ng-controller="LoginController" class="mainaivfrmgrp_wrap msignin_inner">
+                          <form name="form" ng-submit="login()" role="form">
+                            <div class="mlogindiv_box">
+                              <div class="store_heading">
+                                <h4>Sign In</h4>
+                                <p>Start creating widgets and upload it on the store</p>
+                              </div>
+                              <div ng-class="{ 'has-error': form.userName.$dirty && form.userName.$error.required }" class="form-group">
+                                <label>Email</label>
+                                <input type="email" type="text" name="userName" id="userName" ng-model="username" required  class="form-control tbox">
+                                <span ng-show="form.userName.$dirty && form.userName.$error.required" class="help-block">Username is required</span>
+                              </div>
+                              <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                                <label>Password</label>
+                                <input type="password" name="passWord" id="passWord" ng-model="password" required  class="form-control tbox">
+                                <span ng-show="form.passWord.$dirty && form.passWord.$error.required" class="help-block">Password is required</span>
+                              </div>
+    
+                              <div class="lgbtn_div">
+                                <button type="submit" ng-disabled="form.$invalid || dataLoading" class="frmaiv_cmnbtn btn btn-primary">Sign In</button>
+                                <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                <a href="javascript:void(0);" class="lg_lnk lg_fpasslnk">Forgot Password?</a>
+                              </div>
+                            </div>
+                          </form>
+  
+                          <div class="mforgotpass_box">
+                            <form ng-submit="sendEmail()" role="form">
+                              <div class="store_heading">
+                                <h4>Forgot Password</h4>
+                                <p>Enter your email and your password will be sent in your inbox</p>
+                              </div>
+
+                              <div ng-class="{ 'has-error': form.emailid.$dirty && form.emailid.$error.required }" class="form-group">
+                                <label>Email</label>
+                                <input type="email" type="text" name="emailid" id="emailid" ng-model="forget_data.emailId" required  class="form-control tbox">
+                                <span ng-show="form.emailid.$dirty && form.emailid.$error.required" class="help-block">Email is required</span>
+                              </div>
+    
+                              <div class="lgbtn_div">
+                                <button type="submit" class="frmaiv_cmnbtn btn btn-primary">Send</button>
+                                <a href="javascript:void(0);" class="lg_lnk lg_loginlnk">Already a user?</a>
+                                <span ng-if="forget_data.responseData != null ">{{forget_data.responseData.response}} </span>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div ng-show="isActive(2)" class="tab-pane" ng-class="{active:isActive(2), show:isActive(2) }" role="tabpanel" >
+                        <div class="mainaivfrmgrp_wrap msignup_inner">
+                          <div ng-controller="RegisterController" class="msignupdiv_box">
+                            <form name="form" ng-submit="register()" role="form">
+                              <div class="store_heading">
+                                <h4>Sign Up</h4>
+                                <p>Need AIV widgets or want upload it on the store.</p>
+                              </div>
+                              <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
+                                <label>First Name</label>
+                                <input type="text" name="firstName" id="firstName" ng-model="user.firstName" class="form-control tbox" required>
+                                <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
+                              </div>
+                              <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control tbox" name="lastName" id="lastName" ng-model="user.lastName" required />
+                                <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
+                              </div>
+                              <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+                                <label>Email</label>
+                                <input type="email" class="form-control tbox" name="username" id="username" ng-model="user.username" required />
+                                <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Email is required</span>
+                              </div>
+                              <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                                <label>Password</label>
+                                <input type="password" class="form-control tbox" name="password" id="password" ng-model="user.password" required />
+                                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                              </div>
+                              <div class="lgbtn_div">
+                                <button type="submit" ng-disabled="form.$invalid || dataLoading" class="frmaiv_cmnbtn btn btn-primary">Sign Up</button>
+                                <button type="button" data-dismiss="modal" class="frmaiv_cmn_cancelbtn btn btn btn-primary">Cancel</button>
+                                <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                
+                              </div>
+                            </form>
+                          </div>
+  
+  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>          
+      <!-- Signin / Signup Modal code ends here  -->
+  </header>
+<!-- Header code ends here  -->

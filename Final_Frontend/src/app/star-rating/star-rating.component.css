@@ -1,0 +1,27 @@
+ul{
+    margin-top: 5px;
+    padding-inline-start: 0 !important;
+    margin-block-end: 0 !important;
+
+}
+ul li{
+    display: inline;
+    list-style: none;
+    margin-left: auto;
+    margin-right: auto;
+    color: grey;
+}
+
+.fill{
+    color: gold !important;
+}
+.blank{
+    color: grey;
+}
+
+.rate_count{
+    font-weight: bold;
+}
+.aiv_cursor:hover {
+    cursor: pointer;
+}

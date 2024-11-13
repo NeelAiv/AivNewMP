@@ -1,0 +1,116 @@
+.product-item .product-item-inner img{
+    height: 250px;
+}
+
+.product-image-slider-thumbnails .item img{
+    max-height: 150px;
+    height: 100%;
+}
+
+.aiv_rating_block {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    padding: 4px 10px;
+}
+
+.aiv_rating_block .aivrblock_widg_rating_div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row
+}
+
+.aiv_rating_block .aivrblock_widg_rating_div .aivwidg_rblock_div_rstars {
+    margin-right: 15px
+}
+
+.aiv_rating_block .aivrblock_widg_rating_div .aivwidg_rblock_div_rstars i {
+    font-size: 20px
+}
+
+.aiv_rating_block .aivrblock_widg_rating_div .aivwidg_rblock_div_rstars .fill.fa-star {
+    color: #f1c40f
+}
+
+.aiv_rating_block .aivrblock_widg_rating_div .aivwidg_rblock_div_rstars .unfill.fa-star {
+    color: #a8b5c3
+}
+
+.aiv_rating_block .aivwidg_rblock_ratg_cnts {
+    color: #777;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 600
+}
+
+.aiv_rating_block .aivwidg_rblock_ratg_cnts span {
+    font-weight: 600;
+    font-size: 20px;
+    color: #232323
+}
+
+.aivrblock_widg_ratebkdwon_div .aivrate_prgbox:not(:last-child) {
+    margin-bottom: 3px
+}
+
+.aivrate_prgbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center
+}
+
+.aivrate_prgbox .aivrate_prgbox_starlabel {
+    color: #777;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    width: 40px
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgdiv {
+    width: calc(100% - 110px)
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgdiv .progress {
+    height: 5px
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgdiv .progress .aiv_prgbar5 {
+    background-color: #53b31e
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgdiv .progress .aiv_prgbar4 {
+    background-color: #007bff
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgdiv .progress .aiv_prgbar3 {
+    background-color: #23527c
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgdiv .progress .aiv_prgbar2 {
+    background-color: #f9a422
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgdiv .progress .aiv_prgbar1 {
+    background-color: #d92020
+}
+
+.aivrate_prgbox .aivrate_prgbox_prgval {
+    color: #232323;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    width: 60px;
+    text-align: center;
+    background-color: #d5d5d5
+}
+
+::ng-deep .product-image-gallery .slick-list, .product-image-gallery .slick-track ,.product-image-gallery .slick-slide,.product-image-gallery .slick-slide img  {
+height: 250px !important;
+}
+
+.slider-img-main{
+    margin: auto;
+}

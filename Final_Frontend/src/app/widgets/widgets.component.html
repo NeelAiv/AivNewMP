@@ -1,0 +1,173 @@
+<!-- Page Content -->
+<section class="content-page">
+  <div class="container">
+    <div class="row">
+
+      <!-- Product Content -->
+      <div class="col-md-9 push-md-3">
+        <!-- Title -->
+        <div class="list-page-title">
+          <h2 class="">{{selectedCategory}} <span *ngIf="selectedSubCategory != '' &&  selectedSubCategory != null "> > {{selectedSubCategory}} </span><small>{{(widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
+              selectedCategory : selectedSubCategory).length}} Products</small></h2>
+        </div>
+        <!-- End Title -->
+
+        <!-- Product Filter -->
+        <div class="product-filter-content">
+          <div class="product-filter-content-inner">
+
+
+
+
+            <!--Product Sort By-->
+
+            <!--Product Show-->
+            <div class="product-show pull-right">
+              <select [(ngModel)]="sortType" class="nice-select sbox">
+                <option value="false">Sort by name</option>
+                <option value="false">Ascending - [A-Z]</option>
+                <option value="true">Descending - [Z-A]</option>
+              </select>
+
+              <select [(ngModel)]="srtPrice" class="nice-select sbox">
+                <option value="free">Sort by price</option>
+                <option value="free">Free</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
+
+
+
+            <!--Product List/Grid Icon-->
+            <div class="product-view-switcher" [hidden]="true">
+              <label>View</label>
+              <div class="product-view-icon product-grid-switcher product-view-icon-active">
+                <a class="" href="javascript:;"><i class="fa fa-th" aria-hidden="true"></i></a>
+              </div>
+              <div class="product-view-icon product-list-switcher">
+                <a class="" href="javascript:;"><i class="fa fa-th-list" aria-hidden="true"></i></a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- End Product Filter -->
+
+
+
+        <!-- Product Grid -->
+        <div class="row product-list-item">
+            <div class=" col-sm-6 col-md-6 col-lg-4" *ngIf="!((widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
+              selectedCategory : selectedSubCategory | purchaseCategory : srtPrice | orderBy : 'title' : sortType ).length > 0)">
+              <p>No Records Found</p>
+            </div>
+          <div class="product-item-element col-sm-6 col-md-6 col-lg-4"
+            *ngFor="let obj of (widgetList$ | async) | matchesCategorySubCategoryForWidgetGallery : selectedCategory : selectedSubCategory | purchaseCategory : srtPrice | orderBy : 'title' : sortType ">
+            <!--Product Item-->
+            <div class="product-item">
+              <div class="product-item-inner">
+                <div class="product-img-wrap">
+                  <img
+                    src="{{obj.image !== '' ? baseUrl+'/uploads/images/'+ obj.image.split(',')[0] : obj.sub_category !== '' ? baseUrl+'/uploads/images/'+obj.sub_category+'.png' : '/uploads/images/'+obj.category+'.png' }}"
+                    alt="">
+                </div>
+                <div class="product-button">
+                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.size}}kb" tooltip="{{obj.size}}kb"
+                    [options]="tooltipOptions"><i class="fa fa-database"></i></a>
+                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.downloaded}}"
+                    tooltip="{{obj.downloaded}}" [options]="tooltipOptions"><i class="fa fa-download"></i></a>
+                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.refresh}}" tooltip="{{obj.refresh}}"
+                    [options]="tooltipOptions"><i class="fa fa-refresh"></i></a>
+                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.no_of_comments}}"
+                    tooltip="{{obj.no_of_comments}}" [options]="tooltipOptions"><i class="fa fa-comment"></i></a>
+                </div>
+              </div>
+
+              <div class="product-detail">
+                <a class="tag" href="javascript:;">{{obj.type}}</a>
+                <p class="product-title"><a href="javascript:;"><strong>{{obj.title}}</strong></a></p>
+                <div class="product-rating">
+                  <app-star-rating [disable]="true" [selected]="obj.rate"> </app-star-rating>
+                  <a href="javascript:;" class="product-rating-count"><span class="count">3</span> Reviews</a>
+                </div>
+                <p class="product-description">
+                  {{obj.details}}
+                </p>
+                <a class="btn btn-sm btn-orange" [routerLink]="['/preview/',obj.id]">Preview</a>
+                <a class="btn btn-sm btn-green ml-1" (click)="downloadWidget(obj)" download>Download</a>
+              </div>
+            </div>
+            <!-- End Product Item-->
+          </div>
+
+
+
+        </div>
+        <!-- End Product Grid -->
+
+        <div class="pagination-wraper" [hidden]="true">
+          <p>Showing 1 - 15 of 120 results</p>
+          <div class="pagination">
+            <ul class="pagination-numbers">
+              <!--<li>
+                              <a href="javascript:;" class="prev page-number"><i class="fa fa-angle-double-left"></i></a>
+                          </li>-->
+              <li>
+                <a href="javascript:;" class="page-number current">1</a>
+              </li>
+              <li>
+                <a href="javascript:;" class="page-number">2</a>
+              </li>
+              <li>
+                <a href="javascript:;" class="page-number">3</a>
+              </li>
+              <li>
+                <span class="page-number dots">...</span>
+              </li>
+              <li>
+                <a href="javascript:;" class="page-number">29</a>
+              </li>
+              <li>
+                <a href="javascript:;" class="next page-number"><i class="fa fa-angle-double-right"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <!-- End Product Content -->
+
+      <!-- Sidebar -->
+      <div class="sidebar-container col-md-3 pull-md-9">
+
+        <!-- Categories -->
+        <div class="widget-sidebar">
+          <h6 class="widget-title">Categories</h6>
+          <ul class="widget-content widget-product-categories jq-accordian">
+            <li *ngFor="let category of compCategories | keyvalue " (click)="openComponent(category.value.name)">
+              <a href="javascript:void(0);">{{category.value.name}}</a>
+              <ul class="children" *ngIf="category.value.subCategories.length > 0">
+                <ng-container *ngFor="let subCategory of category.value.subCategories | keyvalue">
+                  <li *ngIf="(widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
+                  selectedCategory : subCategory.value.name).length > 0"
+                    (click)="openComponentWithSub(category.value.name,subCategory.value.name)">
+                    <a href="javascript:void(0);">{{subCategory.value.name}}</a>
+
+                  </li>
+                </ng-container>
+              </ul>
+            </li>
+
+
+          </ul>
+        </div>
+
+
+
+      </div>
+      <!-- End Sidebar -->
+
+    </div>
+  </div>
+</section>
+<!-- End Page Content -->

@@ -1,0 +1,97 @@
+<section class="aivpg_widgets_wrap">
+  <div class="aiv_pagetitle_boxwrap">
+    <div class="container">
+      <div class="store_heading">
+        <h2>Widgets</h2>
+        <p>Explore various Widgets on our store</p>
+      </div>
+    </div>
+  </div>
+  <div class="aivpg_widt_wrapbox">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-xl-3">
+          <div class="d-block d-lg-none respcatg_menudiv">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#respcatg_menu"
+              aria-controls="respcatg_menu" aria-expanded="false" aria-label="Toggle navigation">
+              Categories<i class="fa fa-bars"></i>
+            </button>
+          </div>
+          <div class="aivwidget_sidebar d-lg-block collapse navbar-collapse" id="respcatg_menu">
+            <div class="store_heading">
+              <h5>Widgets</h5>
+            </div>
+            <div class="aiv_sidemenu_catgsdiv">
+              <ul class="sidebarwidcatgs_list list-unstyled">
+                <li><a href="javascript:void(0);" ng-click="changeType('table');">Table</a></li>
+                <li><a href="javascript:void(0);" ng-click="changeType('chart');">Charts</a></li>
+                <li><a href="javascript:void(0);" ng-click="changeType('map');">Maps</a></li>
+                <li><a href="javascript:void(0);" ng-click="changeType('kpi');">KPI</a></li>
+                <li><a href="javascript:void(0);" ng-click="changeType('customVisualization');">Custom Visulization</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9 col-xl-9">
+          <div class="aivwidget_rightdtl_box">
+            <div class="aivwidget_right_topdiv">
+              <div class="mainaivfrmgrp_wrap aiv_sortintopgdiv">
+                <div class="aiv_widgetsortdiv_letter">
+                  <div class="form-group">
+                    <select ng-model="srtName" ng-change="sortByName()" class="custom-select sbox">
+                      <option value="">Sort by name</option>
+                      <option value="ASC">Ascending - [A-Z]</option>
+                      <option value="DESC">Descending - [Z-A]</option>
+                    </select>
+
+                  </div>
+                </div>
+                <div class="aiv_widgetsortdiv_price">
+                  <div class="form-group">
+                    <select ng-model="srtPrice" ng-change="sortByPrice()" class="custom-select sbox">
+                      <option value="">Sort by price</option>
+                      <option value="FREE">Free</option>
+                      <option value="PAID">Paid</option>
+                    </select>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="aivwidget_right_middlediv">
+              <div class="row">
+                <div ng-repeat="n in widgetData | orderBy:'title':srtName == 'DESC'" class="col-md-6 col-lg-6 col-xl-4">
+                  <widget-directive widget="n" base="base"></widget-directive>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: none;" class="aivwidget_right_btmdiv">
+              <div class="aivwidget_right_pagination">
+                <nav aria-label="Aiv Widget Listing Pagination">
+                  <ul class="pagination aiv_widglist_pagination">
+                    <li class="page-item">
+                      <a class="page-link" href="javascript:void(0);" aria-label="Previous">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript:void(0);" aria-label="Next">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

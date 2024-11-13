@@ -1,0 +1,35 @@
+.even{
+    background-color: #fff;
+}
+.odd{
+    background-color: #f8f8f8;
+}
+.oddTitle{
+    color: white;
+}
+.evenTitle{
+    color: black;
+}
+
+.cat_title{
+    font-weight: bold;
+}
+
+.aiv_emore_lnk{
+    background-color: #f9a422;
+}
+
+.aiv_emore_lnk :hover{
+    background-color: #d08007;
+}
+/* img{
+    object-fit: contain;
+    width: 237px;
+    height: 237px;
+    border-radius: 3px;
+   
+} */
+
+.rev_slider_wrapper{
+    background: white !important;
+}

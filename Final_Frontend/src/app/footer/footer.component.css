@@ -1,0 +1,34 @@
+/* footer{
+    background-color: #3b4045;
+}
+.pad{
+    padding: 10px;
+}
+.white,a{
+    color: white;
+} */
+
+.footer {
+    background: #252525;
+}
+
+.copyrights {
+    text-align: center;
+}
+
+.copyrights p {
+    color: #fff;
+    margin: 0;
+}
+
+.copyrights p.copyright {
+    margin-bottom: 20px;
+}
+
+.copyrights a {
+    color: #555;
+}
+
+.copyrights a:hover {
+    text-decoration: underline;
+}

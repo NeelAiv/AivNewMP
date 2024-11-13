@@ -1,0 +1,307 @@
+<ngx-spinner></ngx-spinner>
+
+<section class="aivpg_uploadwidget_wrap">
+    <div class="aiv_pagetitle_boxwrap">
+        <div class="container">
+            <div class="store_heading">
+                <h2 style="color: white;">Upload Components</h2>
+                <p style="color: white;">Upload components here </p>
+            </div>
+        </div>
+    </div>
+    <div class="aivpg_upload_wrapbox">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-xl-3">
+                    <div class="aiv_upload_leftdiv">
+                        <div class="aiv_widgetsdock_item">
+                            <!-- {{ coverpageLable }} -->
+                            <div class="aiv_widgetitem_title_catg">
+                                    {{upload.title}}
+                            </div>
+                            <div class="aiv_widget_image">
+                                <div class="aiv_widget_amntdiv">
+                                    <!-- ng-if="upload.purchase_option.toLowerCase() == 'paid'" -->
+                                    <!-- <span class="badge aiv_badge_price aiv_badge_paid">Paid</span> -->
+                                    <!-- ng-if="upload.purchase_option.toLowerCase() == 'free'" -->
+                                    <!-- <span class="badge aiv_badge_price aiv_badge_free">Free</span> -->
+                                </div>
+
+
+                                <!-- ng-src="{{upload.image !== '' ? baseUrl+'/'+upload.image : 'images/dflwidg.png' }}" -->
+                                <!-- this.src='images/dflwidg.png'" -->
+
+                                <!-- <img id="customImg" [src]="upload_url" onerror="this.onerror=null;" alt=""> -->
+                            </div>
+                            <!-- Slick Image Slider -->
+                            <div class="product-image-slider product-image-gallery row" id="product-image-gallery"
+                                data-pswp-uid="3">
+                                <div class="item col-4 product-image-sm" *ngFor="let image of upload.images">
+                                        <img src="{{image !== '' ?(image.indexOf('blob')> -1 ? image : baseUrl+'/uploads/images/'+ image) : upload.sub_category !== '' ? baseUrl+'/uploads/images/'+upload.sub_category+'.png' : '/uploads/images/'+upload.category+'.png' }}"
+                                            alt="aiv-widget-image">
+                                    <i class="fa fa-trash" (click)="deleteSavedImage(image)"></i>
+                                </div>
+
+                            </div>
+                            <!-- End Slick Image Slider -->
+                            <div class="aiv_widgetsdock_item_desc mainaivfrmgrp_wrap upload_ldiv">
+                                <div id="1" class="custom-file custm_fupload">
+                                    <input accept="image/*" type="file" id="coverImage" class="custom-file-input"
+                                        (change)="saveCoverImage($event)" id="customFile" multiple required>
+                                    <label class="custom-file-label btn btn-lg" for="customFile"><span class="cst_fnm_lbl">Upload  images</span></label>
+                                </div>
+                            </div>
+
+                            <div class="product-image-slider-thumbnails row" id="product-image-gallery">
+                                <div class="item col-4 product-image-sm" *ngFor="let image of upload.uploadedImages">
+                                    
+                                        <img [src]="image" alt="aiv-widget-image">
+                                        <i class="fa fa-trash" (click)="deleteImage(image)"></i>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- <div class="aiv_widgetsdock_item_desc mainaivfrmgrp_wrap upload_ldiv">
+                                <div id="1" class="custom-file custm_fupload">
+                                    <input accept="image/*" type="file" class="custom-file-input" id="customFile"
+                                        required>
+                                    <label class="custom-file-label" for="customFile"><span class="cst_fnm_lbl">Upload
+                                            Cover image</span></label>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-9">
+                    <div class="aiv_upload_rightdiv">
+                        <div class="mainaivfrmgrp_wrap aiv_uploadpg_grmdiv">
+                            <div class="aiv_phead">Details</div>
+                            <form   #uploadForm="ngForm"  (submit)="onsubmit(uploadForm)" novalidate>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Select Category</label>
+                                            <!-- ng-class="{ 'has-error': form.widgetfile.$dirty && form.widgetfile.$error.required }" -->
+                                            <div>
+                                                <select required [(ngModel)]="upload.category"
+                                                    (ngModelChange)="onSelectCategory(upload)" name="selectedCategory"
+                                                    class="form-control">
+                                                    <option *ngFor="let category of Categories" [value]="category"
+                                                        selected>
+                                                        {{category}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- *ngIf="compCategories[selectedCategory].subCategories !=[]" | *ngIf="selectedCategory.subCategories != []" -->
+                                    <div *ngIf="subCat" class="col-xl-6">
+                                        <div class="form-group">
+                                            <label>Select Sub Category</label>
+                                            <div>
+                                                <!-- [disabled]="selectedCategory.subCategories !=[]" -->
+                                                <select  [(ngModel)]="upload.sub_category"
+                                                    name="selectedSubCategory" (ngModelChange)="onSelectSubCategory()"
+                                                    name="selectedSubCategory" class="form-control">
+                                                    <option value="null" selected>Select Sub Category</option>
+                                                    <option *ngFor="let subCategory of SubCategories"
+                                                        [ngValue]="subCategory.name">{{ subCategory.name }}</option> -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- *ngIf="category=='report'" -->
+                                    <div class="col-xl-6">
+                                        <div class="form-group">
+                                            <!-- ng-class="{ 'has-error': form.widgetfile.$dirty && form.widgetfile.$error.required }" -->
+                                            <div id="2" class="custom-file custm_fupload">
+                                                <label for="myfile">Upload a file:</label>
+                                                <!-- accept=".widget" -->
+                                                <input type="file" id="widgetfile" name="widgetfile" accept="widget/*"
+                                                    class="custom-file-input" name="myfile"
+                                                    placeholder="Upload file (only with .widget extension)"
+                                                    (change)="saveWidgetFile($event)" class="form-control"
+                                                    multiple><br><br>
+                                                <!-- <input type="file" id="widgetfile" name="widgetfile" accept=".widget"
+                                                    class="custom-file-input" id="widget_source_id"
+                                                    placeholder="Upload file" ng-required="!widgetId">
+                                                <label class="custom-file-label" for="widget_source_id"><span
+                                                        class="cst_fnm_lbl">Upload Json</span></label> -->
+                                                <!-- ng-show="form.widgetfile.$dirty && form.widgetfile.$error.required" -->
+                                                <!-- <span class="help-block"> File is required</span> -->
+
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                 
+                                    <div class="col-lg-6 col-xl-6">
+                                        <!-- ng-class="{ 'has-error': form.widgetTitle.$dirty && form.widgetTitle.$error.required }" -->
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <!-- ng-model="upload.title" -->
+                                            <input id="title" required [(ngModel)]="upload.title" value="upload.title"
+                                                type="text" name="title" class="form-control tbox" #title="ngModel">
+                                        </div>
+                                        <div *ngIf="!title?.valid && (title?.dirty || title?.touched)" class="error">
+                                            <div class="error" *ngIf="title.errors.required">
+                                                Title is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <!-- ng-class="{ 'has-error': form.sellerName.$dirty && form.sellerName.$error.required }" -->
+                                        <div class="form-group">
+                                            <label>Seller Name</label>
+                                            <!-- ng-model="upload.seller_name" -->
+                                            <input id="sellerName" required [(ngModel)]="upload.seller_name"
+                                                name="sellerName" value="upload.seller_name" type="text"
+                                                class="form-control tbox" #sellerName="ngModel">
+                                            <!-- ng-show="form.sellerName.$dirty && form.sellerName.$error.required" -->
+                                        </div>
+                                        <div *ngIf="!sellerName?.valid && (sellerName?.dirty || sellerName?.touched)"
+                                            class="error">
+                                            <div class="error" *ngIf="sellerName.errors.required">
+                                                Seller name is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-6 col-xl-6"> -->
+                                    <!-- ng-class="{ 'has-error': form.widgetType.$dirty && form.widgetType.$error.required }" -->
+                                    <!-- <div class="form-group"> -->
+                                    <!-- <label>Select Type</label> -->
+                                    <!-- ng-options="item for item in ['table', 'chart', 'map', 'kpi', 'customVisualization']"
+                                                ng-model="upload.type" class="" -->
+                                    <!-- <select id="widgetType"  class="custom-select sbox" name="widgetType"> -->
+                                    <!-- <option value="">Types</option> -->
+                                    <!-- <option value="null" selected>Select Category</option> -->
+                                    <!-- <option value="table">Table</option> -->
+                                    <!-- <option value="chart">Chart</option> -->
+                                    <!-- <option value="map">Map</option> -->
+                                    <!-- <option value="customVisualization">Custom Visualization</option> -->
+                                    <!-- <option value="kpi">KPI</option> -->
+                                    <!-- </select> -->
+                                    <!-- ng-show="form.widgetType.$dirty && form.widgetType.$error.required" -->
+                                    <!-- <span class="help-block"> Type is required</span> -->
+                                    <!-- </div> -->
+                                    <!-- </div> -->
+                                    <div class="col-xl-12">
+                                        <!-- ng-class="{ 'has-error': form.widgetDetails.$dirty && form.widgetDetails.$error.required }" -->
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea id="widgetDetails" name="widgetDetails"
+                                                [(ngModel)]="upload.details" class="form-control tarea" rows="3"
+                                                required #widgetDetails="ngModel"></textarea>
+                                        </div>
+                                        <div *ngIf="!widgetDetails?.valid && (widgetDetails?.dirty || widgetDetails?.touched)"
+                                            class="error">
+                                            <div class="error" *ngIf="widgetDetails.errors.required">
+                                                Description is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <!-- ng-class="{ 'has-error': form.widgetFeatures.$dirty && form.widgetFeatures.$error.required }" -->
+                                        <div class="form-group">
+                                            <label>Features</label>
+                                            <textarea id="widgetFeatures" name="widgetFeatures"
+                                                [(ngModel)]="upload.features" class="form-control tarea"
+                                                rows="3"></textarea>
+                                            <!-- ng-show="form.widgetFeatures.$dirty && form.widgetFeatures.$error.required" -->
+                                            <!-- <span class="help-block">Features is required</span> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label>Pricing</label>
+                                            <div class="cust_radbox">
+                                                <div class="custom-control custom-radio cradbtn custom-control-inline">
+                                                    <input type="radio" [(ngModel)]="upload.purchase_option"
+                                                        value="free" id="customRadioInline1" name="customRadioInline1"
+                                                        class="custom-control-input" checked>
+                                                    <label class="custom-control-label"
+                                                        [ngClass]="{'btn-orange': upload.purchase_option == 'free'}"
+                                                        for="customRadioInline1">Free
+                                                        Widget</label>
+                                                </div>
+                                                <div class="custom-control custom-radio cradbtn custom-control-inline">
+                                                    <input type="radio" [(ngModel)]="upload.purchase_option"
+                                                        value="paid" id="customRadioInline2" name="customRadioInline1"
+                                                        class="custom-control-input">
+                                                    <label class="custom-control-label"
+                                                        [ngClass]="{'btn-orange': upload.purchase_option == 'paid'}"
+                                                        for="customRadioInline2">Paid
+                                                        Widget</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ng-if="upload.purchase_option == 'paid'" -->
+                                    <div *ngIf="upload.purchase_option == 'paid'" class="col-lg-6 col-xl-6">
+                                        <!-- ng-class="{ 'has-error': form.widgetPrice.$dirty && form.widgetPrice.$error.required }" -->
+                                        <div class="form-group">
+                                            <label>Price</label>
+                                            <!-- ng-model="upload.price" -->
+                                            <input type="text" id="widgetPrice" [(ngModel)]="upload.price"
+                                                name="widgetPrice" class="form-control tbox">
+                                            <!-- ng-show="form.widgetPrice.$dirty && form.widgetPrice.$error.required" -->
+                                            <!-- <span class="help-block">Price is required</span> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label>Youtube Embed Url</label>
+                                            <!-- ng-model="upload.video_url" -->
+                                            <input type="text" class="form-control tbox" name="video_url" id="video_url"
+                                                [(ngModel)]="upload.video_url"
+                                                placeholder="https://www.youtube.com/embed/hhi_jaLn_LI">
+
+                                        </div>
+                                        <!-- <div *ngIf="!video_url?.valid && (video_url?.dirty || video_url?.touched)"
+                                        class="error">
+                                        <div class="error" *ngIf="widgetDetails.errors.required">
+                                            Description is required.
+                                        </div>
+                                    </div> -->
+                                    </div>
+                                    <!-- <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label>Upload Screenshot Images</label>
+                                            <div id="3" class="custom-file custm_fupload">
+                                                <input accept="image/*" ng-model-instant multiple type="file"
+                                                    class="custom-file-input" id="aivupscreenimgfile">
+                                                <label class="custom-file-label" for="aivupscreenimgfile"><span
+                                                        class="cst_fnm_lbl">Upload Screenshots</span></label>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- <div *ngIf="uploadFile.widgetImages.length > 0" class="col-xs-12">
+                                        <div class="upld_imglistdiv">
+                                            <ul class="list-unstyled uploadimg_list">
+                                                <li *ngFor=" x in widgetImages">
+                                                    <div class="upld_listitm_div">
+                                                        <a href="javascript:void(0);" class="aiv_imgup_delete"><i
+                                                                class="fa fa-times"></i></a>
+                                                        <img  src="{{x}}" class="img-thumbnail" alt="aiv-widget-image">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-lg-12 mb-2">
+                                        <input name="submit" id="submit" class="submit btn btn-md btn-black"
+                                            value="Submit" type="submit" *ngIf="!isLoading"  >
+                                          
+                                        <img *ngIf="dataLoading"
+                                            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                        <a href="javascript:void(0);" class="ml-5" (click)="cancel()">Cancel</a>
+                                    </div>
+                                   
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

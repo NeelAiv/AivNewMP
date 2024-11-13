@@ -1,0 +1,8 @@
+<div>
+    <ul>
+        <li class="aiv_cursor" *ngFor="let i of [1,2,3,4,5]; let ind =index"  (click)="!disable ? rating(i) : return;"><i
+                [ngClass]="{ 'fill': ind < selected, 'blank': ind > selected }" class="fa fa-star"
+                aria-hidden="true"></i>
+        <li>
+    </ul>
+</div>

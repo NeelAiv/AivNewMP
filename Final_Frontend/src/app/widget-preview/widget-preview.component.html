@@ -1,0 +1,455 @@
+<!-- Page Content -->
+<section id="product-ID_XXXX" class="content-page single-product-content" *ngIf="(user$ | async) as user;">
+
+    <!-- Product -->
+    <div id="product-detail" class="container">
+        <div class="row">
+            <!-- Product Image -->
+            <div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+                <div class="product-page-image">
+                    <!-- Slick Image Slider -->
+                    <div class="product-image-slider product-image-gallery" id="product-image-gallery"
+                        data-pswp-uid="3">
+                        <div class="item" *ngFor="let image of widget.images">
+                            
+                                <img src="{{image !== '' ? baseUrl+'/uploads/images/'+ image : widget.sub_category !== '' ? baseUrl+'/uploads/images/'+widget.sub_category+'.png' : '/uploads/images/'+widget.category+'.png' }}"
+                                    alt="aiv-widget-image" class="slider-img-main">
+                            
+                        </div>
+                        <div class="item"
+                            *ngIf="widget.video_url && widget.video_url != '' && widget.video_url != undefined && widget.video_url != 'null'">
+                            <a class="product-gallery-item" href="{{urlSafe}}" data-size="" data-med-size="">
+                                <iframe width="100%" height="100%" [src]='urlSafe' class="embed-responsive-item"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- End Slick Image Slider -->
+
+                    <!-- <a href="javascript:void(0)" id="zoom-images-button" class="zoom-images-button"><i
+                            class="fa fa-expand" aria-hidden="true"></i></a> -->
+
+
+                </div>
+
+                <!-- Slick Thumb Slider -->
+                <div class="product-image-slider-thumbnails">
+                    <div class="item" *ngFor="let image of widget.images">
+                        <img src="{{image !== '' ? baseUrl+'/uploads/images/'+ image : widget.sub_category !== '' ? baseUrl+'/uploads/images/'+widget.sub_category+'.png' : '/uploads/images/'+widget.category+'.png' }}"
+                            alt="image 1" />
+                    </div>
+                    <div class="item"
+                        *ngIf="widget.video_url && widget.video_url != '' && widget.video_url != undefined && widget.video_url != 'null'">
+                        <img src="../../assets/img/video image.jpg" alt="image 1" />
+                    </div>
+
+                </div>
+                <!-- End Slick Thumb Slider -->
+            </div>
+            <!-- End Product Image -->
+
+            <!-- Product Content -->
+            <div class="col-lg-8 col-md-8 col-sm-12 mb-30">
+                <div class="product-page-content">
+
+                    <h2 class="product-title"><strong>{{widget.title}} </strong></h2>
+                    <div class="product-rating">
+                        <app-star-rating [disable]="true" [selected]="agg_rate"> </app-star-rating>
+                        <!-- <a href="javascript:;" class="product-rating-count"><span class="count">3</span> Reviews</a> -->
+                    </div>
+
+                    <p class="product-description">
+                        <span>Detail :</span>
+                        {{widget.details}}
+                    </p>
+
+                    <div class="row product-filters">
+
+                        <form class="col-md-12 filters-size">
+
+                            <!--<select name="select-size" id="select-size" class="nice-select-box">
+                                <option value="" selected="selected">Choose an option</option>
+                                <option value="l">L</option>
+                                <option value="m">M</option>
+                                <option value="s">S</option>
+                                <option value="x">X</option>
+                                <option value="xl">XL</option>
+                                <option value="xs">XS</option>
+                                <option value="xxl">XXL</option>
+                            </select>-->
+                            <div class="size-selector">
+                                <div class="entry active"><i class="fa fa-database"></i> <strong> Size:</strong>
+                                    {{widget.size}}kb</div>
+                                <div class="entry active"><i class="fa fa-download"></i> <strong> Downloads:</strong>
+                                    {{widget.downloaded}}</div>
+                                <div class="entry active"><i class="fa fa-refresh"></i> <strong> Refresh:</strong>
+                                    {{widget.refresh}}</div>
+                                <div class="entry active"><i class="fa fa-comment"></i> <strong> Comments:</strong>
+                                    {{commentCounts$ || 0}}</div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="single-add-to-wrap" *ngIf="widget.user_id > 0 && widget.user_id==user.id">
+                        <a class="single-add-to-wishlist" (click)="editComponent()"><i class="fa fa-edit left"
+                                aria-hidden="true"></i><span>Edit </span></a>
+                        <a class="single-add-to-compare " (click)="deleteComponent()"><i class="fa fa-trash left"
+                                aria-hidden="true"></i><span>Remove</span></a>
+
+                    </div>
+                    <div class="single-add-to-wrap" >
+                    <a *ngIf="(user.id > 0)" class="single-add-to-compare" (click)="downloadWidget(widget)"><i class="fa fa-download left"
+                        aria-hidden="true"></i> <span>Download</span></a>
+                        <a *ngIf="!(user.id > 0)" class="single-add-to-compare" (click)="openDownloadModal(widget)"><i class="fa fa-download left"
+                            aria-hidden="true"></i> <span>Download</span></a>
+                        
+                    </div>
+                    <div class="product-meta">
+                        <span>Seller : <span class="sku">{{widget.seller_name}}</span></span>
+                        <span>Category : <span class="category" itemprop="category">{{widget.category}}</span></span>
+                        <span>Sub Category : <span class="category"
+                                itemprop="sub_category">{{widget.sub_category}}</span></span>
+                        <span>Price : <span class="category" itemprop="price">{{widget.price}}</span></span>
+                    </div>
+                    <div class="product-share" [hidden]="true">
+                        <span>Price :</span>
+                        <ul>
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u=http://nileforest.com/"
+                                    target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="http://twitter.com/share?url=http://nileforest.com/" target="_blank"><i
+                                        class="fa fa-twitter"></i></a></li>
+                            <li><a href="http://plus.google.com/share?url=http://nileforest.com/" target="_blank"><i
+                                        class="fa fa-google-plus"></i></a></li>
+                            <li><a href="mailto:?subject=Check this http://nileforest.com/" target="_blank"><i
+                                        class="fa fa-envelope"></i></a></li>
+                            <li><a href="../../../pinterest.com/pin/create/button/index68d2.html?url=http://nileforest.com/exampleImage.jpg"
+                                    target="_blank"><i class="fa fa-pinterest"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Product -->
+
+    <!-- Product Content Tab -->
+    <div class="product-tabs-wrapper container">
+        <ul class="product-content-tabs nav nav-tabs" role="tablist">
+
+            <li class="nav-item">
+                <a class="active" href="#tab_description" role="tab" data-toggle="tab">Description</a>
+            </li>
+            <li class="nav-item"
+                *ngIf="widget.features != ' ' && widget.features != 'null' && widget.features != undefined">
+                <a class="" href="#tab_additional_information" role="tab" data-toggle="tab">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="" href="#tab_reviews" role="tab" data-toggle="tab">Reviews (<span>{{commentCounts$ ||
+                        0}}</span>)</a>
+            </li>
+            <li class="nav-item" [hidden]="true">
+                <a class="" href="#tab_custom" role="tab" data-toggle="tab">Custom Tab</a>
+            </li>
+            <li class="nav-item"
+                *ngIf="widget.video_url && widget.video_url != '' && widget.video_url != undefined && widget.video_url != 'null'">
+                <a class="" href="#tab_video" role="tab" data-toggle="tab">Video</a>
+            </li>
+        </ul>
+        <div class="product-content-Tabs_wraper tab-content container">
+            <div id="tab_description" role="tabpanel" class="tab-pane fade in active">
+                <!-- Accordian Title -->
+                <h6 class="product-collapse-title" data-toggle="collapse" data-target="#tab_description-coll">
+                    Description</h6>
+                <!-- End Accordian Title -->
+                <!-- Accordian Content -->
+                <div id="tab_description-coll" class="shop_description product-collapse collapse container">
+                    <div class="row" *ngFor="let n of widget.details.split('\n')">
+                        <p>{{n}}</p>
+                    </div>
+                </div>
+                <!-- End Accordian Content -->
+            </div>
+
+            <div id="tab_additional_information" role="tabpanel" class="tab-pane fade"
+                *ngIf="widget.features != ' ' && widget.features != 'null' && widget.features != undefined">
+                <!-- Accordian Title -->
+                <h6 class="product-collapse-title" data-toggle="collapse"
+                    data-target="#tab_additional_information-coll">Features</h6>
+                <!-- End Accordian Title -->
+                <!-- Accordian Content -->
+                <!--  -->
+                <p *ngFor="let n of widget.features.split('\n')">
+                    {{n}}
+                </p>
+
+                <!-- End Accordian Content -->
+            </div>
+            <div id="tab_reviews" role="tabpanel" class="tab-pane fade">
+                <!-- Accordian Title -->
+                <h6 class="product-collapse-title" data-toggle="collapse" data-target="#tab_reviews-coll">Reviews
+                    ({{commentCounts$ || 0}})</h6>
+                <!-- End Accordian Title -->
+                <!-- Accordian Content -->
+                <div id="tab_reviews-coll" class=" product-collapse collapse container">
+                    <div class="row">
+                        <div class="review-form-wrapper col-md-6" *ngIf="(user | json) != '{}'  ">
+
+                            <h6  *ngIf="(isCommented)" class="review-title">You have already submitted your review </h6>
+                            <h6  *ngIf="(!isCommented)" class="review-title">Add a Review </h6>
+                            <form  *ngIf="(!isCommented)" class="comment-form" #comment="ngForm"
+                                (ngSubmit)="makeComment(comment,user.id,widget.id)" novalidate>
+                                <div class="form-field-wrapper">
+                                    <label>Your Rating</label>
+                                    <app-star-rating [disable]="false" (ratingChange)="rating($event)"
+                                        [(selected)]="CommentObj.rate">
+                                    </app-star-rating>
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label>Your Review <span class="required">*</span></label>
+                                    <textarea id="comment" class="form-control tarea" name="comment"
+                                        [(ngModel)]="CommentObj.comment" cols="45" rows="8" aria-required="true"
+                                        required #comment="ngModel"></textarea>
+                                    <div *ngIf="!comment?.valid && (comment?.dirty || comment?.touched)" class="error">
+                                        <div class="error" *ngIf="comment.errors?.required">
+                                            Comment is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-field-wrapper">
+                                    <label>Name <span class="required">*</span></label>
+                                    <input id="author" class="input-md form-full-width" name="author" value="" size="30"
+                                        aria-required="true" required="" type="text">
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input id="email" class="input-md form-full-width" name="email" value="" size="30"
+                                        aria-required="true" required="" type="email">
+                                </div> -->
+                                <div class="form-field-wrapper" *ngIf="user_validate && user_validate.id !== null ">
+                                    <input name="submit" id="submit" class="submit btn btn-md btn-color"
+                                        [disabled]="!comment.valid" value="Submit" type="submit">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="comments col-md-6" *ngIf="(comment$ | async) as commentList">
+                            <h6 class="review-title">Customer Reviews</h6>
+                            <div class="widleft_ratediv">
+                                <div class="aiv_rating_block">
+                                    <div class="aiv_rblock_leftbtm">
+                                        <div class="aiv_phead">Rating Breakdown</div>
+                                        <div class="aivrblock_widg_ratebkdwon_div">
+                                            <div class="aiv_rateprg_listing_div">
+                                                <div class="aivrate_prgbox">
+                                                    <div class="aivrate_prgbox_starlabel">
+                                                        5 <i class="fa fa fill fa-star"></i>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgdiv">
+                                                        <div class="progress">
+
+                                                            <progressbar [value]="ratingObject.ratingFive">
+                                                            </progressbar>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgval">
+                                                        {{ratingObject.five}}
+                                                    </div>
+
+                                                </div>
+                                                <div class="aivrate_prgbox">
+                                                    <div class="aivrate_prgbox_starlabel">
+                                                        4 <i class="fa fa fill fa-star"></i>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgdiv">
+                                                        <div class="progress">
+                                                            <!-- ratingObject.ratingFour -->
+                                                            <progressbar [value]="ratingObject.ratingFour"
+                                                                type="danger"></progressbar>
+                                                        </div>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgval">
+                                                        {{ratingObject.four}}
+                                                    </div>
+
+                                                </div>
+                                                <div class="aivrate_prgbox">
+                                                    <div class="aivrate_prgbox_starlabel">
+                                                        3 <i class="fa fa fill fa-star"></i>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgdiv">
+                                                        <div class="progress">
+                                                            <!-- ratingObject.ratingThree -->
+                                                            <progressbar [value]="ratingObject.ratingThree"
+                                                                type="warning"></progressbar>
+                                                        </div>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgval">
+                                                        {{ratingObject.three}}
+                                                    </div>
+
+                                                </div>
+                                                <div class="aivrate_prgbox">
+                                                    <div class="aivrate_prgbox_starlabel">
+                                                        2 <i class="fa fa fill fa-star"></i>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgdiv">
+                                                        <div class="progress">
+                                                            <!-- ratingObject.ratingTwo -->
+                                                            <progressbar [value]="ratingObject.ratingTwo"></progressbar>
+                                                        </div>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgval">
+                                                        {{ratingObject.two}}
+                                                    </div>
+
+                                                </div>
+                                                <div class="aivrate_prgbox">
+                                                    <div class="aivrate_prgbox_starlabel">
+                                                        1 <i class="fa fa fill fa-star"></i>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgdiv">
+                                                        <div class="progress">
+                                                            <!-- ratingObject.ratingOne -->
+                                                            <progressbar [value]="ratingObject.ratingOne" type="danger">
+                                                            </progressbar>
+                                                        </div>
+                                                    </div>
+                                                    <div class="aivrate_prgbox_prgval">
+                                                        {{ratingObject.one}}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-blank" *ngIf="!(commentList.length > 0)">There are no reviews yet.</p>
+                            <ul class="commentlist" *ngIf="commentList.length > 0">
+                                <li id="comment-101" class="comment-101" *ngFor="let w of commentList">
+                                    <img src="{{w.profile_image ? baseUrl+'/uploads/profiles/'+w.profile_image : 'assets/duser.jpg' }}"
+                                        class="avatar" alt="author" />
+                                    <div class="comment-text">
+                                        <app-star-rating [disable]="true" [selected]="w.rating">
+                                        </app-star-rating>
+                                    <span class="fa fa-trash pull-right" *ngIf="currentUser.role === 'ADMIN'" (click)="deleteComment(w)"></span>
+
+                                        <p class="meta">
+                                            <strong itemprop="author">{{w.username}}</strong> &nbsp;&mdash;&nbsp;
+                                            <time itemprop="datePublished" datetime="">{{w.date | date :
+                                                'd:M:yy'}}</time>
+                                        </p>
+                                        <div class="description" itemprop="description">
+                                            <p>{{w.comment}}</p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End Accordian Content -->
+            </div>
+            <div id="tab_custom" role="tabpanel" class="tab-pane fade" *ngIf="false">
+                <!-- Accordian Title -->
+                <h6 class="product-collapse-title" data-toggle="collapse" data-target="#tab_custom-coll">Custom</h6>
+                <!-- End Accordian Title -->
+                <!-- Accordian Content -->
+                <div id="tab_custom-coll" class="product-collapse collapse container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="img/blog/blog_02.jpg" alt="shipping delivery" />
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="normal"><span>When an unknown printer took a galley of type.</span></h3>
+                            <p>When an unknown printer took a galley of type and scrambled it to make a type specimen
+                                book. It has survived not only five centuries, but also the leap into electronic
+                                remaining essentially unchanged. </p>
+                            <p>When an unknown printer took a galley of type and scrambled it to make a type specimen
+                                book. It has survived not only five centuries, but also the leap into electronic
+                                remaining essentially unchanged. </p>
+                            <a href="javascript:;" class="btn btn-sm btn-black mt-20">More Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Accordian Content -->
+            </div>
+
+            <div id="tab_video" role="tabpanel" class="tab-pane fade"
+                *ngIf="widget.video_url && widget.video_url != '' && widget.video_url != undefined && widget.video_url != 'null'">
+                <!-- Accordian Title -->
+                <h6 class="product-collapse-title" data-toggle="collapse" data-target="#tab_custom-coll">Video</h6>
+                <!-- End Accordian Title -->
+                <!-- Accordian Content -->
+                <div id="tab_custom-coll" class="product-collapse collapse container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <iframe width="560" height="315" [src]='urlSafe' class="embed-responsive-item"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End Accordian Content -->
+            </div>
+        </div>
+    </div>
+    <!-- End Product Content Tab -->
+
+    <!-- Product Carousel -->
+    <div class="container product-carousel">
+        <h2 class="page-title">Related Products</h2>
+        <div id="new-tranding" class="product-item-4 owl-carousel owl-theme nf-carousel-theme1">
+            <!-- item.1 -->
+
+
+
+            <div class="product-item"
+                *ngFor="let obj of (widgetList$ | async) | matchesCategorySubCategoryForWidgetGallery : widget.category : widget.sub_category ">
+                <div class="product-item-inner">
+                    <div class="product-img-wrap">
+                        <img src="{{obj.image !== '' ? baseUrl+'/uploads/images/'+ obj.image.split(',')[0] : obj.sub_category !== '' ? baseUrl+'/uploads/images/'+obj.sub_category+'.png' : '/uploads/images/'+obj.category+'.png' }}"
+                            alt="">
+                    </div>
+                    <div class="product-button">
+                        <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.size}}kb"
+                            tooltip="{{obj.size}}kb" [options]="tooltipOptions"><i class="fa fa-database"></i></a>
+                        <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.downloaded}}"
+                            tooltip="{{obj.downloaded}}" [options]="tooltipOptions"><i class="fa fa-download"></i></a>
+                        <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.refresh}}"
+                            tooltip="{{obj.refresh}}" [options]="tooltipOptions"><i class="fa fa-refresh"></i></a>
+                        <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.no_of_comments}}"
+                            tooltip="{{obj.no_of_comments}}" [options]="tooltipOptions"><i
+                                class="fa fa-comment"></i></a>
+                    </div>
+                </div>
+                <div class="product-detail">
+                    <a class="tag" href="javascript:;">{{obj.type}}</a>
+                    <p class="product-title"><a href="javascript:;"><strong>{{obj.title}}</strong></a></p>
+                    <div class="product-rating">
+                        <app-star-rating [disable]="true" [selected]="obj.rate"> </app-star-rating>
+                        <a href="javascript:;" class="product-rating-count"><span class="count">3</span> Reviews</a>
+                    </div>
+                    <p class="product-description">
+                        {{obj.details}}
+                    </p>
+                    <a class="btn btn-sm btn-orange" [routerLink]="['/preview/',obj.id]">Preview</a>
+                    <a class="btn btn-sm btn-green ml-1" (click)="downloadWidget(obj)" download>Download</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- End Product Carousel -->
+
+</section>
+<!-- End Page Content -->

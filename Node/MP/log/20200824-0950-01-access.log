@@ -1,0 +1,4 @@
+::ffff:127.0.0.1 - - [22/Aug/2020:13:06:11 +0000] "GET /widgets HTTP/1.1" 304 - "http://localhost:4200/preview/43" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"
+::ffff:127.0.0.1 - - [22/Aug/2020:13:06:11 +0000] "GET /widget/43 HTTP/1.1" 304 - "http://localhost:4200/preview/43" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"
+::ffff:127.0.0.1 - - [22/Aug/2020:13:06:11 +0000] "GET /comment/43 HTTP/1.1" 304 - "http://localhost:4200/preview/43" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"
+::ffff:127.0.0.1 - - [22/Aug/2020:13:06:11 +0000] "GET /ratingcount/43 HTTP/1.1" 304 - "http://localhost:4200/preview/43" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"

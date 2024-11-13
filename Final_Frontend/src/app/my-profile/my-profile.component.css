@@ -1,0 +1,14 @@
+.lbl{
+    font-weight: bold;
+}
+
+.img-thumbnail{
+    max-height: 200px;;
+}
+.error{
+    color: red;
+    font-size: 10px;
+}
+.upload-profile-icon{
+    position: absolute;
+}

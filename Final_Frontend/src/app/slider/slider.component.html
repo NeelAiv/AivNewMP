@@ -1,0 +1,212 @@
+<section class="slider_wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="slider_title">
+          <div class="store_heading">
+            <h1>AIVHUB Market Place</h1>
+          </div>
+          <p>Upload your own widgets on the store</p>
+        </div>
+
+        <div class="mainslider_box">
+
+          <div id="mainslider_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <img  class="d-block w-100 img-thumbnail mslide_img" src="/assets/image.png" alt="Slider1">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="carousel_desc">
+                      <div class="carousel_desc_inner">
+                        <div class="store_heading">
+                          <h2>Title</h2>
+                        </div>
+                        <ul ng-if="widgets[0].details != '' && widgets[0].details != null && widgets[0].details != undefined" class="list-unstyled carousel_desc_list">
+                          <li >number</li>
+                          <!-- <li>Pellentesque vel dolor euismod, finibus ante id, rhoncus velit.</li>
+                          <li>Donec eget ornare nibh. Etiam laoreet enim id volutpat gravida uspendisse potenti nteger
+                            malesuada tristique faucibus ed in libero eget neque aliquam gravida a sit amet dolor.
+                          </li>
+                          <li>Duis vestibulum erat euismod magna volutpat, nec dictum nunc eleifend.</li>
+                          <li>In placerat tortor sed lectus facilisis, a condimentum magna pretium.</li> -->
+                        </ul>
+                        <ul class="list-unstyled slider_oper_lnks">
+                          <a class="btn btn-default aivlnk_prv" href=""><i
+                              class="fa fa-eye"></i>Preview</a>
+                          <a class="btn btn-default aivlnk_down" href="" download><i
+                              class="fa fa-download"></i>Download</a>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <img  class="d-block w-100 img-thumbnail mslide_img" src="/assets/image.png" alt="Slider2">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="carousel_desc">
+                      <div class="carousel_desc_inner">
+                        <div class="store_heading">
+                          <h2>Widget title</h2>
+                        </div>
+                        <ul  class="list-unstyled carousel_desc_list">
+                          <li ></li>
+                        </ul>
+                        <ul class="list-unstyled slider_oper_lnks">
+                          <a class="btn btn-default aivlnk_prv" href=""><i
+                              class="fa fa-eye"></i>Preview</a>
+                          <a class="btn btn-default aivlnk_down" href=""><i
+                              class="fa fa-download"></i>Download</a>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <img  class="d-block w-100 img-thumbnail mslide_img" src="/assets/image.png" alt="Slider3">
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="carousel_desc">
+                      <div class="carousel_desc_inner">
+                        <div class="store_heading">
+                          <h2>wi</h2>
+                        </div>
+                        <ul ng-if="widgets[2].details != '' && widgets[2].details != null && widgets[2].details != undefined" class="list-unstyled carousel_desc_list">
+                          <li ng-repeat="n in widgets[2].details.split('\n')">number</li>
+                        </ul>
+                        <ul class="list-unstyled slider_oper_lnks">
+                          <a class="btn btn-default aivlnk_prv" href=""><i
+                              class="fa fa-eye"></i>Preview</a>
+                          <a class="btn btn-default aivlnk_down" href="" download><i
+                              class="fa fa-download"></i>Download</a>
+                        </ul>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+
+            <ol class="carousel-indicators">
+              <li data-target="#mainslider_carousel" data-slide-to="0" class="active"></li>
+              <li data-target="#mainslider_carousel" data-slide-to="1"></li>
+              <li data-target="#mainslider_carousel" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel_pagination_div">
+              <a class="carousel-control-prev mainslider_nav_btns" href="#mainslider_carousel" role="button"
+                data-slide="prev">
+                <i class="fa fa-chevron-left"></i>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next mainslider_nav_btns" href="#mainslider_carousel" role="button"
+                data-slide="next">
+                <i class="fa fa-chevron-right"></i>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====>>>New Code<<<=====  -->
+<!-- <div class="slider_wrap mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="slider_title">
+                    <div class="store_heading">
+                        <h1><strong>AIVHUB Market Place</strong> </h1>
+                    </div>
+                    <p> Upload your own widgets on the store. </p>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner carousel-bg">
+          <div class="carousel-item active">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <img class="d-block w-100" src="../assets/image.png" alt="First slide">
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="h-100 d-flex justify-content-center align-items-center">
+                            <img class="d-block w-100" src="..." alt="First slide">
+                            Hello world see this example
+                        </div>
+                    </div>
+                  </div>
+            </div>  
+          </div>
+          <div class="carousel-item">
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-sm-12">
+                            <img class="d-block w-100" src="../assets/image.png" alt="First slide">
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-sm-12">
+                            <div class="h-100 d-flex justify-content-center align-items-center">
+                                <img class="d-block w-100" src="..." alt="First slide">
+                                Hello world see this example
+                            </div>
+                        </div>
+                      </div>
+                </div>
+          </div>
+        </div>
+
+          <div class="carousel-item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <img class="d-block w-100" src="../assets/image.png" alt="First slide">
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="h-100 d-flex justify-content-center align-items-center">
+                            <img class="d-block w-100" src="..." alt="First slide">
+                            Hello world see this example
+                        </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+</div> -->

@@ -1,0 +1,39 @@
+{
+      "Reports" : {
+        "name": "Reports",
+        "hidden" : "true",
+        "subCategories": [
+            {"name" : "BIRT"},
+            {"name" : "JASPER"},
+            {"name" : "PENTAHO"}
+        ]
+    },
+    
+    "Security Code" : {
+        "name": "Security Code",
+        "hidden" : "true",
+        "subCategories": []
+    },
+    "Connectors" : {
+        "name": "Connectors",
+        "hidden" : "true",
+        "subCategories": []
+    },
+    "Widgets" : {
+        "name": "Widgets",
+        "hidden" : "true",
+        "subCategories": [
+           { "name" : "Table" },
+           { "name" : "Charts"} ,
+           { "name" : "Maps" } ,
+           { "name" : "KPI"} ,
+           { "name" : "Custom Visualization" } ,
+           { "name" : "Test" } 
+        ]
+    },
+    "Other" : {
+        "name": "Other",
+        "hidden" : "true",
+        "subCategories": []
+    }
+}

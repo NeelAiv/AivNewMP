@@ -1,0 +1,120 @@
+
+
+<header class="header" >
+    <!-- Header Container -->
+    <div id="header-sticky" class="header-main">
+        <div class="header-main-inner">
+            <!-- Logo -->
+            <div class="logo">
+                <a routerLink="/home">
+                    <img src="../../assets/img/logo_black.png" alt="Philos" 
+                    style="margin-top: -20px;"/>
+                </a>
+            </div>
+            <!-- End Logo -->
+
+
+            <!-- Right Sidebar Nav -->
+            <div class="header-rightside-nav">
+               
+                <div class="sidebar-icon-nav">
+                   
+                        <ul *ngIf="(user$ | async) as user" class="list-none-ib">
+                            <li class="nav-item active">
+                                <a class="nav-link" routerLink="/home" style="color: black;">Home</a>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                <a  href="#!widgets" id="dropdownWidget"
+                                nav-link dropdown-toggle headlgn_lnk
+                                href="javascript:void(0);"
+                                style="color: black;"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+                                <ul class="dropdown-menu dpmenu point" aria-labelledby="dropdown04">
+                                    <li *ngFor="let category of compCategories | keyvalue"  >
+                                           
+                                        <a class="dropdown-item" (click)= openComponent(category.value.name)  >{{ category.value.name }}</a>
+                                            <!-- <ul class="dropdown-menu">
+                                                <li *ngFor="let subCategory of category.value.subCategories | keyvalue">
+                                                    <a class="dropdown-item"
+                                                    style="color: black;"
+                                                    (click)="openComponentWithSub(category.value.name,subCategory.value.name)" >{{ subCategory.value.name }}</a></li>
+                                            </ul> -->
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item" hidden>
+                                <a class="nav-link headcart_lnk" href="#!cart">Cart <i
+                                        class="fa fa-shopping-cart"></i><span class="badge badge-light">0</span></a>
+                            </li>
+                           
+                            <li class="nav-item" *ngIf="(user | json) == '{}'" >
+                                <a class="nav-link headsgn_lnk" 
+                                style="color: black;"
+                                href="javascript:void(0);" data-toggle="modal"
+                                    data-target="#aivsigin_modal" data-backdrop="static" (click)="openModal()"
+                                    data-keyboard="false">Sign
+                                    In</a>
+                            </li>
+                            
+                        <li  class="nav-item dropdown" *ngIf="(user | json) != '{}'">
+                            <a class="nav-link dropdown-toggle headlgn_lnk" href="javascript:void(0);"
+                            style="color: black;"
+                                id="dropdown04" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"> {{user.first_name}} </a>
+                            <div class="dropdown-menu dpmenu" aria-labelledby="dropdown04">
+                                <a class="dropdown-item" routerLink="/my-profile"
+                                style="color: black;">My Profile</a>
+                              
+                                <a class="dropdown-item" *ngIf="user.role == 'ADMIN'" routerLink="/upload"
+                                style="color: black;">Upload
+                                    Widget</a>
+                                <a class="dropdown-item" (click)="logout();"
+                                style="color: black;">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End Sidebar Icon -->
+            </div>
+            <!-- End Right Sidebar Nav -->
+
+
+          
+
+        </div>
+    </div>
+    <!-- End Header Container -->
+</header>
+
+<!-- 
+<div class=" nav-aiv">
+    <div class="container">
+        <nav class="navbar navbar-expand-md ml-au ">
+            <a href="javascript:;" class="navbar-brand">
+                <img src="assets/logo.png" height="28" alt="CoolBrand">
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse  " id="navbarCollapse">
+                <div class="navbar-nav ml-auto">
+                    <a href="javascript:;" class="nav-item nav-link">Home</a>
+                    <a href="javascript:;" class="nav-item nav-link">About</a>
+                    <a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Widgets
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="javascript:;">Action</a>
+                        <a class="dropdown-item" href="javascript:;">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:;">Something else here</a>
+                      </div>
+                    <a href="javascript:;" class=" btn btn-danger nav-item nav-link">Sign in </a>
+                </div>
+                
+            </div>
+        </nav>
+    </div>  
+</div> -->

@@ -1,0 +1,117 @@
+<a  href="javascript:;" type="button" id="btnClose" (click)="closeModal()" aria-label="Close" class="btn-modal-close">
+    
+</a>
+<section class="content-page">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-border-box" *ngIf="!forget" >
+                    
+                        <form  #loginForm="ngForm" (ngSubmit)="login()" novalidate>
+                            <div class="mlogindiv_box">
+                                
+                                <h2 class="normal"><span>Sign In</span></h2>
+                                <p>Start creating widgets and upload it on the store</p>
+                                <div class="form-field-wrapper">
+                                    <label>Enter Your User Name <span class="required">*</span></label>
+                                    <input type="email"  name="username" id="username"
+                                    required email [(ngModel)]="signIn.username" class="input-md form-full-width"
+                                    #username="ngModel">
+                                    <div *ngIf="!username?.valid && (username?.dirty || username?.touched)"
+                                        class="error">
+                                        <div *ngIf="username.errors.required">
+                                            User Name is required.
+                                        </div>
+                                        <div *ngIf="username.errors.email">
+                                            Please provide valid Email.
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-field-wrapper">
+                                    <label>Enter Your Password <span class="required">*</span></label>
+                                    <input type="password" name="password" id="password" required
+                                        [(ngModel)]="signIn.password" class="input-md form-full-width"
+                                        #password="ngModel">
+                                    <div *ngIf="!password?.valid && (password?.dirty || password?.touched)"
+                                        class="error">
+                                        <div *ngIf="password.errors.required">
+                                            Password is required
+                                        </div>
+                                        
+                                    </div>
+                                    <!-- <span *ngIf="password.errors.required" class="help-block">Password is
+                                        required</span> -->
+                                </div>
+
+                                <div class="form-field-wrapper">
+                                    <input name="submit" id="submit" class="submit btn btn-md btn-black" value="Sign In" type="submit"  [disabled]="!loginForm.valid">
+                                    <img *ngIf="dataLoading"
+                                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                <a href="javascript:void(0);" (click)="forgetPassword()" class="ml-5">Forgot
+                                    Password?</a>
+                                </div>
+
+                                <div *ngIf="loginFailed" class="alert alert-danger" role="alert">
+                                    Username and password is incorrect. </div>
+                            </div>
+                        </form>
+                       
+                        
+
+                </div>
+
+                <div *ngIf="forget"  class="form-border-box">
+                    <form  #forgetData="ngForm" (ngSubmit)="sendEmail()" role="form">
+                        <h2 class="normal"><span>Forgot Password</span></h2>
+                        <p>Enter your email and your password will be sent in your inbox</p>
+                        <div class="form-field-wrapper">
+                            <label>Enter Your Email <span class="required">*</span></label>
+                            <input type="email" type="text" name="emailid" id="emailid" required
+                            email [(ngModel)]="emailId"
+                            class="input-md form-full-width"  #emailid="ngModel" >
+                          
+                            <div *ngIf="!emailid?.valid && (emailid?.dirty || emailid?.touched)"
+                                class="error">
+
+                                <div *ngIf="emailid.errors.required">
+                                    Email is required
+                                </div>
+                                <div *ngIf="emailid.errors.email">
+                                    Email is invalid
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="form-field-wrapper">
+                            <input type="submit" name="submit" id="submit" class="submit btn btn-md btn-black" value="Send" type="submit"  [disabled]="!forgetData.valid" >
+
+                            <a href="javascript:void(0);" class="ml-5" (click)="forgetPassword()">Already
+                                a user?</a>
+                            <!-- *ngif="forget_data.responseData != null " -->
+                            <span>
+                                <!--{{forget_data.responseData.response}}  -->
+                            </span>
+                        </div>
+                    </form>
+                </div>
+
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-border-box">
+                    <form>
+                        <h2 class="normal"><span>Sign up</span></h2>
+                        <p>Need AIV widgets or want upload it on the store. </p>
+                        <div class="form-field-wrapper">
+                            <a href="/register" class="submit btn btn-md btn-color" value="" type="submit">Create An
+                                Account</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,148 @@
+<header class="header" *ngIf="(user$ | async) as user">
+    <!--Topbar-->
+    <div class="header-topbar">
+        <div class="header-topbar-inner">
+            <!--Topbar Left-->
+            <div class="topbar-left hidden-sm-down">
+                <!-- <div class="phone"><i class="fa fa-phone left" aria-hidden="true"></i>Customer Support : <b>+77 7565 348 576</b></div> -->
+            </div>
+            <!--End Topbar Left-->
+
+            <!--Topbar Right-->
+            <div class="topbar-right">
+                <ul class="list-none" >
+                    <li *ngIf="(user | json) == '{}'">
+                        <a href="javascript:void(0);"
+                        data-backdrop="static" (click)="openModal()"
+                        data-keyboard="false"><i class="fa fa-lock left" aria-hidden="true"></i><span class="hidden-sm-down">Login</span></a>
+                    </li>
+                    <li class="dropdown-nav"  *ngIf="(user | json) != '{}'">
+                        <a href="javascript:;" ><i class="fa fa-user left" aria-hidden="true"></i><span class="hidden-sm-down">{{user.first_name}}</span><i class="fa fa-angle-down right" aria-hidden="true"></i></a>
+                        <!--Dropdown-->
+                        <div class="dropdown-menu" >
+                            <ul *ngIf="(user | json) != '{}'">
+                                <li><a href="/my-profile">My Account</a></li>
+                                <!-- <li><a href="javascript:;">Order History</a></li>
+                                <li><a href="javascript:;">Returns</a></li>
+                                <li><a href="javascript:;">My Wishlist</a></li>
+                                <li><a href="checkout.html">Checkout</a></li> -->
+                                <li  *ngIf="user.role == 'ADMIN' || user.role == 'SUPER_ADMIN'"><a  routerLink="/upload">Upload
+                                    Widget</a></li>
+                                <li *ngIf="user.role === 'SUPER_ADMIN'">
+                                      <a routerLink="/approve">Approve Widgets</a>
+                                </li>
+                                <li (click)="logout();"><a href="javascript:;">Log out</a></li>
+                            </ul>
+
+                        </div>
+                        <!--End Dropdown-->
+                    </li>
+                    <li class="dropdown-nav" [hidden]="true">
+                        <a href="javascript:;">USD<i class="fa fa-angle-down right" aria-hidden="true"></i></a>
+                        <!--Dropdown-->
+                        <div class="dropdown-menu">
+                            <ul>
+                                <li><a href="javascript:;">USD</a></li>
+                                <li><a href="javascript:;">EUR</a></li>
+                                <li><a href="javascript:;">GBP</a></li>
+                                <li><a href="javascript:;">AUD</a></li>
+                            </ul>
+                        </div>
+                        <!--End Dropdown-->
+                    </li>
+                    <!-- <li class="hidden-sm-down">
+                        <a href="/about">About</a>
+                    </li> -->
+                    <li class="hidden-sm-down">
+                        <a href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- End Topbar Right -->
+        </div>
+    </div>
+    <!--End Topbart-->
+
+    <!-- Header Container -->
+    <div id="header-sticky" class="header-main">
+        <div class="header-main-inner">
+            <!-- Logo -->
+            <div class="logo text-center">
+                <a href="/home">
+                    <img src="../../assets/img/logo_black.png" alt="Philos" />
+                   Marketplace
+                </a>
+            </div>
+            <!-- End Logo -->
+
+
+            <!-- Right Sidebar Nav -->
+            <div class="header-rightside-nav">
+                <!-- Login-Register Link -->
+                <div class="header-btn-link hidden-lg-down" [hidden]="true"><a href="javascript:;" class="btn btn-sm btn-color">Buy Now</a></div>
+                <!-- End Login-Register Link -->
+
+                <!-- Sidebar Icon -->
+                <div class="sidebar-icon-nav"  [hidden]="true">
+                    <ul class="list-none-ib">
+                        <!-- Search-->
+                        <li><a id="search-overlay-menu-btn"><i aria-hidden="true" class="fa fa-search"></i></a></li>
+
+                        <!-- Whishlist-->
+
+
+                        <!-- Cart-->
+                        <li *ngIf="(user | json) != '{}'">
+                            <a id="">
+                                <div class="cart-icon">
+                                    <i aria-hidden="true" class="fa fa-user"></i>
+                                </div>
+
+                                <div class="cart-title">
+                                    <span class="cart-count">{{user.first_name}}</span>
+
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End Sidebar Icon -->
+            </div>
+            <!-- End Right Sidebar Nav -->
+
+
+            <!-- Navigation Menu -->
+            <nav class="navigation-menu" >
+                <ul>
+                    <li>
+                        <a href="javascript;" [routerLink]="[ '/home' ]">Home</a>
+                    </li>
+
+                    <li *ngFor="let category of compCategories | keyvalue" (mouseenter)="menuMouseEnter($event)" (mouseleave)="menuMouseEnter($event)" (click)="openComponent(category.value.name,$event)">
+                        <a href="javascript:;"  >{{ category.value.name }}</a>
+                        <ul class="nav-dropdown js-nav-dropdown" *ngIf="category.value.subCategories.length > 0">
+                            <li class="container">
+                                <ul class="row">
+                                    <!--Grid 1-->
+                                    <li class="nav-dropdown-grid">
+
+                                        <ul>
+                                            <li *ngFor="let subCategory of category.value.subCategories | keyvalue"><a href="javascript:;" (click)="openComponentWithSub(category.value.name,subCategory.value.name,$event)" >{{ subCategory.value.name }}</a></li>
+                                        </ul>
+                                    </li>
+                                    <!--Grid 2-->
+
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- End Navigation Menu -->
+
+        </div>
+    </div>
+    <!-- End Header Container -->
+</header>

@@ -1,0 +1,21 @@
+/* .carousel-bg{
+    background-image: url("/assets/sliderbg.png");
+} */
+.slider_wrap {
+    background: rgba(0, 0, 0, 0) url(/assets/sliderbg.jpg) repeat center center !important;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    position: relative;
+}
+.slider_wrap::before {
+    background: rgba(1, 17, 41, 0.8) !important;
+}
+.slider_title{
+    text-align: center;
+}
+/* .mt-50{
+    margin-top: 50px;
+}
+.mb-50{
+    margin-bottom: 50px;
+} */

@@ -1,0 +1,111 @@
+<section class="content-page">
+    <div class="container mb-80">
+        <div class="row">
+            <div class="col-sm-12">
+                <article class="post-8">
+
+
+                    <form class="product-checkout mt-45" #registration="ngForm" (ngSubmit)="register()" role="form"
+                        novalidate>
+                        <div class="row">
+                            <div class="col-md-6 offset-md-3">
+                                <div class="container">
+                                    <h2 class="page-title">Register Now</h2>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-field-wrapper form-center col-sm-6">
+                                        <label for="billing_first_name" class="left">
+                                            First Name
+                                            <abbr class="form-required" title="required">*</abbr></label>
+                                        <input type="text" name="firstName" id="firstName" required
+                                            [(ngModel)]="singUp.firstName" class="input-md form-full-width"
+                                            #firstName="ngModel" placeholder="First Name">
+                                        <div *ngIf="!firstName?.valid && (firstName?.dirty || firstName?.touched)"
+                                            class="error">
+                                            <div *ngIf="firstName.errors.required">
+                                                First Name is required
+                                            </div>
+                                            <div *ngIf="firstName.errors.minlength">
+                                                First Name Minimum Length is
+                                                {{firstname.errors.minlength?.requiredLength}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-wrapper form-center col-sm-6">
+                                        <label for="billing_last_name" class="left">
+                                            Last Name
+                                            <abbr class="form-required" title="required">*</abbr></label>
+                                        <input type="text" class="input-md form-full-width" name="lastName"
+                                            placeholder="Last Name" id="lastName" required [(ngModel)]="singUp.lastName"
+                                            #lastName="ngModel" />
+
+                                        <div *ngIf="!lastName?.valid && (lastName?.dirty || lastName?.touched)"
+                                            class="error">
+                                            <div *ngIf="lastName.errors.required">
+                                                Last Name is required
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-field-wrapper form-center col-sm-6">
+                                        <label for="billing_email" class="left">
+                                            Email
+                                            <abbr class="form-required" title="required">*</abbr></label>
+                                        <input type="email"  class="input-md form-full-width" name="username"    id="username" required email [(ngModel)]="singUp.username"  placeholder="Enter email" #username="ngModel" />
+                                        <div *ngIf="!username?.valid && (username?.dirty || username?.touched)"
+                                            class="error">
+                                            <div *ngIf="username.errors.required">
+                                                Email is required
+                                            </div>
+                                            <div *ngIf="username.errors.email">
+                                                Email is invalid
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-wrapper form-center col-sm-6">
+                                        <label for="billing_last_name" class="left">
+                                            Password
+                                            <abbr class="form-required" title="required">*</abbr></label>
+                                        <input type="password" class="input-md form-full-width" name="password"
+                                            id="password" [(ngModel)]="singUp.password" required minlength="8"
+                                            #password="ngModel" />
+                                        <div *ngIf="!password?.valid && (password?.dirty || password?.touched)"
+                                            class="error">
+                                            <div *ngIf="password.errors.required">
+                                                Password is required
+                                            </div>
+                                            <div *ngIf="password.errors.minlength">
+                                                Password Minimum Length is
+                                                {{password.errors.minlength?.requiredLength}}
+                                            </div>
+                                        </div>
+                                        <!-- <span *ngIf="singUp.password==''" class="help-block">Password is
+                                            required</span> -->
+                                    </div>
+
+                                    <button type="submit" [disabled]="registration.invalid"
+                                        class="btn btn-lg btn-color form-full-width">Sign Up</button>
+                                    <img *ngIf="dataLoading"
+                                        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+
+
+                                    <p class="checkout-info">
+                                        Existing Member? <strong><a href="javascript:;" (click)="openModal()">Click here
+                                                to login</a></strong>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </article>
+            </div>
+        </div>
+    </div>
+
+</section>

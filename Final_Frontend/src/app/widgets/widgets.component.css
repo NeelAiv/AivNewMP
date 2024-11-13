@@ -1,0 +1,79 @@
+.btn-aiv{
+    background-color: #f9a422 !important;
+}
+.mt-50{
+    margin-top: 50px;
+}
+.md-50{
+    margin-bottom: 50px;
+}
+.my-auto{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+}
+
+
+
+
+/* ============>> additional style <<============== */
+
+@media (max-width: 768px) {
+    .carousel-inner .carousel-item > div {
+        display: none;
+    }
+    .carousel-inner .carousel-item > div:first-child {
+        display: block;
+    }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* display 3 */
+@media (min-width: 768px) {
+    
+    .carousel-inner .carousel-item-right.active,
+    .carousel-inner .carousel-item-next {
+      transform: translateX(33.333%);
+    }
+    
+    .carousel-inner .carousel-item-left.active, 
+    .carousel-inner .carousel-item-prev {
+      transform: translateX(-33.333%);
+    }
+}
+
+.carousel-inner .carousel-item-right,
+.carousel-inner .carousel-item-left{ 
+  transform: translateX(0);
+}
+
+.item{
+    border-radius: 3px;
+}
+
+/* img{
+    object-fit: contain;
+    width: 237px;
+    height: 237px;
+    border-radius: 3px;
+    max-width: 100%;
+    height: 100%;
+} */
+.submenu{
+    list-style: none;
+}
+
+.list-unstyle{
+    list-style: none;
+    padding-inline-start: 15px
+}
+
+
+.product-item .product-item-inner img{
+    height: 250px;
+}

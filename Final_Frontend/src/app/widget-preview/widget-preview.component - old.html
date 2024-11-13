@@ -1,0 +1,527 @@
+<section class="wdetail_wrap">
+    <div class="aiv_pagetitle_boxwrap">
+        <div class="container">
+            <div class="store_heading">
+                <h2 style="color: white;">Component Detail</h2>
+                <p style="color: white;">Detailed Information of the component.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="wdetail_wrapbox">
+        <div class="container">
+            <div class="row wdetail_wrapbox_top">
+                <div class="col-md-4 col-lg-4 col-xl-3">
+                    <div class="wdtl_img_left">
+                        <div class="aiv_widgetsdock_item">
+                            <div class="aiv_widgetitem_title_catg">
+                                {{ widget.category  | uppercase }}
+                            </div>
+                            <div class="aiv_widget_image">
+                                <div class="aiv_widget_amntdiv">
+
+                                    <span class="badge aiv_badge_price aiv_badge_paid"
+                                        *ngIf="widget.purchase_option.toLowerCase() == 'paid'">Paid</span>
+
+                                    <span class="badge aiv_badge_price aiv_badge_free"
+                                        *ngIf="widget.purchase_option.toLowerCase() == 'free'">Free</span>
+                                </div>
+                                <img src="{{ widget.image ? baseUrl+'/uploads/images'+'/'+widget.image : !widget.sub_category ?  '/assets/image.png' :  baseUrl+'/uploads/images/'+widget.sub_category+'.png'}}"
+                                    alt="aiv-widget-image">
+                            </div>
+                            <div class="widg_rating_div">
+                                <div class="widg_rating_div_rstars">
+                                    <app-star-rating disable="true" selected="{{widget.rate}}"></app-star-rating>
+                                </div>
+                                <!-- <div class="widg_ratg_cnts">
+                                     {{widget.rate}} -->
+                                <!-- {{widget[0].rate}}/5 -->
+                                <!-- </div> -->
+                            </div>
+                            <div class="aiv_widgetsdock_item_desc">
+                                <div class="aiv_widgetsdock_btn_div">
+                                    <!--  -->
+                                    <a href="javascript:void(0);" *ngIf="widget.purchase_option=='paid'"
+                                        class="btn btn-default aivlnk_buy"><i class="fa fa-shopping-cart"></i>Buy</a>
+                                    <!-- ng-if="widget.purchase_option.toLowerCase() == 'free'"
+                                        href="{{baseUrl}}/{{widget.file_path}}" -->
+                                        <!-- href="{{baseUrl+'/uploads/files/'+widget.file_path}}" -->
+                                        <!-- <a class="btn btn-default aivlnk_down dwnld"
+                                        href="{{baseUrl+'/uploads/files/'+widget.file_path}}"
+                                        *ngIf="widget.purchase_option == 'free' && (user$ | async) as user" download><i
+                                            class="fa fa-download "></i>Download</a> -->
+                                            <!-- href="{{baseUrl+'/uploads/files/'+widget.file_path}}" -->
+                                        <a class="btn btn-default aivlnk_down dwnld"
+                                        (click)="openModal()"
+                                        *ngIf="widget.purchase_option == 'free' && !(user$ | async) as user " download><i
+                                            class="fa fa-download "></i>Download</a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="widleft_ratediv">
+                            <div class="aiv_rating_block">
+                                <!-- <div class="aiv_rblock_lefttop">
+                                    <div class="aiv_phead">Average User Rating</div>
+                                    <div class="aivrblock_widg_rating_div">
+                                        <div class="aivwidg_rblock_div_rstars">
+                                            <!-- ng-repeat="x in [1,2,3,4,5]"  -->
+                                            <!-- ng-class=" x <= widget.rate ? 'fill ':'unfill'" -->
+                                            <!-- <i *ngFor="let x of [1,2,3,4,5]"
+                                        [ngClass]=" x <= widget.rate ? 'unfill':'fill'" class="fa fa-star"></i>  -->
+                                            <!-- <i class="fa fill fa-star"></i>
+                                            <i class="fa fill fa-star"></i>
+                                            <i class="fa fill fa-star"></i>
+                                            <i class="fa unfill fa-star"></i>
+                                            <i class="fa unfill fa-star"></i> -->
+                                        <!-- </div> -->
+                                        <!-- <div class="aivwidg_rblock_ratg_cnts"> -->
+                                            <!-- {{widget.rate}} -->
+                                            <!-- <span>5</span>/5 -->
+                                        <!-- </div> -->
+                                    <!-- </div> -->
+                                <!-- </div> -->
+
+                                <!-- <hr class="hrtyp1"> -->
+
+                                <div class="aiv_rblock_leftbtm">
+                                    <div class="aiv_phead">Rating Breakdown</div>
+                                    <div class="aivrblock_widg_ratebkdwon_div">
+                                        <div class="aiv_rateprg_listing_div">
+                                            <div class="aivrate_prgbox">
+                                                <div class="aivrate_prgbox_starlabel">
+                                                    5 <i class="fa fa fill fa-star"></i>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgdiv">
+                                                    <div class="progress">
+                                                        <!-- [ngStyle]="'width': {{ratingObject.five*100/ratingObject.total}}+ '%' ;" -->
+                                                        <!-- style = " 'width:'  ratingObject.five*100/ratingObject.total+'%'"; -->
+                                                        <!-- attr.aria-valuenow="{{ratingObject.five*100/ratingObject.total}}" -->
+                                                        <!-- ratingObject.ratingFive -->
+                                                        <progressbar [value]="ratingObject.ratingFive"></progressbar>
+                                                        <!-- <div class="progress-bar aiv_prgbar5" role="progressbar"
+
+                                                              aria-valuemin="0"
+                                                            aria-valuemax="100"></div> -->
+                                                    </div>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgval">
+                                                    {{ratingObject.five}}
+                                                </div>
+
+                                            </div>
+                                            <div class="aivrate_prgbox">
+                                                <div class="aivrate_prgbox_starlabel">
+                                                    4 <i class="fa fa fill fa-star"></i>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgdiv">
+                                                    <div class="progress">
+                                                        <!-- ratingObject.ratingFour -->
+                                                        <progressbar [value]="ratingObject.ratingFour" type="danger" ></progressbar>
+                                                    </div>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgval">
+                                                    {{ratingObject.four}}
+                                                </div>
+
+                                            </div>
+                                            <div class="aivrate_prgbox">
+                                                <div class="aivrate_prgbox_starlabel">
+                                                    3 <i class="fa fa fill fa-star"></i>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgdiv">
+                                                    <div class="progress">
+                                                        <!-- ratingObject.ratingThree -->
+                                                        <progressbar [value]="ratingObject.ratingThree" type="warning"></progressbar>
+                                                    </div>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgval">
+                                                    {{ratingObject.three}}
+                                                </div>
+
+                                            </div>
+                                            <div class="aivrate_prgbox">
+                                                <div class="aivrate_prgbox_starlabel">
+                                                    2 <i class="fa fa fill fa-star"></i>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgdiv">
+                                                    <div class="progress">
+                                                        <!-- ratingObject.ratingTwo -->
+                                                        <progressbar [value]="ratingObject.ratingTwo"></progressbar>
+                                                    </div>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgval">
+                                                    {{ratingObject.two}}
+                                                </div>
+
+                                            </div>
+                                            <div class="aivrate_prgbox">
+                                                <div class="aivrate_prgbox_starlabel">
+                                                    1 <i class="fa fa fill fa-star"></i>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgdiv">
+                                                    <div class="progress">
+                                                        <!-- ratingObject.ratingOne -->
+                                                        <progressbar [value]="ratingObject.ratingOne" type="danger"></progressbar>
+                                                    </div>
+                                                </div>
+                                                <div class="aivrate_prgbox_prgval">
+                                                    {{ratingObject.one}}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-9">
+                    <div  *ngIf="(user$ | async) as user;" class="wdtl_desc_right">
+                        <!-- *ngIf="widget[0].user_id==currentUser[0].id" ng-if="isAdmin" -->
+                        <!-- *ngIf="(user$ | async) as user; widget[0].user_id == user[0].id" -->
+                        <div *ngIf="widget.user_id==user.id" class="aiv_opercond_div">
+                            <!-- ng-click="goNext();" -->
+                            <button type="button" class="aiv_cmnbtn_outline_sbtn_orange btn btn-outline-primary"
+                                (click)="editComponent()" style="margin-right: 5px; border-radius:3px;"><i
+                                    class="fa fa-edit"></i></button>
+                            <!-- ng-click="deleteWidget();" -->
+                            <button type="button" class="aiv_cmnbtn_outline_cancel btn btn btn-outline-primary"
+                                (click)="deleteComponent()" style="margin-right: 5px; border-radius:3px;"><i
+                                    class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="aiv_widgetsdock_item_desc">
+
+                            <p class="wid_nm">{{widget.title}}</p>
+
+                            <p class="wid_owner">Seller name:- {{widget.seller_name}} </p>
+                            <p class="wid_price" *ngIf="widget.purchase_option!= 'free'">Price:- <i
+                                    class="fa fa-dollar"></i>{{widget.price}}</p>
+
+                            <div class="aiv_wid_item_dtl_list">
+                                <ul class="list-unstyled awid_dlist">
+                                    <li data-widgconfgs="Size">
+                                        <i class="fa fa-database"> {{widget.size}} KB</i>
+                                    </li>
+                                    <li data-widgconfgs="Downloads">
+                                        <i class="fa fa-download"> {{widget.downloaded}}</i>
+                                    </li>
+                                    <li data-widgconfgs="Version">
+                                        <i class="fa fa-refresh"> {{widget.refresh}}</i>
+                                    </li>
+                                    <li data-widgconfgs="Comments">
+                                        <i class="fa fa-comment-o"> {{commentCounts$ || 0}}</i>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- ng-if="widget.details != '' && widget.details != null && widget.details != undefined" -->
+                            <div *ngIf="widget.details != '' && widget.details != null && widget.details != undefined"
+                                class="aiv_wid_item_sml_desc">
+                                <div class="aiv_phead">Details</div>
+                                <!--  -->
+                                <div *ngFor="let n of widget.details.split('\n')">
+                                    <p>{{n}}</p>
+                                </div>
+                            </div>
+
+                            <!-- ng-if="widget.features != '' && widget.features != null && widget.features != undefined" -->
+                            <div *ngIf="widget.features != ' ' && widget.features != 'null' && widget.features != undefined"
+                                class="aiv_wid_item_sml_desc">
+                                <div class="aiv_phead">Features</div>
+                                <ul class="list-unstyled aiv_wid_item_list_desclist">
+                                    <!--  -->
+                                    <li *ngFor="let n of widget.features.split('\n')">
+                                    {{n}}
+                                    </li>
+                                    <!-- <li>Pellentesque vel dolor euismod, finibus ante id, rhoncus velit hasellus nec
+                                        dolor vulputate,
+                                        finibus odio non, egestas augue.</li>
+                                    <li>Phasellus nec dolor vulputate, finibus odio non, egestas augue.</li>
+                                    <li>Duis vestibulum erat euismod magna volutpat, nec dictum nunc eleifend.</li> -->
+                                </ul>
+                            </div>
+                            <div class="aiv_wid_item_sml_desc" style="display: none;">
+                                <div class="aiv_phead">Gallery</div>
+                                <div class="aiv_widg_gallerydiv">
+                                    <!-- ng-init="galleryInit()" -->
+                                    <!-- <ul class="aiv_widg_gallerydivlist list-unstyled">
+                                        <li>
+                                            <a href="images/dflwidg.png" data-fancybox="aivwidg_images">
+                                                <img src="images/dflwidg.png" class="img-thumbnail"
+                                                    alt="aiv-widget-image" />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="images/dflwidg.png" data-fancybox="aivwidg_images">
+                                                <img src="images/dflwidg.png" class="img-thumbnail"
+                                                    alt="aiv-widget-image" />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="images/dflwidg.png" data-fancybox="aivwidg_images">
+                                                <img src="images/dflwidg.png" class="img-thumbnail"
+                                                    alt="aiv-widget-image" />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="images/dflwidg.png" data-fancybox="aivwidg_images">
+                                                <img src="images/dflwidg.png" class="img-thumbnail"
+                                                    alt="aiv-widget-image" />
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="images/dflwidg.png" data-fancybox="aivwidg_images">
+                                                <img src="images/dflwidg.png" class="img-thumbnail"
+                                                    alt="aiv-widget-image" />
+                                            </a>
+                                        </li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                            <!-- ng-if="widget.video_url != '' && widget.video_url != undefined && widget.video_url != null" -->
+                            <div *ngIf="widget.video_url && widget.video_url != '' && widget.video_url != undefined && widget.video_url != 'null'"
+                                class="aiv_wid_item_sml_desc">
+                                <div class="aiv_phead">Video</div>
+                                <div class="aiv_video_addiv">
+                                    <!-- ng-init="videoInit(widget.video_url)" -->
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe width="560" height="315" [src]='urlSafe' class="embed-responsive-item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ng-if="user != undefined" -->
+            <div *ngIf="(user$ | async) as user" class="row wdetail_wrapbox_middle">
+                <div *ngIf="user !={}" class="col-xl-12">
+                    <div class="wdetailsbt_makeacmntdiv" *ngIf="user_validate && user_validate.id !== null " >
+                        <button class="btn btn-primary mkclnkbtn" type="button" data-toggle="collapse" id="makeComment"
+                            data-target="#cmntcollapsediv" aria-expanded="false" aria-controls="collapseExample">
+                            Make A Comment
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="(user$ | async) as user" class="row wdetail_wrapbox_bottom collapse" id="cmntcollapsediv">
+                    <div class="col-xl-12">
+                        <form #comment="ngForm" (ngSubmit)="makeComment(comment,user.id,widget.id)" novalidate>
+
+                            <div class="wdtl_commentinner_boxdiv">
+                                <div class="wdtl_commentbox">
+                                    <div class="aiv_phead">Review</div>
+                                    <div class="wcmnt_ipdiv mainaivfrmgrp_wrap">
+                                        <div class="aiv_mcmntdiv_box">
+                                            <div class="form-group">
+                                                <label>Write your comments</label>
+                                                <textarea id="comment" name="comment"  [(ngModel)]="CommentObj.comment"
+                                                    class="form-control tarea" rows="3" required #comment="ngModel"></textarea>
+                                                    <div *ngIf="!comment?.valid && (comment?.dirty || comment?.touched)"
+                                                        class="error">
+                                                        <div class="error" *ngIf="comment.errors?.required">
+                                                         Comment is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wdtl_ratebox">
+                                    <div class="aiv_phead">Rating</div>
+                                    <div class="aiv_rtgdiv">
+                                        <!-- ng-repeat="star in starRating" ng-click="addStarRating($index)"
+                                       *ngFor= ng-class="{'st-rating':star.rating == 1}" -->
+                                        <app-star-rating [disable]="false" (ratingChange)="rating($event)" [(selected)]="CommentObj.rate">
+                                        </app-star-rating>
+                                    </div>
+                                </div>
+                                <div class="wdt_cmntfoot_btn_div">
+                                    <!-- ng-click="makeComment(comment);" -->
+                                    <button type="submit"
+                                        class="btn_cmntft btn_sbtn btn btn-primary" [disabled]="!comment.valid" >Submit</button>
+                                    <!-- ng-click="clear()" -->
+                                    <button type="button" class="btn_cmntft btn_cncl btn btn-primary">Cancel</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+            </div>
+
+            <div class="row wdetail_cmntlist_box">
+
+                <div class="col-xl-12">
+                    <div *ngIf="(comment$ | async) as commentList" class="wdtl_commentinner_listingboxdiv">
+                        <div class="aiv_phead">Comments</div>
+                        <!-- ng-if="widgetComments.length == 0" -->
+                        <!-- *ngIf="widgetComments.length == 0" -->
+                        <p *ngIf="commentList.length == 0" class="aiv_no_cmnts">No comments posted yet.</p>
+                        <!-- ng-if="widgetComments.length > 0 " -->
+                        <!-- *ngIf="widgetComments.length > 0" -->
+                        <div *ngIf="commentList.length > 0" class="wdtl_commentinner_listings">
+                            <!-- ng-init="mScrollinit()"  -->
+                            <!-- ng-repeat="w in widgetComments" -->
+                            <div *ngFor="let w of commentList" class="media cmnt_media_div">
+                                <img src="{{w.profile_image ? baseUrl+'/uploads/profiles/'+w.profile_image : 'assets/duser.jpg' }}"
+                                    class="img-thumbnail rounded-circle align-self-start mr-3 cmnt_per_img" alt="...">
+                                <div class="media-body">
+
+                                    <p class="cmnt_aivuser">{{w.username}}</p>
+                                    <div class="widg_rating_div">
+                                        <div class="widg_rating_div_rstars">
+                                            <app-star-rating [disable]="true" [selected]="w.rate_count">
+                                            </app-star-rating>
+                                        </div>
+                                        <!-- <div class="widg_ratg_cnts">
+                                            {{w.rate_count}}/5
+                                        </div> -->
+                                    </div>
+                                    <p class="cmnt_aivusercmntdisp">{{w.comment}}</p>
+                                    <p class="cmnt_aivuser_timestamp"><small class="mt-0"><i class="fa fa-clock-o"></i>
+                                            {{w.date | date : 'd:M:yy'}}</small></p>
+                                </div>
+                            </div>
+
+                            <!-- <div class="media cmnt_media_div">
+                                <img src="https://via.placeholder.com/50x50"
+                                    class="img-thumbnail rounded-circle align-self-start mr-3" alt="...">
+                                <div class="media-body">
+
+                                    <p class="cmnt_aivuser">Username</p>
+                                    <div class="widg_rating_div">
+                                        <div class="widg_rating_div_rstars">
+                                            <i class="fa fill fa-star"></i>
+                                            <i class="fa fill fa-star"></i>
+                                            <i class="fa fill fa-star"></i>
+                                            <i class="fa unfill fa-star"></i>
+                                            <i class="fa unfill fa-star"></i>
+                                        </div>
+                                        <div class="widg_ratg_cnts">
+                                            3/5
+                                        </div>
+                                    </div>
+                                    <p class="cmnt_aivusercmntdisp">Donec eget ornare nibh tiam laoreet enim id volutpat
+                                        gravidas uspendisse potentii nteger malesuada tristique faucibused.</p>
+                                    <p class="cmnt_aivuser_timestamp"><small class="mt-0"><i class="fa fa-clock-o"></i>
+                                            Nov 26, 2019 12:53</small></p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="wdetail_otherwidgets_box">
+                <div class="aiv_smn_title_typ1">
+                    <div class="aiv_smn_title_inner">
+                        <div class="store_heading">
+                            <h2>Similar Component</h2>
+                        </div>
+                        <p>Below are the components from the same category, have a look at those components</p>
+                    </div>
+                    <a class="aiv_emore_lnk" href="javascript:void(0);"
+                        [routerLink]="['/component/',widget.category,widget.sub_category]">Explore More</a>
+                </div>
+
+
+                <div class="mt-50 mb-50">
+                    <div class="owl-carousel owl-theme">
+                        <!-- *ngFor="let obj of objectList | byuser :  widget[0].user_id" -->
+                        <!-- matchesCategorySubCategoryForWidgetGallery -->
+                        <!--  matchesCategory: widget.category | matchesSubCategory : widget.sub_category -->
+                        <ng-container
+                            *ngFor="let obj of (widgetList$ | async) | matchesCategorySubCategoryForWidgetGallery : widget.category : widget.sub_category ">
+                            <div class="item">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="item">
+                                            <div class="aiv_widgetsdock_item">
+                                                <div class="aiv_widgetitem_title_catg">
+                                                    {{obj.type}}
+                                                </div>
+                                                <div class="aiv_widget_image">
+                                                    <div class="aiv_widget_amntdiv">
+                                                        <span
+                                                            class="badge aiv_badge_price aiv_badge_free">{{ obj.purchase_option }}</span>
+                                                    </div>
+                                                    <!-- <img src="{{n.image}}" alt="aiv-widget-image"> -->
+                                                    <!-- src="{{ widget[0].image !== '' ? baseUrl+'/uploads/images'+'/'+widget[0].image : widget[0].sub_category =='' ? baseUrl+'/uploads/images/'+widget[0].category+'.png' :  baseUrl+'/uploads/images/'+widget[0].sub_category+'.png'}}" -->
+                                                    <!-- src="{{obj.image !== '' ? baseUrl+'/uploads/images'+'/'+obj.image : baseUrl+'/'+'images/dflwidg.png' }}" -->
+
+                                                    <!-- src="{{ widget[0].image != '' ? baseUrl+'/uploads/images'+'/'+widget[0].image : widget[0].sub_category =='' ? baseUrl+'/uploads/images/'+widget[0].category+'.png' :  baseUrl+'/uploads/images/'+widget[0].sub_category+'.png'}}" -->
+                                                    <img src="{{obj.image !== '' ? baseUrl+'/uploads/images/'+ obj.image : obj.sub_category !== '' ? baseUrl+'/uploads/images/'+obj.sub_category+'.png' : '/uploads/images/'+obj.category+'.png' }}"
+                                                        alt="aiv-widget-image">
+                                                </div>
+                                                <div class="aiv_widgetsdock_item_desc">
+                                                    <p class="wid_nm"
+                                                    style="overflow: hidden; width: 200px;
+                                                    white-space: nowrap;
+                                                    overflow: hidden;
+                                                    text-overflow: ellipsis;
+                                                    text-align: center;">{{obj.title}}</p>
+                                                    <div class="widg_rating_div">
+                                                        <div class="widg_rating_div_rstars">
+                                                            <app-star-rating disable="true" selected="{{obj.rate}}">
+                                                            </app-star-rating>
+                                                            <!-- <i class="fa fa-star"
+                                                                ng-class=" x <= obj.rate ? 'fill ':'unfill'"></i> -->
+                                                            <!-- <i class="fa fill fa-star"></i>
+                                            <i class="fa fill fa-star"></i>
+                                            <i class="fa fill fa-star"></i>
+                                            <i class="fa unfill fa-star"></i>
+                                            <i class="fa unfill fa-star"></i> -->
+                                                        </div>
+                                                        <!-- <div class="widg_ratg_cnts">
+                                                            {{obj.rate}}/5
+                                                        </div> -->
+                                                    </div>
+                                                    <div class="aiv_wid_item_dtl_list">
+                                                        <ul class="list-unstyled awid_dlist">
+                                                            <li>
+                                                                <i class="fa fa-database"></i> {{obj.size}}kb
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-download"></i> {{obj.downloaded}}
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-refresh"></i> {{ obj.refresh }}
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-comment-o"></i> {{ obj.no_of_comments }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="aiv_widgetsdock_btn_div">
+                                                        <!-- [routerLink]="['/preview/',obj.id]" -->
+                                                        <a class="btn btn-default aivlnk_prv" (click)="getNewComponent(obj.id)"
+                                                        >Preview</a>
+                                                        <a  class="btn btn-default aivlnk_down"
+                                                            href="{{baseUrl+'/widgets/files/'+obj.file_path}}"
+                                                            download>Download</a>
+                                                            <!-- *ngIf="user_validate && user_validate.id !== null " -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

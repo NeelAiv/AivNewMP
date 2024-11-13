@@ -1,0 +1,6 @@
+<div ng-if="$root.flash.message" class="aiv_alert alert  alert-dismissible fade show" ng-class="{'alert-success': $root.flash.type == 'success', 'alert-danger': $root.flash.type == 'error', 'alert-info': $root.flash.type == 'warn'} " role="alert">
+    <p> {{$root.flash.message}}</p>
+    <button type="button" ng-click="$root.flash = null" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
