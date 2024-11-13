@@ -551,20 +551,49 @@ app.get('/widgets', (req, res) => {
     })
 });
 
+app.get('/getAllWidgets', (req, res) => {
+    mysqlConnection.query('SELECT * FROM ai_mp_components', (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+        } else {
+            res.send({ 'success': false, 'message': "Something went wrong while get all public widgets!" });
+        }
+    })
+});
+
 app.get('/unapprovewidgets', (req, res) => {
-    const userRole = req.body.userRole;
+    // const userRole = req.body.userRole;
     
-    if (userRole !== 'SUPER_ADMIN') {
-        return res.status(403).send({ 'success': false, 'message': "Access denied. Only SUPER_ADMIN can view unapproved widgets." });
-    }
+    // if (userRole !== 'SUPER_ADMIN') {
+    //     return res.status(403).send({ 'success': false, 'message': "Access denied. Only SUPER_ADMIN can view unapproved widgets." });
+    // }
     
-    mysqlConnection.query('SELECT * FROM ai_mp_components where is_public=0', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM ai_mp_components where is_public = 0', (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
             res.send({ 'success': false, 'message': "Something went wrong while get unapproved widgets!" });
         }
     })
+});
+
+app.post('/unapproveWidget/:id', (req, res) => {
+    // const userRole = req.body.userRole;
+    // if (userRole !== 'SUPER_ADMIN') {
+    //     return res.status(403).send({ success: false, message: "Access denied. Only SUPER_ADMIN can unapprove widgets." });
+    // }
+
+    mysqlConnection.query(
+        "UPDATE ai_mp_components SET is_public = 0 WHERE id = ?",
+        [req.params.id],
+        (err, rows) => {
+            if (!err) {
+                res.send({ success: true, message: "Widget unapproved successfully." });
+            } else {
+                res.send({ success: false, message: "Error while unapproving widget." });
+            }
+        }
+    );
 });
 
 // get a widgets with id
@@ -625,13 +654,16 @@ app.get('/widgetDetails/:id', (req, res) => {
     })
 });
 
-app.put('/approveWidget/:id', (req, res) => {
+app.post('/approveWidget/:id', (req, res) => {
 
-    const userRole = req.body.userRole; // Retrieve role from the request body
+    // const userRole = req.body.userRole;
+    // console.log('body:', req.body);
+    
+    // console.log('user role from node:', userRole)
 
-    if (userRole !== 'SUPER_ADMIN') {
-        return res.status(403).send({ 'success': false, 'message': "Access denied. Only SUPER_ADMIN can approve widgets." });
-    }
+    // if (userRole !== 'SUPER_ADMIN') {
+    //     return res.status(403).send({ 'success': false, 'message': "Access denied. Only SUPER_ADMIN can approve widgets." });
+    // }
 
     // const widgetId = parseInt(req.params.id, 10);
 
@@ -639,16 +671,17 @@ app.put('/approveWidget/:id', (req, res) => {
     //     return res.status(400).send({ 'success': false, 'message': "Invalid widget ID." });
     // }
 
-    let query = "update ai_mp_components set is_public = true where id ="+req.params.id;
-    mysqlConnection.query(query, [req.params.id], (err, rows, fields) => {
-        if (!err) {
-            res.send({ 'success': true, 'message': "Widget has been approved" });
+    mysqlConnection.query(
+        "UPDATE ai_mp_components SET is_public = 1 WHERE id = ?",
+        [req.params.id],
+        (err, rows) => {
+            if (!err) {
+                res.send({ success: true, message: "Widget approved successfully." });
+            } else {
+                res.send({ success: false, message: "Error while approving widget." });
+            }
         }
-        else {
-            console.log(err);
-            res.send({ 'success': false, 'message': "error while approve widget" });
-        }
-    })
+    );
 })
 app.put('/update/:id', (req, res) => {
     console.log('req body :', req.body);

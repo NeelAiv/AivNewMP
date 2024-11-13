@@ -30,6 +30,7 @@
               "src/theme/css/plugins/bootstrap.css",
               "src/theme/css/plugins/owl.carousel.css",
               "src/theme/plugins/rev_slider/css/settings-ver.5.3.1.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/theme/css/style.css"
             ],
             "scripts": [

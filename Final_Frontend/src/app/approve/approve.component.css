@@ -1,0 +1,16 @@
+.navbar-brand img {
+  object-fit: cover;
+}
+
+.table img {
+  object-fit: cover;
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}

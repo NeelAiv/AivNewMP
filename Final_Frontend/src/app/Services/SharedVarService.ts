@@ -13,10 +13,10 @@ export class SharedVarService {
   // private widgetList : BehaviorSubject<any>;
   private widgetData = new BehaviorSubject([]);
   $widgetList : Observable<any> = this.widgetData.asObservable();
-  
+
   private comments = new BehaviorSubject([]);
   $comments : Observable<any> = this.comments.asObservable();
-  
+
   constructor(private widgetService : WidgetServicesService) { }
 
   setValue(newValue): void {
@@ -39,7 +39,7 @@ export class SharedVarService {
       localStorage.clear();
       this.userObject.next(null);
     }
-    
+
   }
 
 

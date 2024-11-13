@@ -52,6 +52,7 @@ import {CategoriesComponent} from './categories/categories.component';
 import {TrendingProductsComponent} from './trending-produts/trending-produts.component';
 import {SpecialProductsComponent} from './special-products/special-products.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { ApproveComponent } from './approve/approve.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,6 +85,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     CategoriesComponent,
     SpecialProductsComponent,
     TrendingProductsComponent,
+    ApproveComponent,
   ],
   imports: [
     BrowserModule,

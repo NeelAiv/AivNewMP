@@ -17,7 +17,7 @@
 
 /*
 * BASIC
-  - General Style    
+  - General Style
   - Typography Style
   - Button Style
   - Form Style
@@ -30,7 +30,7 @@
   - Navigation Menu
   - Navigation Dropdown Menu
   - Rightside Navigation
-    
+
 * INTRO
   - intro
 
@@ -6549,4 +6549,9 @@ ul#shipping_method {
 
 .Contact-information li i {
     margin-right: 10px;
+}
+
+/* to stop z-index undefined in console */
+.tp-revslider-mainul, .tp-caption, .tp-layer {
+  z-index: 1;
 }

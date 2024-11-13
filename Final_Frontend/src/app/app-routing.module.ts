@@ -14,6 +14,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { RegisterAccountComponent } from './register/register.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { UseTermComponent } from './use-term/use-term.component';
+import { ApproveComponent } from './approve/approve.component';
 
 
 
@@ -29,7 +30,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'policy', component: PrivacyPolicyComponent },
   { path: 'terms', component: UseTermComponent },
-  
+
   { path: 'preview/:widgetId', component : WidgetPreviewComponent},
   { path : 'upload', component : UploadWidgetComponent,
    canActivate: [AuthGuard]
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path : 'upload/:widgetId', component : UploadWidgetComponent,  canActivate: [AuthGuard]},
   { path : 'star', component : StarRatingComponent,  canActivate: [AuthGuard]},
   { path: 'widget', loadChildren: () => import('./widget/widget.module').then(m => m.WidgetModule) },
+  { path: 'approve', component: ApproveComponent, canActivate: [AuthGuard]}
   // { path: 'widget', loadChildren: './widget/widget.module' },
   //
 

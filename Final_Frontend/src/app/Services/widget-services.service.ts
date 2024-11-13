@@ -62,6 +62,26 @@ export class WidgetServicesService {
 
   }
 
+  getAllWidgets() {
+    return this.http.get(this.BASE_URL + '/getAllWidgets');
+  }
+
+  getApprovedWidgets(): Observable<any> {
+    return this.http.get(this.BASE_URL + '/widgets');
+  }
+
+  getUnapprovedWidgets(): Observable<any> {
+    return this.http.get(this.BASE_URL +'/unapprovewidgets');
+  }
+
+  approveWidget(id: number): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/approveWidget/${id}`, {});
+  }
+
+  unapproveWidget(id: number): Observable<any> {
+    return this.http.post(`${this.BASE_URL}/unapproveWidget/${id}`, {});
+  }
+
 
   //   GetWidgetJson(id) {
   //     return this.http.get(this.BASE_URL + '/getWidgetJson/' + id).then(function(response){
