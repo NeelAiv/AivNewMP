@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedVarService } from '../Services/SharedVarService';
 import { Observable } from 'rxjs';
 import { WidgetServicesService } from '../Services/widget-services.service';
 import { data } from 'jquery';
+import { BASE_URL } from '../constants/constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-approve',
@@ -11,12 +13,15 @@ import { data } from 'jquery';
   styleUrls: ['./approve.component.css']
 })
 export class ApproveComponent implements OnInit {
+  @ViewChild('deleteConfirmModal') deleteConfirmModal: any;
 
   allWidgets: any[] = [];
   approvedWidgets: any[] = [];
   unapprovedWidgets: any[] = [];
+  baseUrl = BASE_URL;
+  widgetToDelete: any;
 
-  constructor(private sharedVarService: SharedVarService, private http: HttpClient, private widgetService: WidgetServicesService) {}
+  constructor(private sharedVarService: SharedVarService, private http: HttpClient, private widgetService: WidgetServicesService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     // this.userRole = JSON.parse(localStorage.getItem('currentUser'))?.role;
@@ -100,6 +105,60 @@ export class ApproveComponent implements OnInit {
     }
   }
 
+  openDeleteConfirmation(widget: any) {
+    this.widgetToDelete = widget;
+    this.modalService.open(this.deleteConfirmModal, {backdrop: false, keyboard: false, centered: true, windowClass: 'fade-in-modal'}).result.then(
+      (result) => {
+        if (result === 'Delete click') {
+          this.deleteComponent(this.widgetToDelete.id);
+        }
+        document.body.classList.remove('modal-open');
+        const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+        while(modalBackdrops.length > 0) {
+          modalBackdrops[0].remove();
+        }
+      },
+      (reason) => {
+        document.body.classList.remove('modal-open');
+        const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+        while(modalBackdrops.length > 0) {
+          modalBackdrops[0].remove();
+        }
+      }
+    );
+  }
+
+  deleteComponent(id: string) {
+    this.widgetService.Delete(id).subscribe({
+      next: () => {
+        this.getAllWidgets(); // Refresh the list after deletion
+        this.modalService.dismissAll(); // Ensure modal is closed
+        // Clear any remaining backdrops
+        document.body.classList.remove('modal-open');
+        const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+        while(modalBackdrops.length > 0) {
+          modalBackdrops[0].remove();
+        }
+      },
+      error: (error) => {
+        console.error('Error deleting widget:', error);
+        this.modalService.dismissAll(); // Ensure modal is closed even on error
+        // Clear any remaining backdrops
+        document.body.classList.remove('modal-open');
+        const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+        while(modalBackdrops.length > 0) {
+          modalBackdrops[0].remove();
+        }
+      },
+    });
+  }
+  private cleanupModalArtifacts() {
+    document.body.classList.remove('modal-open');
+    const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+    while(modalBackdrops.length > 0) {
+      modalBackdrops[0].remove();
+    }
+  }
 
 }
 

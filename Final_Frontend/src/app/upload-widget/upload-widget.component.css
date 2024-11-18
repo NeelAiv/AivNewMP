@@ -36,15 +36,46 @@ label
 
 .item > .fa-trash{
   position: absolute;
-  top:0;
-right: 0;
-display: none;;
+  top:5px;
+right: 5px;
+display: none;
+color: red;
+    cursor: pointer;
 }
 .item:hover .fa-trash{
   display:block;
 }
 
 .product-image-sm img{
-  height: 75px;
-    width: 100px;
+  max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.btn-blue{
+  background: #4F9CFD;
+  color: white;
+}
+
+.product-image-slider {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  width: 100%; /* Fixed width */
+  height: 300px; /* Fixed height */
+  border: 1px solid #ddd; /* Border around the container */
+  border-radius: 8px; /* Optional: Rounded corners */
+  overflow-y: auto; /* Allows scrolling if images overflow */
+  background-color: #f9f9f9; /* Light background color for contrast */
+}
+
+/* Image styling within container */
+.product-image-sm {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }

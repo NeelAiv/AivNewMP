@@ -1,16 +1,293 @@
-.navbar-brand img {
-  object-fit: cover;
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border-radius: 8px;
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  font-weight: bold;
+  background-color: #007bff;
+  color: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .table img {
   object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ddd;
 }
 
-.nav-tabs .nav-link {
-  cursor: pointer;
+.table thead {
+  background-color: #f8f9fa;
+  font-weight: bold;
 }
 
-.btn-sm {
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table td, .table th {
+  vertical-align: middle;
+  padding: 0.75rem;
+}
+
+.btn-group .btn {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
 }
+
+.text-truncate {
+  max-width: 150px;
+}
+
+.table-responsive {
+  padding: 15px;
+}
+
+.d-flex .apv-btn {
+  width: 35px;
+  min-width: 35px;
+  border-radius: 4px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.d-flex.gap-1 .apv-btn {
+  margin-right: 5px;
+}
+
+.d-flex.gap-1 .btn:last-child {
+  margin-right: 0;
+}
+
+
+.btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+  border-color: #ccc;
+}
+
+.btn-outline-danger:hover {
+  background-color: #f5c6cb;
+  color: #721c24;
+}
+
+.btn-outline-primary {
+  color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #e2e6ea;
+  color: #007bff;
+}
+
+th{
+  text-align: center;
+}
+
+.apv-btn{
+  background-color: white;
+}
+
+.card .btn-sm{
+  padding: 16px 32px !important;
+}
+
+.card{
+  padding: 0px 50px;
+}
+
+/* ... (previous styles remain unchanged) ... */
+
+/* Modal Styles */
+.modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+}
+
+.modal-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.close-button {
+  position: absolute;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #666;
+  padding: 0.25rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 2rem 1.5rem;
+}
+
+.confirmation-text {
+  color: #555;
+  font-size: 1rem;
+  margin: 0;
+  text-align: left;
+}
+
+.modal-footer {
+  border-top: 1px solid #eee;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel {
+  background-color: #f0f0f0;
+  color: #666;
+  border: none;
+}
+
+.btn-cancel:hover {
+  background-color: #e4e4e4;
+  color: #333;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2);
+}
+
+/* Animation for modal */
+.modal-content {
+  animation: modalFade 0.2s ease-out;
+}
+
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button base styles */
+.apv-btn {
+  border: 1px solid;
+  transition: all 0.2s ease;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 4px;
+}
+
+/* Preview button */
+.apv-btn.btn-outline-secondary:has(.fa-eye) {
+  /* border-color: #3858d6; */
+  color: #3858d6;
+}
+
+.apv-btn.btn-outline-secondary:has(.fa-eye):hover {
+  background-color: #8a98cf;
+  color: white;
+}
+
+/* Edit button */
+.apv-btn.btn-outline-secondary:has(.fa-pen-to-square) {
+  /* border-color: #2196F3; */
+  color: #2196F3;
+}
+
+.apv-btn.btn-outline-secondary:has(.fa-pen-to-square):hover {
+  background-color: #2196F3;
+  color: white;
+}
+
+/* Delete button */
+.apv-btn.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.apv-btn.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Status button - Success state */
+.apv-btn.btn-success {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.apv-btn.btn-success:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Status button - Warning state */
+.apv-btn.btn-warning {
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.apv-btn.btn-warning:hover {
+  background-color: #ffc107;
+  color: white;
+}
+
+/* Icon specific styles */
+.apv-btn i {
+  transition: color 0.2s ease;
+}
+
+.apv-btn:hover i {
+  color: white !important;
+}
+
+/* Ensure consistent sizing */
+/* .fa-xl {
+  font-size: 1.2em;
+} */

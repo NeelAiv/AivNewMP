@@ -22,8 +22,8 @@ export class WidgetServicesService {
     return this.http.get(this.BASE_URL + '/widget/user/' + id);
   }
 
-  uploadWidget(widget) {
-    return this.http.post(this.BASE_URL + '/uploadFile', widget);
+  uploadWidget(formData: FormData) {
+    return this.http.post(`${this.BASE_URL}/uploadFile`, formData);
   }
 
   getBreakDownRating(id){
@@ -57,9 +57,10 @@ export class WidgetServicesService {
     return this.http.post(this.BASE_URL + '/uploadWidgetImages/' + id, files);
   }
 
-  DownloadWidget(widget) {
-    return this.http.get(this.BASE_URL + '/downloadWidget/' + widget);
-
+  DownloadWidget(fileName: string) {
+    return this.http.get(`${this.BASE_URL}/downloadWidget/${fileName}`, {
+      responseType: 'blob' // Expect binary data
+    });
   }
 
   getAllWidgets() {

@@ -68,8 +68,11 @@
               <div class="product-item-inner">
                 <div class="product-img-wrap">
                   <img
-                    src="{{obj.image !== '' ? baseUrl+'/uploads/images/'+ obj.image.split(',')[0] : obj.sub_category !== '' ? baseUrl+'/uploads/images/'+obj.sub_category+'.png' : '/uploads/images/'+obj.category+'.png' }}"
-                    alt="">
+  [src]="obj.image ? (baseUrl + '/uploads/images/' + obj.image.split(',')[0]) :
+       (obj.sub_category ? (baseUrl + '/uploads/images/' + obj.sub_category + '.png') :
+       (baseUrl + '/uploads/images/' + obj.category + '.png'))"
+  alt="">
+
                 </div>
                 <div class="product-button">
                   <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.size}}kb" tooltip="{{obj.size}}kb"

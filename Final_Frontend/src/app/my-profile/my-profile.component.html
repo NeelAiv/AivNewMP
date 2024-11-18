@@ -20,7 +20,7 @@
                 data-target="#aiv_profiletb2" role="tab" aria-controls="profile" aria-selected="false">Edit
                 Profile</a>
             </li>
-            <li class="nav-item" *ngIf="currentUser.role === 'ADMIN'">
+            <li class="nav-item" *ngIf="currentUser.role === 'ADMIN' || currentUser.role === 'SUPER_ADMIN'">
               <a class="nav-link" id="aivprof-tab3" data-toggle="tab" href="javascript:void(0);"
                 data-target="#aiv_profiletb3" role="tab" aria-controls="contact" aria-selected="false">My
                 Components</a>
@@ -36,7 +36,7 @@
                     <div class="aiv_userprofimgdiv">
                       <!-- "{{currentUser[0].profile_image !== '' ? baseUrl+'/uploads/profiles/'+currentUser[0].profile_image : baseUrl+'/uploads/profiles/'+currentUser[0].profile_image  -->
                       <img
-                        src="{{currentUserPhoto ? baseUrl+'/uploads/profiles/'+ currentUserPhoto : baseUrl+'/uploads/profiles/user.jpg' }}"
+                        src="{{currentUserPhoto ? baseUrl+'/uploads/profiles/'+ currentUserPhoto : baseUrl+'/uploads/profiles/new profile.png' }}"
                         alt="aiv-user-profile-img" class="img-thumbnail rounded-circle">
                     </div>
 
@@ -89,7 +89,7 @@
                           <div class="aivrate_prgbox_prgval">
                             5
                           </div>
-    
+
                         </div>
                         <div class="aivrate_prgbox">
                           <div class="aivrate_prgbox_starlabel">
@@ -104,7 +104,7 @@
                           <div class="aivrate_prgbox_prgval">
                             4
                           </div>
-    
+
                         </div>
                         <div class="aivrate_prgbox">
                           <div class="aivrate_prgbox_starlabel">
@@ -119,7 +119,7 @@
                           <div class="aivrate_prgbox_prgval">
                             15
                           </div>
-    
+
                         </div>
                         <div class="aivrate_prgbox">
                           <div class="aivrate_prgbox_starlabel">
@@ -134,7 +134,7 @@
                           <div class="aivrate_prgbox_prgval">
                             5
                           </div>
-    
+
                         </div>
                         <div class="aivrate_prgbox">
                           <div class="aivrate_prgbox_starlabel">
@@ -149,7 +149,7 @@
                           <div class="aivrate_prgbox_prgval">
                             5
                           </div>
-    
+
                         </div>
                       </div>
                     </div> -->

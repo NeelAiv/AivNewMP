@@ -405,15 +405,17 @@ export class UploadWidgetComponent implements OnInit {
 
 
     if (this.uploadFile.widgetImages.length > 0) {
-      var imageformData = new FormData();
-      for (let i = 0; i < this.uploadFile.widgetImages.length; i++) {
-        imageformData.append('uploadedImages[]', this.uploadFile.widgetImages[i], this.uploadFile.widgetImages[i].name);
-      }
-      this.widgetService.uploadWigetImages(this.widgetId, imageformData).subscribe(data => {
-        console.log('data -----> ', data);
+      var imageFormData  = new FormData();
+      this.uploadFile.widgetImages.forEach((image: File) => {
+        imageFormData.append('uploadedImages[]', image, image.name);
+      });
+      this.widgetService.uploadWigetImages(this.widgetId, imageFormData).subscribe(data => {
+        console.log('Uploaded images response:', data);
+        // console.log('data -----> ', data);
         setTimeout(() => {
 
           var formData = new FormData();
+
           for (var key in this.upload) {
             formData.append(key, this.upload[key]);
           }
@@ -442,43 +444,30 @@ export class UploadWidgetComponent implements OnInit {
           this.isLoading = true
 
 
-          this.widgetService.uploadWidget(formData).subscribe((data: any) => {
-
-            if (data.success == true) {
-              this.widgetService.GetWidgetById(this.currentUser.id).subscribe((data) => {
-                console.log(data)
-              })
-              if (this.isLoading) {
-                this.spinner.show();
-
-                setTimeout(() => {
-                  /** spinner ends after 5 seconds */
-                  this.spinner.hide();
-                  this.router.navigateByUrl('/preview/' + data.widgetId);
-                  this.toastr.success('Component uploaded successfully', 'Success')
-                }, 5000);
+          this.widgetService.uploadWidget(formData).subscribe(
+            (data: any) => {
+              if (data.success) {
+                this.toastr.success('Component uploaded successfully', 'Success');
+                this.router.navigateByUrl('/preview/' + data.widgetId);
+                this.loadWidgetDetailsAfterUpload();
+              } else {
+                this.toastr.error('Component uploading failed.', 'Error');
               }
               this.isLoading = false;
-            } else {
+            },
+            error => {
               this.isLoading = false;
-              this.toastr.error('Component uploading failed.', 'Error')
-
+              this.toastr.error('Failed to upload component.', 'Error');
+              console.error('Upload error:', error);
             }
-          })
-          // then(function (res) {
-          //   if (res.message == 'success') {
-          //     $location.path('/widgets');
-          //     $timeout(function () {
-          //       FlashService.Success(res.message);
-          //     }, 1500);
-          //   } else {
-          //     FlashService.Error(res.message);
-          //   }
-          // });
-
-
+          );
         }, 1500);
-      })
+      },
+      error => {
+        this.toastr.error('Image upload failed', 'Error');
+        console.error('Image upload error:', error);
+      }
+    );
     }
     else {
       this.toastr.warning("Please upload atleast one image")
@@ -487,6 +476,15 @@ export class UploadWidgetComponent implements OnInit {
 
   }
 
+  loadWidgetDetailsAfterUpload() {
+    this.widgetService.GetWidgetById(this.currentUser.id).subscribe((data) => {
+      console.log('Widget Details:', data);
+      this.spinner.show();
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 5000);
+    });
+  }
   // saveCoverImage(e : any){
   //   // var fileName = e.target.files[0].name;
   //   setTimeout(() => {
@@ -498,7 +496,7 @@ export class UploadWidgetComponent implements OnInit {
   saveWidgetFile(e: any) {
     var file = e.target.files[0];
     if (file) {
-      debugger;
+      // debugger;
       if (file.type == 'application/vnd.microsoft.portable-executable' ||
         file.type == 'application/x-msdownload' ||
         file.type == 'application/exe' ||
