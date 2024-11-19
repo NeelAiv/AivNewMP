@@ -1,15 +1,15 @@
-#customImg{
-    width: 100%;
-    border-radius: 4px;
-}
-label
-{
-    font-weight: bold;
+#customImg {
+  width: 100%;
+  border-radius: 4px;
 }
 
-.error{
-    font-size: smaller;
-    color: red;
+label {
+  font-weight: bold;
+}
+
+.error {
+  font-size: smaller;
+  color: red;
 }
 
 .loader {
@@ -18,41 +18,53 @@ label
   border-top: 5px solid orange;
   width: 20px;
   height: 20px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
+  -webkit-animation: spin 2s linear infinite;
+  /* Safari */
   animation: spin 2s linear infinite;
 }
 
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 
-.item > .fa-trash{
+.item>.fa-trash {
   position: absolute;
-  top:5px;
-right: 5px;
-display: none;
-color: red;
-    cursor: pointer;
-}
-.item:hover .fa-trash{
-  display:block;
+  top: 5px;
+  right: 5px;
+  display: none;
+  color: red;
+  cursor: pointer;
 }
 
-.product-image-sm img{
+.item:hover .fa-trash {
+  display: block;
+}
+
+.product-image-sm img {
   max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.btn-blue{
+.btn-blue {
   background: #4F9CFD;
   color: white;
 }
@@ -62,12 +74,12 @@ color: red;
   flex-wrap: wrap;
   gap: 8px;
   padding: 10px;
-  width: 100%; /* Fixed width */
-  height: 300px; /* Fixed height */
-  border: 1px solid #ddd; /* Border around the container */
-  border-radius: 8px; /* Optional: Rounded corners */
-  overflow-y: auto; /* Allows scrolling if images overflow */
-  background-color: #f9f9f9; /* Light background color for contrast */
+  width: 100%;
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
 }
 
 /* Image styling within container */
@@ -78,4 +90,10 @@ color: red;
   align-items: center;
   position: relative;
   overflow: hidden;
+}
+
+.product-image-slider-thumbnails{
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
 }

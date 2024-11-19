@@ -1,7 +1,7 @@
 <!-- Product (Tab with Slider) -->
 <section class="section-padding-b">
     <div class="container">
-        <h2 class="page-title">Top Interesting</h2>
+        <h2 class="page-title">Trending</h2>
     </div>
     <div class="container top-interesting">
         <ul class="product-filter nav" role="tablist">
@@ -26,8 +26,9 @@
                             *ngFor="let obj of (widgetList$ | async | matchesCategorySubCategoryForWidgetGallery : selectedCategory : subCategory.value.name  | orderBy : 'title' : sortType | slice:0:4) let wdindex= index;">
                             <div class="product-item-inner">
                                 <div class="product-img-wrap">
-                                    <img src="{{obj.image !== '' ? baseUrl+'/uploads/images/'+ obj.image.split(',')[0] : obj.sub_category !== '' ? baseUrl+'/uploads/images/'+obj.sub_category+'.png' : '/uploads/images/'+obj.category+'.png' }}"
-                                        alt="">
+                                    <img  [src]="getImageSrc(obj)"
+                                    alt="No Image Available"
+                                    (error)="onImageError($event)">
                                 </div>
                                 <div class="product-button">
                                     <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.size}}kb"

@@ -88,6 +88,7 @@ export class SliderContainerComponent implements OnInit {
           drag_block_vertical: !1,
           keyboardNavigation: "on",
           fullWidth: "off",
+          zIndex: 10, // Add this
           fullScreen: "off",
           navigation: {
             keyboardNavigation: "off",

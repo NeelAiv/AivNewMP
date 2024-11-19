@@ -285,8 +285,22 @@ export class WidgetPreviewComponent implements OnInit {
       this.widgetHttpService.GetWidgetById(this.id).subscribe(data => {
         const widgetObj = data['data']
         this.widget = widgetObj[0];
-        this.widget['images'] = this.widget.image.split(',');
-        this.widget['images'] = this.widget['images'].filter(x => x != '')
+
+        // this.widget['images'] = this.widget.image.split(',');
+        // this.widget['images'] = this.widget['images'].filter(x => x != '')
+
+        console.log('Raw images:', this.widget.image);
+
+        if (this.widget.image) {
+          const imagesArray = this.widget.image.split(',').filter(x => x.trim() !== '');
+          this.widget['images'] = [...new Set(imagesArray)]; // Remove duplicates
+      } else {
+          this.widget['images'] = [];
+      }
+
+      console.log('Processed images:', this.widget['images']);
+
+
         // debugger;
         this.widget.video_url = this.widget.video_url.replace("watch?v=", "embed/");
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(this.widget.video_url);

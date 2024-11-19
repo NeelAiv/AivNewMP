@@ -32,3 +32,62 @@
 .copyrights a:hover {
     text-decoration: underline;
 }
+
+.footer_col_list{
+  display: flex;
+  padding: 5rem;
+  flex-direction: row;
+}
+
+.box1, .box2, .box3, .box4, .box5{
+  color: white;
+  border: 1.87px solid #0078d4;
+  background: #0078d4;
+  border-radius: 18px;
+  padding: 5px;
+  text-align: center;
+}
+
+.box1{
+  width: 7rem;
+}
+
+.box2{
+  width: 9rem;
+}
+
+.box3{
+  width: 7rem;
+}
+
+.box4{
+  width: 10rem;
+}
+
+.box5{
+  width: 8rem;
+}
+
+.footer_col{
+  width: calc(24% - 5px);
+    padding: 3rem;
+    border-radius: 20px;
+}
+
+.col_list{
+  list-style: none;
+  line-height: 24px;
+  padding-left: 7px;
+}
+
+.col_list.social_links>li>a>i{
+  margin-right: 6px;
+}
+
+.col_list a{
+  color: #fff;
+}
+
+.col_list>li:not(:last-child){
+  margin-bottom: 5px;
+}

@@ -77,9 +77,12 @@ const https = require('https');
         if (file.originalname.endsWith('.widget') || file.originalname.endsWith('.exe')) {
             console.log('Storing in WidgetDirectoryFiles');
             callback(null, WidgetDirectoryFiles); // For .widget files
-        } else {
-            console.log('Storing in WidgetDirectoryImages');
-            callback(null, WidgetDirectoryImages); // For image files
+        } else if (file.fieldname === 'coverImage') {
+            console.log('Storing Cover Image in WidgetDirectoryImages');
+            callback(null, WidgetDirectoryImages); // For cover image
+        } else if (file.fieldname === 'uploadedImages[]') {
+            console.log('Storing Uploaded Images in WidgetDirectoryImages');
+            callback(null, WidgetDirectoryImages); // For uploaded images
         }
     },
     filename: function (req, file, callback) {
@@ -87,8 +90,10 @@ const https = require('https');
 
         if (file.originalname.endsWith('.widget') || file.originalname.endsWith('.exe')) {
             wObject.file_path = fName;
-        } else {
-            wObject.images = (wObject.images ? wObject.images : '') + fName + ',';
+        } else if (file.fieldname === 'coverImage') {
+            wObject.image = fName; // Assign cover image
+        } else if (file.fieldname === 'uploadedImages[]') {
+            wObject.images += fName + ','; // Append uploaded image
         }
 
         console.log('File Processed: ', wObject, fName);

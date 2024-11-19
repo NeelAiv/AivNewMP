@@ -1,3 +1,7 @@
 .product-item .product-item-inner img{
     height: 250px;
 }
+
+.product-filter li a.active{
+  font-weight: 600;
+}

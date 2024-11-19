@@ -7,7 +7,9 @@
       <div class="col-md-9 push-md-3">
         <!-- Title -->
         <div class="list-page-title">
-          <h2 class="">{{selectedCategory}} <span *ngIf="selectedSubCategory != '' &&  selectedSubCategory != null "> > {{selectedSubCategory}} </span><small>{{(widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
+          <h2 class="">{{selectedCategory}} <span *ngIf="selectedSubCategory != '' &&  selectedSubCategory != null "> >
+              {{selectedSubCategory}} </span><small>{{(widgetList$ | async | matchesCategorySubCategoryForWidgetGallery
+              :
               selectedCategory : selectedSubCategory).length}} Products</small></h2>
         </div>
         <!-- End Title -->
@@ -57,30 +59,34 @@
 
         <!-- Product Grid -->
         <div class="row product-list-item">
-            <div class=" col-sm-6 col-md-6 col-lg-4" *ngIf="!((widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
+          <div class=" col-sm-6 col-md-6 col-lg-4"
+            *ngIf="!((widgetList$ | async | matchesCategorySubCategoryForWidgetGallery :
               selectedCategory : selectedSubCategory | purchaseCategory : srtPrice | orderBy : 'title' : sortType ).length > 0)">
-              <p>No Records Found</p>
-            </div>
+            <p>No Records Found</p>
+          </div>
           <div class="product-item-element col-sm-6 col-md-6 col-lg-4"
             *ngFor="let obj of (widgetList$ | async) | matchesCategorySubCategoryForWidgetGallery : selectedCategory : selectedSubCategory | purchaseCategory : srtPrice | orderBy : 'title' : sortType ">
             <!--Product Item-->
             <div class="product-item">
               <div class="product-item-inner">
                 <div class="product-img-wrap">
-                  <img
-  [src]="obj.image ? (baseUrl + '/uploads/images/' + obj.image.split(',')[0]) :
-       (obj.sub_category ? (baseUrl + '/uploads/images/' + obj.sub_category + '.png') :
-       (baseUrl + '/uploads/images/' + obj.category + '.png'))"
-  alt="">
+                  <!-- <img [src]="obj.image ? (baseUrl + '/uploads/images/' + obj.image.split(',')[0]) :
+      (obj.sub_category ? (baseUrl + '/uploads/images/' + obj.sub_category + '.png') :
+      (obj.category ? (baseUrl + '/uploads/images/' + obj.category + '.png') :
+      (baseUrl + '/uploads/images/widget1.png')))"
+      alt="No Widget Image"> -->
+
+                  <img [src]="getImageSrc(obj)" alt="No Widget Image"
+                  (error)="onImageError($event)">
 
                 </div>
                 <div class="product-button">
-                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.size}}kb" tooltip="{{obj.size}}kb"
-                    [options]="tooltipOptions"><i class="fa fa-database"></i></a>
+                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.size}}kb"
+                    tooltip="{{obj.size}}kb" [options]="tooltipOptions"><i class="fa fa-database"></i></a>
                   <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.downloaded}}"
                     tooltip="{{obj.downloaded}}" [options]="tooltipOptions"><i class="fa fa-download"></i></a>
-                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.refresh}}" tooltip="{{obj.refresh}}"
-                    [options]="tooltipOptions"><i class="fa fa-refresh"></i></a>
+                  <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.refresh}}"
+                    tooltip="{{obj.refresh}}" [options]="tooltipOptions"><i class="fa fa-refresh"></i></a>
                   <a href="javascript:;" class="js_tooltip" data-mode="top" data-tip="{{obj.no_of_comments}}"
                     tooltip="{{obj.no_of_comments}}" [options]="tooltipOptions"><i class="fa fa-comment"></i></a>
                 </div>

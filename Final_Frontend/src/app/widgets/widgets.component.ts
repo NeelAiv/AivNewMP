@@ -160,4 +160,24 @@ export class WidgetsComponent implements OnInit {
     });
   }
 
+  getImageSrc(obj: any): string {
+    let imageUrl: string;
+    if (obj.image) {
+      imageUrl = `${this.baseUrl}/uploads/images/${obj.image.split(',')[0]}`;
+    } else if (obj.sub_category) {
+      imageUrl = `${this.baseUrl}/uploads/images/${obj.sub_category}.png`;
+    } else if (obj.category) {
+      imageUrl = `${this.baseUrl}/uploads/images/${obj.category}.png`;
+    } else {
+      imageUrl = `${this.baseUrl}/uploads/images/widget1.png`;
+    }
+
+    console.log('Generated Image URL:', imageUrl);
+    return imageUrl;
+  }
+
+  onImageError(event: any): void {
+    event.target.src = `${this.baseUrl}/uploads/images/widget1.png`;
+  }
+
 }

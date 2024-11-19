@@ -642,13 +642,13 @@ button i.right {
 }
 
 .btn-color {
-    background-color: #f9a423;
+    background-color: #4F9CFD;
     border-color: transparent;
     color: #fff !important;
 }
 
 .btn-color:hover {
-    background-color: #df931f;
+    background-color: #89bdfd;
     border-color: transparent;
     color: #fff !important;
 }
