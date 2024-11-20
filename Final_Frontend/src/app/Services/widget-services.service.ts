@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from 'src/app/constants/constants';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WidgetServicesService {
+  private refreshWidgetsSource = new BehaviorSubject<void>(null);
+  refreshWidgets$ = this.refreshWidgetsSource.asObservable();
   BASE_URL = BASE_URL;
   constructor(private http: HttpClient) { }
 
@@ -155,5 +157,9 @@ export class WidgetServicesService {
         document.body.removeChild(a);
       }, 0);
     }
+  }
+
+  triggerWidgetRefresh() {
+    this.refreshWidgetsSource.next();
   }
 }

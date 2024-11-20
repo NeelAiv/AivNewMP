@@ -31,6 +31,9 @@
                                 <li *ngIf="user.role === 'SUPER_ADMIN'">
                                       <a routerLink="/approve">Approve Widgets</a>
                                 </li>
+                                <li *ngIf="user.role === 'SUPER_ADMIN'">
+                                  <a routerLink="/unapprove">Unapprove Widgets</a>
+                            </li>
                                 <li (click)="logout();"><a href="javascript:;">Log out</a></li>
                             </ul>
 

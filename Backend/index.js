@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 const passwordUtil = require('./services/password');
+const CryptoJS = require('crypto-js');
 var moment = require('moment');
 var multer = require('multer');
 var formidable = require('formidable');
@@ -15,6 +16,7 @@ var WidgetDirectory = path.join(__dirname, 'uploads');
 // var WidgetDirectory = path.join(__dirname, 'MarketPlace');
 var WidgetDirectoryImages = path.join(__dirname, 'uploads', 'images');
 var WidgetDirectoryFiles = path.join(__dirname, 'uploads', 'files');
+const SECRET_KEY = 'pass123';
 // ensure log directory exists
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
 fs.existsSync(WidgetDirectory) || fs.mkdirSync(WidgetDirectory)
@@ -1184,6 +1186,124 @@ app.post('/uploadWidgetImages/:widgetId', uploadWidgetImages.array('uploadedImag
     console.log('Uploaded widget images:', req.files);
     res.send({ success: true, message: "Widget images uploaded successfully" });
 });
+
+function generateToken() {
+    const now = new Date().toISOString();
+    // const today = new Date().toISOString();
+    const dataToEncrypt = `AIV${now}`;
+    // const dataToEncrypt = today;
+    const token = CryptoJS.AES.encrypt(dataToEncrypt, SECRET_KEY).toString();
+    // const encryptedDate = CryptoJS.AES.encrypt(dataToEncrypt, SECRET_KEY).toString();
+
+    // const token = `AIV${encryptedDate}`; 
+    return token;
+}
+
+
+/**
+ * Function to validate a token
+ * Checks if the token is valid, matches today's date, and has not expired
+ */
+function validateToken(token) {
+    try {
+        const decryptedBytes = CryptoJS.AES.decrypt(token, SECRET_KEY);
+        const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+        console.log("Decrypted Token:", decryptedText);
+
+        if (!decryptedText.startsWith('AIV')) {
+            console.error("Token is invalid: Missing 'AIV' prefix.");
+            return false;
+        }
+
+        // Extract the timestamp from the decrypted text
+        const tokenTimestamp = decryptedText.replace('AIV', '');
+        const tokenTime = new Date(tokenTimestamp);
+        if (isNaN(tokenTime.getTime())) {
+            console.error("Token is invalid: Timestamp is not valid.");
+            return false;
+        }
+
+        // Calculate the time difference between now and the token time
+        const currentTime = new Date();
+        const timeDifference = (currentTime - tokenTime) / 1000; // Time difference in seconds
+
+        console.log("Time Difference (seconds):", timeDifference);
+
+        if (timeDifference > 300) {
+            console.error("Token expired: Exceeded 5 minutes.");
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Token validation error:", error);
+        return false;
+    }
+}
+
+// function validateToken(token) {
+//     try {
+//         // Check if the token starts with 'AIV' and remove it
+//         if (!token.startsWith('AIV')) {
+//             return false;
+//         }
+
+//         const encryptedDate = token.slice(3); // Remove "AIV" from the token
+
+//         const decryptedBytes = CryptoJS.AES.decrypt(encryptedDate, SECRET_KEY);
+//         const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+//         // Check if the decrypted text matches today's date
+//         const today = new Date().toISOString().slice(0, 10);
+//         if (decryptedText !== today) {
+//             return false;
+//         }
+
+//         // Check if the token has expired (5 minutes expiry)
+//         const tokenDate = new Date(decryptedText);
+//         const currentTime = new Date();
+//         const timeDifference = (currentTime - tokenDate) / 1000; // Time difference in seconds
+//         if (timeDifference > 300) { // 5 minutes = 300 seconds
+//             return false;
+//         }
+
+//         return true;
+//     } catch (error) {
+//         console.error('Token validation error:', error);
+//         return false;
+//     }
+// }
+
+
+
+app.get('/getAllWidgetsWithToken', (req, res) => {
+    const token = req.headers['authorization'];
+
+    if (!token || !validateToken(token)) {
+        return res.status(401).send({ success: false, message: 'Invalid or expired token' });
+    }
+
+    mysqlConnection.query('SELECT title FROM ai_mp_components', (err, rows, fields) => {
+        if (!err) {
+            console.log('Rows: ',rows)
+            res.send(rows);
+        } else {
+            res.status(500).send({ success: false, message: 'Something went wrong while fetching widgets' });
+        }
+    });
+});
+
+app.get('/generateToken', (req, res) => {
+    const token = generateToken();
+    res.send({ token });
+});
+
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
+
 
 app.get('*', (req, res) => {
 

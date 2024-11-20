@@ -54,6 +54,7 @@ import {SpecialProductsComponent} from './special-products/special-products.comp
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ApproveComponent } from './approve/approve.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { UnapproveComponent } from './unapprove/unapprove.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,6 +88,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     SpecialProductsComponent,
     TrendingProductsComponent,
     ApproveComponent,
+    UnapproveComponent,
   ],
   imports: [
     BrowserModule,

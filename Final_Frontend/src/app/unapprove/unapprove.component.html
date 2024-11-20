@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let widget of approvedWidgets">
+        <tr *ngFor="let widget of unapprovedWidgets">
           <td>
             <img [src]="widget.image ? (baseUrl + '/uploads/images/' + widget.image.split(',')[0]) :
        (widget.sub_category ? (baseUrl + '/uploads/images/' + widget.sub_category + '.png') :
@@ -42,7 +42,7 @@
                 <i class="fa-light fa-trash-can fa-xl" ></i>
               </button>
               <button class="apv-btn btn-sm btn-outline-primary"
-                [ngClass]="widget.is_public ? 'btn-success' : 'btn-warning'" (click)="toggleApproval(widget)">
+                [ngClass]="!widget.is_public ? 'btn-success' : 'btn-warning'" (click)="toggleApproval(widget)">
                 <i class="btns" [ngClass]="widget.is_public ? 'fa-solid fa-circle-check fa-xl' : 'fa-regular fa-circle-check fa-xl'"></i>
               </button>
             </div>

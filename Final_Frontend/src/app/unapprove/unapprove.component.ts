@@ -1,18 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SharedVarService } from '../Services/SharedVarService';
-import { Observable } from 'rxjs';
 import { WidgetServicesService } from '../Services/widget-services.service';
-import { data } from 'jquery';
 import { BASE_URL } from '../constants/constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-approve',
-  templateUrl: './approve.component.html',
-  styleUrls: ['./approve.component.css']
+  selector: 'app-unapprove',
+  templateUrl: './unapprove.component.html',
+  styleUrls: ['./unapprove.component.css']
 })
-export class ApproveComponent implements OnInit {
+export class UnapproveComponent implements OnInit {
   @ViewChild('deleteConfirmModal') deleteConfirmModal: any;
 
   allWidgets: any[] = [];
@@ -21,7 +17,7 @@ export class ApproveComponent implements OnInit {
   baseUrl = BASE_URL;
   widgetToDelete: any;
 
-  constructor(private sharedVarService: SharedVarService, private http: HttpClient, private widgetService: WidgetServicesService, private modalService: NgbModal) {}
+  constructor(private widgetService: WidgetServicesService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     // this.userRole = JSON.parse(localStorage.getItem('currentUser'))?.role;
@@ -31,21 +27,21 @@ export class ApproveComponent implements OnInit {
     // this.sharedVarService.$widgetList.subscribe(widgets => {
     //   this.widgets = widgets;
     // });
-    this.getApprovedWidgets();
-    // this.getUnapprovedWidgets();
-    this.getAllWidgets();
+    // this.getApprovedWidgets();
+    this.getUnapprovedWidgets();
+    // this.getAllWidgets();
   }
 
-  getAllWidgets() {
-  this.widgetService.getAllWidgets().subscribe((data: any) => {
-    this.allWidgets = data.map(widget => ({
-      ...widget,
-      is_public: widget.is_public && widget.is_public.data[0] === 1 ? 1 : 0
-    }));
-    console.log('data:', data);
+  // getAllWidgets() {
+  //   this.widgetService.getAllWidgets().subscribe((data: any) => {
+  //     this.allWidgets = data.map(widget => ({
+  //       ...widget,
+  //       is_public: widget.is_public && widget.is_public.data[0] === 1 ? 1 : 0
+  //     }));
+  //     console.log('data:', data);
 
-  });
-}
+  //   });
+  // }
 
 
 
@@ -96,7 +92,7 @@ export class ApproveComponent implements OnInit {
       this.widgetService.approveWidget(widget.id).subscribe(() => {
         widget.is_public = 1;
         console.log(`Widget ${widget.id} approved.`);
-        this.approvedWidgets = this.approvedWidgets.filter((w) => w.id !== widget.id);
+        this.unapprovedWidgets = this.unapprovedWidgets.filter((w) => w.id !== widget.id);
         this.widgetService.triggerWidgetRefresh();
       });
     } else {
@@ -109,21 +105,21 @@ export class ApproveComponent implements OnInit {
 
   openDeleteConfirmation(widget: any) {
     this.widgetToDelete = widget;
-    this.modalService.open(this.deleteConfirmModal, {backdrop: false, keyboard: false, centered: true, windowClass: 'fade-in-modal'}).result.then(
+    this.modalService.open(this.deleteConfirmModal, { backdrop: false, keyboard: false, centered: true, windowClass: 'fade-in-modal' }).result.then(
       (result) => {
         if (result === 'Delete click') {
           this.deleteComponent(this.widgetToDelete.id);
         }
         document.body.classList.remove('modal-open');
         const modalBackdrops = document.getElementsByClassName('modal-backdrop');
-        while(modalBackdrops.length > 0) {
+        while (modalBackdrops.length > 0) {
           modalBackdrops[0].remove();
         }
       },
       (reason) => {
         document.body.classList.remove('modal-open');
         const modalBackdrops = document.getElementsByClassName('modal-backdrop');
-        while(modalBackdrops.length > 0) {
+        while (modalBackdrops.length > 0) {
           modalBackdrops[0].remove();
         }
       }
@@ -133,12 +129,12 @@ export class ApproveComponent implements OnInit {
   deleteComponent(id: string) {
     this.widgetService.Delete(id).subscribe({
       next: () => {
-        this.getAllWidgets(); // Refresh the list after deletion
+        this.getUnapprovedWidgets(); // Refresh the list after deletion
         this.modalService.dismissAll(); // Ensure modal is closed
         // Clear any remaining backdrops
         document.body.classList.remove('modal-open');
         const modalBackdrops = document.getElementsByClassName('modal-backdrop');
-        while(modalBackdrops.length > 0) {
+        while (modalBackdrops.length > 0) {
           modalBackdrops[0].remove();
         }
       },
@@ -148,7 +144,7 @@ export class ApproveComponent implements OnInit {
         // Clear any remaining backdrops
         document.body.classList.remove('modal-open');
         const modalBackdrops = document.getElementsByClassName('modal-backdrop');
-        while(modalBackdrops.length > 0) {
+        while (modalBackdrops.length > 0) {
           modalBackdrops[0].remove();
         }
       },
@@ -157,10 +153,8 @@ export class ApproveComponent implements OnInit {
   private cleanupModalArtifacts() {
     document.body.classList.remove('modal-open');
     const modalBackdrops = document.getElementsByClassName('modal-backdrop');
-    while(modalBackdrops.length > 0) {
+    while (modalBackdrops.length > 0) {
       modalBackdrops[0].remove();
     }
   }
-
 }
-
