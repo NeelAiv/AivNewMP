@@ -36,12 +36,20 @@
                             <!-- Slick Image Slider -->
                             <div class="product-image-slider product-image-gallery row" id="product-image-gallery"
                                 data-pswp-uid="3">
-                                <div class="item col-4 product-image-sm" *ngFor="let image of upload.images">
+                                <div class="item product-image-sm" *ngFor="let image of upload.images">
                                         <img src="{{image !== '' ?(image.indexOf('blob')> -1 ? image : baseUrl+'/uploads/images/'+ image) : upload.sub_category !== '' ? baseUrl+'/uploads/images/'+upload.sub_category+'.png' : '/uploads/images/'+upload.category+'.png' }}"
                                             alt="aiv-widget-image">
                                     <i class="fa fa-trash" (click)="deleteSavedImage(image)"></i>
                                 </div>
 
+                                <div class="product-image-slider-thumbnails row" id="product-image-gallery">
+                                  <div class="item product-image-sm" *ngFor="let image of upload.uploadedImages">
+
+                                          <img [src]="image" alt="aiv-widget-image">
+                                          <i class="fa fa-trash" (click)="deleteImage(image)"></i>
+
+                                  </div>
+                              </div>
                             </div>
                             <!-- End Slick Image Slider -->
                             <div class="aiv_widgetsdock_item_desc mainaivfrmgrp_wrap upload_ldiv">
@@ -52,14 +60,14 @@
                                 </div>
                             </div>
 
-                            <div class="product-image-slider-thumbnails row" id="product-image-gallery">
+                            <!-- <div class="product-image-slider-thumbnails row" id="product-image-gallery">
                                 <div class="item col-4 product-image-sm" *ngFor="let image of upload.uploadedImages">
-                                    
+
                                         <img [src]="image" alt="aiv-widget-image">
                                         <i class="fa fa-trash" (click)="deleteImage(image)"></i>
-                                    
+
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- <div class="aiv_widgetsdock_item_desc mainaivfrmgrp_wrap upload_ldiv">
                                 <div id="1" class="custom-file custm_fupload">
@@ -130,10 +138,10 @@
                                                 <!-- <span class="help-block"> File is required</span> -->
 
                                             </div>
-                                            
+
                                         </div>
                                     </div>
-                                 
+
                                     <div class="col-lg-6 col-xl-6">
                                         <!-- ng-class="{ 'has-error': form.widgetTitle.$dirty && form.widgetTitle.$error.required }" -->
                                         <div class="form-group">
@@ -288,14 +296,14 @@
                                         </div>
                                     </div> -->
                                     <div class="col-lg-12 mb-2">
-                                        <input name="submit" id="submit" class="submit btn btn-md btn-black"
+                                        <input name="submit" id="submit" class="submit btn btn-md btn-blue"
                                             value="Submit" type="submit" *ngIf="!isLoading"  >
-                                          
+
                                         <img *ngIf="dataLoading"
                                             src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                                         <a href="javascript:void(0);" class="ml-5" (click)="cancel()">Cancel</a>
                                     </div>
-                                   
+
                                 </div>
                             </form>
                         </div>

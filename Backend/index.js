@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 const passwordUtil = require('./services/password');
+const CryptoJS = require('crypto-js');
 var moment = require('moment');
 var multer = require('multer');
 var formidable = require('formidable');
@@ -15,6 +16,7 @@ var WidgetDirectory = path.join(__dirname, 'uploads');
 // var WidgetDirectory = path.join(__dirname, 'MarketPlace');
 var WidgetDirectoryImages = path.join(__dirname, 'uploads', 'images');
 var WidgetDirectoryFiles = path.join(__dirname, 'uploads', 'files');
+const SECRET_KEY = 'pass123';
 // ensure log directory exists
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
 fs.existsSync(WidgetDirectory) || fs.mkdirSync(WidgetDirectory)
@@ -24,9 +26,9 @@ var wObject = { 'image': '', 'file_path': '', 'images': '' };
 // app.use(express.static('Widgets/images/'));
 // app.use(express.static('Widgets/files/'));
 app.use('/uploads', express.static('./uploads'));
-app.use(express.static('MP/uploads/files/'));
-app.use(express.static('MP/uploads/profiles/'));
-app.use(express.static('MP/uploads/images/'));
+app.use(express.static('./uploads/files/'));
+app.use(express.static('./uploads/profiles/'));
+app.use(express.static('./uploads/images/'));
 // app.use(express.static('MarketPlace/'));
 // app.use('*/AivMarketplace',express.static(path.join(__dirname, 'AivMarketplace')));
 app.use(express.static(path.join(__dirname, 'marketplace')));
@@ -72,25 +74,35 @@ const https = require('https');
   });  
   var uploadWdgetFile = multer({ storage : storeWidget}).single('widgetFile'); */
 
-var storeWidget = multer.diskStorage({
+  var storeWidget = multer.diskStorage({
     destination: function (req, file, callback) {
-        console.log(file);
-        var temp = '';
-        console.log('WidgetDirectoryFiles --> ', WidgetDirectoryFiles);
-        console.log('WidgetDirectoryImages --> ', WidgetDirectoryImages);
-        callback(null, WidgetDirectoryFiles);
+        if (file.originalname.endsWith('.widget') || file.originalname.endsWith('.exe')) {
+            console.log('Storing in WidgetDirectoryFiles');
+            callback(null, WidgetDirectoryFiles); // For .widget files
+        } else if (file.fieldname === 'coverImage') {
+            console.log('Storing Cover Image in WidgetDirectoryImages');
+            callback(null, WidgetDirectoryImages); // For cover image
+        } else if (file.fieldname === 'uploadedImages[]') {
+            console.log('Storing Uploaded Images in WidgetDirectoryImages');
+            callback(null, WidgetDirectoryImages); // For uploaded images
+        }
     },
     filename: function (req, file, callback) {
-        var fName = Date.now() + '_' + file.originalname;
-        if (file.originalname.indexOf('.widget') > -1 || file.originalname.indexOf('.exe')) {
+        const fName = Date.now() + '_' + file.originalname;
+
+        if (file.originalname.endsWith('.widget') || file.originalname.endsWith('.exe')) {
             wObject.file_path = fName;
-        } else {
-            wObject.image = fName;
+        } else if (file.fieldname === 'coverImage') {
+            wObject.image = fName; // Assign cover image
+        } else if (file.fieldname === 'uploadedImages[]') {
+            wObject.images += fName + ','; // Append uploaded image
         }
-        console.log('widget ----> ', wObject, fName)
+
+        console.log('File Processed: ', wObject, fName);
         callback(null, fName);
     }
 });
+
 var upload = multer({ storage: storeWidget })
 
 var storeProfile = multer.diskStorage({
@@ -160,58 +172,94 @@ app.get('/', (req, res) => {
     res.send({ message: 'success' });
 });
 
-var cpUpload = upload.fields([{ name: 'widgetFile', maxCount: 8 }])
+var cpUpload = upload.fields([{ name: 'widgetFile', maxCount: 8 }, { name: 'coverImage', maxCount: 8 }])
 
 
 
 app.post('/uploadFile', cpUpload, (req, res) => {
     var body = req.body;
     console.log('Widget: ', body);
+
     var is_public = 0;
     var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-    mysqlConnection.query('SELECT * FROM ai_mp_users where id = ? ', [body.user_id], (err, data, datafields) => {
-        if (!err){
+    mysqlConnection.query('SELECT * FROM ai_mp_users WHERE id = ?', [body.user_id], (err, data) => {
+        if (!err && data.length > 0) {
             var userObj = data[0];
-            if(userObj.role == 'ADMIN' || userObj.role == 'INTERNAL'){
+            if (userObj.role === 'ADMIN' || userObj.role === 'INTERNAL' || userObj.role === 'SUPER_ADMIN') {
                 is_public = 1;
             }
-            var q = "INSERT INTO `ai_mp_components` "
-            + "(`title`,`category`,`rate`,`description`,`image`,`purchase_option`,`size`,`downloaded`,`refresh`,`no_of_comments`,`download_link`,`details`,`features`,`seller_name`,`file_path`,`price`,`video_url`,`created_date`,`last_update_date`,`user_id`,`sub_category`,`is_public`)"
-            + "VALUES ('" + body.title + "', '" + body.category + "', '" + body.rate + "', '" + body.description + "', '" + wObject.images + "', '" + body.purchase_option + "','" + body.size + "', 0,0,0,'" + body.download_link + "','" + body.details + "','" + body.features + "','" + body.seller_name + "','" + wObject.file_path + "'," + body.price + ",'" + body.video_url + "','" + mysqlTimestamp + "','" + mysqlTimestamp + "','" + body.user_id + "','" + body.sub_category + "',"+ is_public +")";
-        mysqlConnection.query(q, (err, result) => {
-            if (!err) {
-                res.send({ message: 'Component uploaded successfully', success: true, widgetId: result.insertId });
-            } else {
-                res.send({ message: 'Component upload failed', success: false });
-            }
-        });
+
+            // Insert the widget record into the database
+            const query = `
+                INSERT INTO ai_mp_components
+                (title, category, rate, description, image, purchase_option, size, downloaded, refresh, no_of_comments, download_link,
+                details, features, seller_name, file_path, price, video_url, created_date, last_update_date, user_id, sub_category, is_public)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+            const values = [
+                body.title,
+                body.category,
+                body.rate,
+                body.description,
+                wObject.images, // Images (if any)
+                body.purchase_option,
+                body.size,
+                0, // Downloaded count
+                0, // Refresh count
+                0, // No. of comments
+                body.download_link,
+                body.details,
+                body.features,
+                body.seller_name,
+                wObject.file_path, // Correct `.widget` file path
+                body.price,
+                body.video_url,
+                mysqlTimestamp,
+                mysqlTimestamp,
+                body.user_id,
+                body.sub_category,
+                is_public,
+            ];
+
+            mysqlConnection.query(query, values, (err, result) => {
+                if (!err) {
+                    res.send({ message: 'Component uploaded successfully', success: true, widgetId: result.insertId });
+                } else {
+                    console.error('Database insert error:', err);
+                    res.send({ message: 'Component upload failed', success: false });
+                }
+            });
+        } else {
+            console.error('User query error or no user found:', err);
+            res.send({ message: 'User validation failed', success: false });
         }
     });
-   
-
 });
+
 
 app.post('/uploadFile/:id', cpUpload, (req, res) => {
     if (req.params.id) {
-        var id = req.params.id;
-        var q = '';
-        var body = req.body;
-        console.log('edited body  :', body);
-        var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        const id = req.params.id;
+        const body = req.body;
+        console.log('edited body:', body);
+
+        const mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
         q = "update ai_mp_components set title='" + body.title + "', rate = '" + body.rate + "', category = '" + body.category + "', sub_category = '" + body.sub_category + "',description='" + body.description + "', image ='" + (wObject.images ? wObject.images + body.image : body.image) + "', purchase_option='" + body.purchase_option + "',size='" + body.size + "',download_link='" + body.download_link + "',details='" + body.details + "',features='" + body.features + "',seller_name='" + body.seller_name + "',file_path='" + (wObject.file_path ? wObject.file_path : body.file_path) + "',price=" + body.price + ",video_url='" + body.video_url + "',last_update_date = '" + mysqlTimestamp + "' where id = '" + id + "'";
         console.log('update  :', q);
 
-        mysqlConnection.query(q, (err, rows, fields) => {
+        mysqlConnection.query(q, (err, rows) => {
             if (!err) {
-                console.log('err : ', err);
-                console.log('rows : ', rows);
-                console.log('fields : ', fields);
-                res.send({ message: 'success' });
+                console.log('Update successful:', rows);
+                res.send({ message: 'Component updated successfully' });
             } else {
+                console.error('Update error:', err);
                 res.send({ message: "Update failed" });
             }
         });
+    } else {
+        res.status(400).send({ message: 'ID parameter is required' });
     }
 });
 
@@ -248,8 +296,8 @@ app.get('/forgetpassword/:email', (req, res) => {
             else {
                 res.send({ 'success': false, 'message': "Email Not found.", 'data': {} });
             }
-        } else{
-        res.send({ 'success': false, 'message': "No data found!", 'data': {} });
+        } else {
+            res.send({ 'success': false, 'message': "No data found!", 'data': {} });
         }
         console.log(err)
     })
@@ -514,7 +562,7 @@ app.post('/updateUser', profileUpload, (req, res) => {
                     res.send({ 'success': false, 'message': "Old Password is wrong." });
                 }
             }
-            else{
+            else {
                 res.send({ 'success': false, 'message': "Something went wrong while update user" });
             }
         })
@@ -563,11 +611,11 @@ app.get('/getAllWidgets', (req, res) => {
 
 app.get('/unapprovewidgets', (req, res) => {
     // const userRole = req.body.userRole;
-    
+
     // if (userRole !== 'SUPER_ADMIN') {
     //     return res.status(403).send({ 'success': false, 'message': "Access denied. Only SUPER_ADMIN can view unapproved widgets." });
     // }
-    
+
     mysqlConnection.query('SELECT * FROM ai_mp_components where is_public = 0', (err, rows, fields) => {
         if (!err) {
             res.send(rows);
@@ -613,7 +661,7 @@ app.get('/widget/user/:id', (req, res) => {
         if (!err)
             res.send(rows);
         else
-        res.send({ 'success': false, 'data': [], 'message': "Something went wrong while get widget by user!" });
+            res.send({ 'success': false, 'data': [], 'message': "Something went wrong while get widget by user!" });
     })
 });
 
@@ -622,27 +670,25 @@ app.post('/uploadWidget', (req, res) => {
     console.log(req.body);
     var w = req.body;
     var is_public = false;
-        mysqlConnection.query('SELECT * FROM ai_mp_users where id = ? ', [w.user_id], (err, data, datafields) => {
-            if (!err)
-                {
-                    if(data[0].role == 'ADMIN' || data[0].role == "INTERNAL"){
-                        is_public = true;  
-                    }
-                    var sql = "INSERT INTO ai_mp_components (`title`,`type`,`rate`,`description`,`image`,`purchase_option`,`size`, "
-                    + " `downloaded`,`refresh`,`no_of_comments`,`download_link`,`user_id`,'is_public' ) "
-                    + " VALUES ('" + w.title + "','" + w.type + "','" + w.rate + "','" + w.description + "','" + w.images + "','" + w.purchase_option + "','" + w.size + "','"
-                    + w.downloaded + "','" + w.refresh + "','" + w.no_of_comments + "','" + w.download_link + "','" + w.user_id + "','" + is_public + "')";
-                    mysqlConnection.query(sql, (err, rows, fields) => {
-                        if (!err)
-                            res.send(rows);
-                        else
-                            res.send(err);
-                    }); 
-                }
-            else
-               { res.send(err);}
-        })
-   
+    mysqlConnection.query('SELECT * FROM ai_mp_users where id = ? ', [w.user_id], (err, data, datafields) => {
+        if (!err) {
+            if (data[0].role == 'ADMIN' || data[0].role == "INTERNAL" || data[0].role == 'SUPER_ADMIN') {
+                is_public = true;
+            }
+            var sql = "INSERT INTO ai_mp_components (`title`,`type`,`rate`,`description`,`image`,`purchase_option`,`size`, "
+                + " `downloaded`,`refresh`,`no_of_comments`,`download_link`,`user_id`,'is_public' ) "
+                + " VALUES ('" + w.title + "','" + w.type + "','" + w.rate + "','" + w.description + "','" + w.images + "','" + w.purchase_option + "','" + w.size + "','"
+                + w.downloaded + "','" + w.refresh + "','" + w.no_of_comments + "','" + w.download_link + "','" + w.user_id + "','" + is_public + "')";
+            mysqlConnection.query(sql, (err, rows, fields) => {
+                if (!err)
+                    res.send(rows);
+                else
+                    res.send(err);
+            });
+        }
+        else { res.send(err); }
+    })
+
 });
 
 app.get('/widgetDetails/:id', (req, res) => {
@@ -658,7 +704,7 @@ app.post('/approveWidget/:id', (req, res) => {
 
     // const userRole = req.body.userRole;
     // console.log('body:', req.body);
-    
+
     // console.log('user role from node:', userRole)
 
     // if (userRole !== 'SUPER_ADMIN') {
@@ -907,10 +953,10 @@ app.get('/getWidgetJson/:id', (req, res) => {
     })
 });
 
-app.post('/makeComment',async (req, res) =>  {
-    addComment(req,res);
+app.post('/makeComment', async (req, res) => {
+    addComment(req, res);
 });
-async function addComment(req, res){
+async function addComment(req, res) {
 
     var c = req.body;
     var rateCol = '';
@@ -929,43 +975,43 @@ async function addComment(req, res){
         c.rate = 0;
     }
 
-    
-        if (c.id > 0) {
-            //Already commented
-            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            var updateQuery = "UPDATE  ai_mp_comments  SET comment = '" + c.comment + "',date = '" + mysqlTimestamp + "', rating = '" +c.rate +"' WHERE id="+c.id;
-            mysqlConnection.query(updateQuery, (err, rows, fields) => {
-                    if (err) {
-                        console.log('makecomment ', err);
-                        res.send({ 'success': false, message: "Failed! Comment not added" });
 
-                    } else {
-                        console.log('success');
-                        res.send({ 'success': true, message: "Comment updated successfully" });
-                    }
-                })
+    if (c.id > 0) {
+        //Already commented
+        var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        var updateQuery = "UPDATE  ai_mp_comments  SET comment = '" + c.comment + "',date = '" + mysqlTimestamp + "', rating = '" + c.rate + "' WHERE id=" + c.id;
+        mysqlConnection.query(updateQuery, (err, rows, fields) => {
+            if (err) {
+                console.log('makecomment ', err);
+                res.send({ 'success': false, message: "Failed! Comment not added" });
 
-           
+            } else {
+                console.log('success');
+                res.send({ 'success': true, message: "Comment updated successfully" });
+            }
+        })
 
-        }
-        else {
-            // add new comment
-            var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            var insertQuery = "INSERT INTO `ai_mp_comments` (`user_id`, `comment`, `date`, `component_id`,`rating`)" +
+
+
+    }
+    else {
+        // add new comment
+        var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        var insertQuery = "INSERT INTO `ai_mp_comments` (`user_id`, `comment`, `date`, `component_id`,`rating`)" +
             " VALUES ('" + c.user_id + "','" + c.comment + "','" + mysqlTimestamp + "','" + c.component_id + "'," + c.rate + ")";
 
-            mysqlConnection.query(insertQuery, (err, rows, fields) => {
-                    if (err) {
-                        console.log('makecomment ', err);
-                        res.send({ 'success': false, message: "Failed! Comment not added" });
+        mysqlConnection.query(insertQuery, (err, rows, fields) => {
+            if (err) {
+                console.log('makecomment ', err);
+                res.send({ 'success': false, message: "Failed! Comment not added" });
 
-                    } else {
-                        console.log('success');
-                        res.send({ 'success': true, message: "Comment added  successfully" });
-                    }
-                })
+            } else {
+                console.log('success');
+                res.send({ 'success': true, message: "Comment added  successfully" });
+            }
+        })
 
-        }
+    }
 
     //     await mysqlConnection.query("select * from ai_mp_comments where component_id = ? and user_id = ?", [c.component_id, c.user_id], (err, rows, fields) => {
     // })
@@ -1008,24 +1054,24 @@ async function addComment(req, res){
 }
 
 
-app.post('/deleteComment',async (req, res) =>  {
-    removeComment(req,res);
+app.post('/deleteComment', async (req, res) => {
+    removeComment(req, res);
 });
-async function removeComment(req,res){
+async function removeComment(req, res) {
     var c = req.body;
     await mysqlConnection.query("select * from ai_mp_comments where id = ?", [c.id], (err, rows, fields) => {
         if (rows.length > 0) {
             //Already commented
             var deleteQuery = "DELETE from `ai_mp_comments` WHERE id = ?";
-            mysqlConnection.query(deleteQuery,[c.id], (err, rows, fields) => {
-                    if (err) {
-                        console.log('delete comment failed', err);
-                        res.send({ 'success': false, message: "Failed! Comment delete failed" });
-                    } else {
-                        console.log('delete comment success');
-                        res.send({ 'success': true, message: "Comment deleted  successfully" });
-                    }
-                })
+            mysqlConnection.query(deleteQuery, [c.id], (err, rows, fields) => {
+                if (err) {
+                    console.log('delete comment failed', err);
+                    res.send({ 'success': false, message: "Failed! Comment delete failed" });
+                } else {
+                    console.log('delete comment success');
+                    res.send({ 'success': true, message: "Comment deleted  successfully" });
+                }
+            })
         }
         else {
             console.log('delete comment failed', err);
@@ -1092,28 +1138,30 @@ app.post('/subscribe', (req, res) => {
 });
 
 app.get("/downloadWidget/:fileName", (req, res) => {
-    if (fs.existsSync(path.join(WidgetDirectoryFiles, req.params.fileName))) {
-        const file = path.resolve(WidgetDirectoryFiles, decodeURI(req.params.fileName));
-        //No need for special headers
-        if(req.params.fileName.indexOf('.exe')> -1){
-            res.setHeader('Content-disposition', 'attachment; filename='+req.params.fileName);
-            //filename is the name which client will see. Don't put full path here.
-            
-            // res.setHeader('Content-type', 'application/x-msdownload');      //for exe file
-            
-            var file1 = fs.createReadStream(path.join(WidgetDirectoryFiles, req.params.fileName));
-            //replace filepath with path of file to send
-            file1.pipe(res);
-            //send file
-        }
-        else{
-        res.download(file);
+    const fileName = decodeURI(req.params.fileName);
+    const filePath = path.join(WidgetDirectoryFiles, fileName);
+
+    console.log('Resolved filePath:', filePath);
+
+    if (fs.existsSync(filePath)) {
+        if (fileName.endsWith('.widget')) { // Ensure only `.widget` files are downloaded
+            res.download(filePath, fileName, (err) => {
+                if (err) {
+                    console.error("Error during file download:", err);
+                    res.status(500).send({ success: false, message: "Error during file download." });
+                }
+            });
+        } else {
+            res.status(400).send({ success: false, message: "Invalid file type for download." });
         }
     } else {
-        res.send({ 'success': false, message: "Unable to download the file." });
+        console.error('File not found:', filePath);
+        res.status(404).send({ success: false, message: "File not found." });
     }
+});
 
-})
+
+
 
 
 var storeWidgetImages = multer.diskStorage({
@@ -1132,19 +1180,135 @@ var uploadWidgetImages = multer({ storage: storeWidgetImages })
 
 app.post('/uploadWidgetImages/:widgetId', uploadWidgetImages.array('uploadedImages[]', 10), (req, res, err) => {
 
-    if (err) {
-        console.log('error');
-        console.log(err);
+    if (!req.files) {
+        return res.status(400).send({ success: false, message: "No files uploaded" });
+    }
+    console.log('Uploaded widget images:', req.files);
+    res.send({ success: true, message: "Widget images uploaded successfully" });
+});
+
+function generateToken() {
+    const now = new Date().toISOString();
+    // const today = new Date().toISOString();
+    const dataToEncrypt = `AIV${now}`;
+    // const dataToEncrypt = today;
+    const token = CryptoJS.AES.encrypt(dataToEncrypt, SECRET_KEY).toString();
+    // const encryptedDate = CryptoJS.AES.encrypt(dataToEncrypt, SECRET_KEY).toString();
+
+    // const token = `AIV${encryptedDate}`; 
+    return token;
+}
+
+
+/**
+ * Function to validate a token
+ * Checks if the token is valid, matches today's date, and has not expired
+ */
+function validateToken(token) {
+    try {
+        const decryptedBytes = CryptoJS.AES.decrypt(token, SECRET_KEY);
+        const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+        console.log("Decrypted Token:", decryptedText);
+
+        if (!decryptedText.startsWith('AIV')) {
+            console.error("Token is invalid: Missing 'AIV' prefix.");
+            return false;
+        }
+
+        // Extract the timestamp from the decrypted text
+        const tokenTimestamp = decryptedText.replace('AIV', '');
+        const tokenTime = new Date(tokenTimestamp);
+        if (isNaN(tokenTime.getTime())) {
+            console.error("Token is invalid: Timestamp is not valid.");
+            return false;
+        }
+
+        // Calculate the time difference between now and the token time
+        const currentTime = new Date();
+        const timeDifference = (currentTime - tokenTime) / 1000; // Time difference in seconds
+
+        console.log("Time Difference (seconds):", timeDifference);
+
+        if (timeDifference > 300) {
+            console.error("Token expired: Exceeded 5 minutes.");
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Token validation error:", error);
+        return false;
+    }
+}
+
+// function validateToken(token) {
+//     try {
+//         // Check if the token starts with 'AIV' and remove it
+//         if (!token.startsWith('AIV')) {
+//             return false;
+//         }
+
+//         const encryptedDate = token.slice(3); // Remove "AIV" from the token
+
+//         const decryptedBytes = CryptoJS.AES.decrypt(encryptedDate, SECRET_KEY);
+//         const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+//         // Check if the decrypted text matches today's date
+//         const today = new Date().toISOString().slice(0, 10);
+//         if (decryptedText !== today) {
+//             return false;
+//         }
+
+//         // Check if the token has expired (5 minutes expiry)
+//         const tokenDate = new Date(decryptedText);
+//         const currentTime = new Date();
+//         const timeDifference = (currentTime - tokenDate) / 1000; // Time difference in seconds
+//         if (timeDifference > 300) { // 5 minutes = 300 seconds
+//             return false;
+//         }
+
+//         return true;
+//     } catch (error) {
+//         console.error('Token validation error:', error);
+//         return false;
+//     }
+// }
+
+
+
+app.get('/getAllWidgetsWithToken', (req, res) => {
+    const token = req.headers['authorization'];
+
+    if (!token || !validateToken(token)) {
+        return res.status(401).send({ success: false, message: 'Invalid or expired token' });
     }
 
-    var file = req.files;
-    console.log('files : ', file);
-    res.end();
+    mysqlConnection.query('SELECT title FROM ai_mp_components', (err, rows, fields) => {
+        if (!err) {
+            console.log('Rows: ',rows)
+            res.send(rows);
+        } else {
+            res.status(500).send({ success: false, message: 'Something went wrong while fetching widgets' });
+        }
+    });
 });
+
+app.get('/generateToken', (req, res) => {
+    const token = generateToken();
+    res.send({ token });
+});
+
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
+
 
 app.get('*', (req, res) => {
 
     res.sendFile(path.resolve('marketplace/index.html'));
+
 
 });
 

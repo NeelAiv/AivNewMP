@@ -8,7 +8,7 @@
             {"name" : "PENTAHO"}
         ]
     },
-    
+
     "Security Code" : {
         "name": "Security Code",
         "hidden" : "true",
@@ -28,12 +28,7 @@
            { "name" : "Maps" } ,
            { "name" : "KPI"} ,
            { "name" : "Custom Visualization" } ,
-           { "name" : "Test" } 
+           { "name" : "Test" }
         ]
-    },
-    "Other" : {
-        "name": "Other",
-        "hidden" : "true",
-        "subCategories": []
     }
 }

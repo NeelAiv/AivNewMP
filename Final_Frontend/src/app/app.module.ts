@@ -53,6 +53,8 @@ import {TrendingProductsComponent} from './trending-produts/trending-produts.com
 import {SpecialProductsComponent} from './special-products/special-products.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ApproveComponent } from './approve/approve.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { UnapproveComponent } from './unapprove/unapprove.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,6 +88,7 @@ import { ApproveComponent } from './approve/approve.component';
     SpecialProductsComponent,
     TrendingProductsComponent,
     ApproveComponent,
+    UnapproveComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,7 +105,8 @@ import { ApproveComponent } from './approve/approve.component';
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
     NgxSpinnerModule,// ToastrModule added
-    TooltipModule // tooltip module added
+    TooltipModule, // tooltip module added
+    NgbModalModule
   ],
   providers: [UserService,
     AuthenticationService,

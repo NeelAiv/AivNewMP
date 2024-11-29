@@ -1,3 +1,16 @@
 .product-item .product-item-inner img{
     height: 250px;
 }
+
+.product-filter li a.active{
+  font-weight: 600;
+}
+
+.page-title{
+  margin-bottom: 0px;
+}
+
+.container .all-w-sub-title{
+  text-align: center;
+  margin-bottom: 1.5rem;
+}

@@ -31,7 +31,7 @@ export class AllWidgetsComponent implements OnInit {
     'width':100
 };
 
-    
+
     constructor(private sharVarService: SharedVarService,private widgetService: WidgetServicesService,private toastr: ToastrService, private modalService : NgbModal) { }
 
   ngOnInit(): void {
@@ -77,7 +77,7 @@ export class AllWidgetsComponent implements OnInit {
       });
     }, 300);
       //@ts-ignore
-    
+
     //@ts-ignore
     $('a[data-toggle="tab"]').on("shown.bs.tab", function (i) {
       //@ts-ignore
@@ -104,7 +104,7 @@ export class AllWidgetsComponent implements OnInit {
       }
     });
   }
-  
+
   openDownloadModal(file) {
     const modalRef = this.modalService.open(SubscribeComponent);
     modalRef.componentInstance.widget = file;
@@ -113,4 +113,24 @@ export class AllWidgetsComponent implements OnInit {
   tabClick(value) {
     this.selectedSubCategory = value;
   }
+
+  getImageSrc(obj: any): string {
+    let imageUrl: string;
+    if (obj.image) {
+      imageUrl = `${this.baseUrl}/uploads/images/${obj.image.split(',')[0]}`;
+    } else if (obj.sub_category) {
+      imageUrl = `${this.baseUrl}/uploads/images/${obj.sub_category}.png`;
+    } else if (obj.category) {
+      imageUrl = `${this.baseUrl}/uploads/images/${obj.category}.png`;
+    } else {
+      imageUrl = `${this.baseUrl}/uploads/images/widget1.png`;
+    }
+
+    return imageUrl;
+  }
+
+  onImageError(event: any): void {
+    event.target.src = `${this.baseUrl}/uploads/images/widget1.png`;
+  }
+
 }

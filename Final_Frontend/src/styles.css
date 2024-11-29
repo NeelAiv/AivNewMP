@@ -635,7 +635,7 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 	justify-content: center;
 	align-items: center;
 	/* height: 500px; */
-	
+
 	/* background-color: #ffffff; */
 	/* border: 1px solid #e3e3e3; */
 }
@@ -1010,8 +1010,8 @@ header {
     z-index: 99;
     position: sticky;
     width: 100%;
-    
-   
+
+
 }
 
 .logo_wrap {
@@ -2210,7 +2210,7 @@ footer {
 
 /*
 * BASIC
-  - General Style    
+  - General Style
   - Typography Style
   - Button Style
   - Form Style
@@ -2223,7 +2223,7 @@ footer {
   - Navigation Menu
   - Navigation Dropdown Menu
   - Rightside Navigation
-    
+
 * INTRO
   - intro
 
@@ -4659,7 +4659,7 @@ form label.error {
     position: absolute;
     top: -19px;
     width: 28px;
-   
+
     z-index: 100;
     right: -10px;
 }

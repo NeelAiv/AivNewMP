@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from 'src/app/constants/constants';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WidgetServicesService {
+  private refreshWidgetsSource = new BehaviorSubject<void>(null);
+  refreshWidgets$ = this.refreshWidgetsSource.asObservable();
   BASE_URL = BASE_URL;
   constructor(private http: HttpClient) { }
 
@@ -22,8 +24,8 @@ export class WidgetServicesService {
     return this.http.get(this.BASE_URL + '/widget/user/' + id);
   }
 
-  uploadWidget(widget) {
-    return this.http.post(this.BASE_URL + '/uploadFile', widget);
+  uploadWidget(formData: FormData) {
+    return this.http.post(`${this.BASE_URL}/uploadFile`, formData);
   }
 
   getBreakDownRating(id){
@@ -57,9 +59,10 @@ export class WidgetServicesService {
     return this.http.post(this.BASE_URL + '/uploadWidgetImages/' + id, files);
   }
 
-  DownloadWidget(widget) {
-    return this.http.get(this.BASE_URL + '/downloadWidget/' + widget);
-
+  DownloadWidget(fileName: string) {
+    return this.http.get(`${this.BASE_URL}/downloadWidget/${fileName}`, {
+      responseType: 'blob' // Expect binary data
+    });
   }
 
   getAllWidgets() {
@@ -154,5 +157,9 @@ export class WidgetServicesService {
         document.body.removeChild(a);
       }, 0);
     }
+  }
+
+  triggerWidgetRefresh() {
+    this.refreshWidgetsSource.next();
   }
 }

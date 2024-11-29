@@ -1,96 +1,75 @@
-<!-- <div>
-  <h2>Widgets Approval</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let widget of widgets">
-        <td>{{ widget.title }}</td>
-        <td>{{ widget.description }}</td>
-        <td>{{ widget.is_public === 1 ? 'Approved' : 'Unapproved' }}</td>
-        <td>
-          <!-- Display Approve/Unapprove based on is_public status -->
-<!-- <button *ngIf="widget.is_public === 0" (click)="approveWidget(widget.id)">Approve</button>
-          <button *ngIf="widget.is_public === 1" (click)="unapproveWidget(widget.id)">Unapprove</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Sub Category</th>
+          <th>Description</th>
+          <th>Version</th>
+          <th>Price</th>
+          <th>Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let widget of approvedWidgets">
+          <td>
+            <img [src]="widget.image ? (baseUrl + '/uploads/images/' + widget.image.split(',')[0]) :
+       (widget.sub_category ? (baseUrl + '/uploads/images/' + widget.sub_category + '.png') :
+       (baseUrl + '/uploads/images/' + widget.category + '.png'))" alt="No Image" height="60" width="60"
+              class="rounded">
+          </td>
+          <td class="fw-bold">{{ widget.title }}</td>
+          <td>{{ widget.category }}</td>
+          <td>{{ widget.sub_category }}</td>
+          <td style="max-width: 350px;">{{ widget.details }}</td>
+          <td>1.1</td>
+          <td>{{ widget.price || 'Free' }}</td>
+          <td>
+            <div class="d-flex justify-content-end gap-1">
+              <button class="apv-btn btn-sm btn-outline-secondary">
+                <i class="fa-duotone fa-solid fa-eye fa-xl" [routerLink]="['/preview/',widget.id]"></i>
+              </button>
+              <button class="apv-btn btn-sm btn-outline-secondary">
+                <i class="fa-duotone fa-solid fa-pen-to-square fa-xl" [routerLink]="['/upload/',widget.id]"></i>
+              </button>
+              <!-- <button class="apv-btn btn-sm btn-outline-danger" (click)="deleteComponent(widget.id)">
+                <i class="fa-light fa-trash-can fa-xl" style="color: #3858d6;"></i>
+              </button> -->
+              <button class="apv-btn btn-sm btn-outline-danger" (click)="openDeleteConfirmation(widget)">
+                <i class="fa-light fa-trash-can fa-xl" ></i>
+              </button>
+              <button class="apv-btn btn-sm btn-outline-primary"
+                [ngClass]="widget.is_public ? 'btn-success' : 'btn-warning'" (click)="toggleApproval(widget)">
+                <i class="btns" [ngClass]="widget.is_public ? 'fa-solid fa-circle-check fa-xl' : 'fa-regular fa-circle-check fa-xl'"></i>
+              </button>
+            </div>
+          </td>
 
-
-
-
-<!-- approve.component.html -->
-<!-- <h2>Approved Widgets</h2>
-<ul>
-  <li *ngFor="let widget of approvedWidgets">
-    {{ widget.title }}
-    <button (click)="unapproveWidget(widget.id)">Unapprove</button>
-  </li>
-</ul>
-
-<h2>Unapproved Widgets</h2>
-<ul>
-  <li *ngFor="let widget of unapprovedWidgets">
-    {{ widget.title }}
-    <button (click)="approveWidget(widget.id)">Approve</button>
-  </li>
-</ul> -->
-
-<div class="table-responsive">
-  <table class="table table-bordered table-hover">
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Sub Category</th>
-        <th>Description</th>
-        <th>Version</th>
-        <th>Price</th>
-        <th>Operations</th>
-        <!-- <th class="text-end">Actions</th> -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let widget of allWidgets">
-        <td>
-          <img [src]="widget.image" [alt]="widget.description" width="40" height="40" class="rounded">
-        </td>
-        <td>{{ widget.title }}</td>
-        <td>{{ widget.category }}</td>
-        <td>{{ widget.sub_category }}</td>
-        <td>{{ widget.description }}</td>
-        <td>1.1</td>
-        <td>{{ widget.price || 'Free' }}</td>
-        <!-- <td>{{ widget.is_public ? 'Approved' : 'Unapproved' }}</td> -->
-        <td>
-          <div class="d-flex justify-content-end gap-2">
-            <button class="btn btn-sm btn-outline-secondary">
-              <i class="bi bi-eye"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-secondary">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-danger">
-              <i class="bi bi-trash"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-primary" [ngClass]="widget.is_public ? 'btn-success' : 'btn-warning'"
-              (click)="toggleApproval(widget)">
-              <i class="bi" [ngClass]="widget.is_public ? 'bi-check-circle-fill' : 'bi-check-circle'"></i>
-              <!-- {{ widget.is_public ? 'Unapprove' : 'Approve' }} -->
-            </button>
-
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<ng-template #deleteConfirmModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">CONFIRM DELETE</h4>
+    <button type="button" class="close-button" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa-regular fa-xmark"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="confirmation-text">Are you sure you want to delete this widget?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-cancel" (click)="modal.dismiss('Cancel click')">
+      CANCEL
+    </button>
+    <button type="button" class="btn btn-delete" (click)="modal.close('Delete click')">
+      DELETE
+    </button>
+  </div>
+</ng-template>

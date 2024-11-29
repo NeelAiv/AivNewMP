@@ -285,9 +285,23 @@ export class WidgetPreviewComponent implements OnInit {
       this.widgetHttpService.GetWidgetById(this.id).subscribe(data => {
         const widgetObj = data['data']
         this.widget = widgetObj[0];
-        this.widget['images'] = this.widget.image.split(',');
-        this.widget['images'] = this.widget['images'].filter(x => x != '')
-        debugger;
+
+        // this.widget['images'] = this.widget.image.split(',');
+        // this.widget['images'] = this.widget['images'].filter(x => x != '')
+
+        console.log('Raw images:', this.widget.image);
+
+        if (this.widget.image) {
+          const imagesArray = this.widget.image.split(',').filter(x => x.trim() !== '');
+          this.widget['images'] = [...new Set(imagesArray)]; // Remove duplicates
+      } else {
+          this.widget['images'] = [];
+      }
+
+      console.log('Processed images:', this.widget['images']);
+
+
+        // debugger;
         this.widget.video_url = this.widget.video_url.replace("watch?v=", "embed/");
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(this.widget.video_url);
         // @ts-ignore
@@ -297,7 +311,7 @@ export class WidgetPreviewComponent implements OnInit {
     this.user$ = this.sharVarService.$user.pipe(tap(data => { this.currentUser = data; }), map(data => data));
     this.comment$ = this.sharVarService.$comments.pipe(tap(data => { this.commentCounts$ = data.length }), map(data => data));
     this.commentService.getComments(this.id).subscribe((data: any) => {
-      debugger;
+      // debugger;
       this.widgetComments = data;
       let total_rating = data.map((x) => { return x.rating }).reduce((a, b) => a + b, 0);
       this.agg_rate = total_rating / data.length;
@@ -499,22 +513,50 @@ export class WidgetPreviewComponent implements OnInit {
 
 
   downloadWidget(widget) {
-    this.widgetHttpService.DownloadWidget(widget.file_path).subscribe((res: any) => {
-      if (res.widget) {
-        let widgetObj = widget;
-        console.log(typeof widgetObj.downloaded);
-        var downloadCount: number = +widgetObj.downloaded;
-        widgetObj.downloaded = downloadCount + 1;
-        this.widgetHttpService.Update(widget.id, widgetObj).subscribe((updateRes: any) => {
+    if (!widget.file_path || !widget.file_path.endsWith('.widget')) {
+      this.toastr.error('Invalid widget file for download.', 'Error');
+      return;
+    }
+    // this.widgetHttpService.DownloadWidget(widget.file_path).subscribe((res: any) => {
+    //   if (res.widget) {
+    //     let widgetObj = widget;
+    //     console.log(typeof widgetObj.downloaded);
+    //     var downloadCount: number = +widgetObj.downloaded;
+    //     widgetObj.downloaded = downloadCount + 1;
+    //     this.widgetHttpService.Update(widget.id, widgetObj).subscribe((updateRes: any) => {
 
-          if (updateRes) {
-            window.location.href = this.baseUrl + "/downloadWidget/" + widget.file_path;
-          }
-        });
-        // window.location.href = this.baseUrl+"/downloadWidget/"+widget.file_path;
-      } else {
-        this.toastr.error(res.message, 'Failed');
-      }
+    //       if (updateRes) {
+    //         window.location.href = this.baseUrl + "/downloadWidget/" + widget.file_path;
+    //       }
+    //     });
+    //     // window.location.href = this.baseUrl+"/downloadWidget/"+widget.file_path;
+    //   } else {
+    //     this.toastr.error(res.message, 'Failed');
+    //   }
+    // });
+    this.widgetHttpService.DownloadWidget(widget.file_path).subscribe((response: Blob) => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(response);
+      link.download = widget.file_path;
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+
+      let widgetObj = widget;
+      var downloadCount: number = +widgetObj.downloaded;
+      widgetObj.downloaded = downloadCount + 1;
+
+      this.widgetHttpService.Update(widget.id, widgetObj).subscribe((updateRes: any) => {
+        if (updateRes.success) {
+          console.log('Download count updated successfully.');
+        } else {
+          console.warn('Failed to update download count.');
+        }
+      }, (error) => {
+        console.error('Error while updating download count:', error);
+      });
+    }, (error) => {
+      console.error('Download failed:', error);
+      this.toastr.error('Failed to download the widget.', 'Error');
     });
   }
 

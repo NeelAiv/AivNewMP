@@ -31,6 +31,9 @@
                                 <li *ngIf="user.role === 'SUPER_ADMIN'">
                                       <a routerLink="/approve">Approve Widgets</a>
                                 </li>
+                                <li *ngIf="user.role === 'SUPER_ADMIN'">
+                                  <a routerLink="/unapprove">Unapprove Widgets</a>
+                            </li>
                                 <li (click)="logout();"><a href="javascript:;">Log out</a></li>
                             </ul>
 
@@ -69,7 +72,7 @@
             <!-- Logo -->
             <div class="logo text-center">
                 <a href="/home">
-                    <img src="../../assets/img/logo_black.png" alt="Philos" />
+                    <img src="../../assets/img/final_logo.png" alt="Philos" />
                    Marketplace
                 </a>
             </div>
